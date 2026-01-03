@@ -47,7 +47,7 @@ const tutorialSteps: TutorialStep[] = [
     titleEn: 'Symptom Tracker',
     descriptionHi: 'यहां आप अपनी तकलीफें लिख सकते हैं। तारीख और समय अपने आप दर्ज हो जाता है। डॉक्टर को दिखाते समय यह मदद करता है।',
     descriptionEn: 'Here you can record your symptoms. Date and time are automatically saved. This helps when visiting the doctor.',
-    color: 'bg-chart-1',
+    color: 'bg-primary',
   },
   {
     icon: <MessageCircle className="w-12 h-12" />,
@@ -55,7 +55,7 @@ const tutorialSteps: TutorialStep[] = [
     titleEn: 'AI Assistant',
     descriptionHi: 'अपनी तकलीफ के बारे में बातचीत करें। यह बताएगा कि घर पर आराम करें या डॉक्टर को दिखाएं।',
     descriptionEn: 'Talk about your health problem. It will guide whether to rest at home or see a doctor.',
-    color: 'bg-chart-4',
+    color: 'bg-primary',
   },
   {
     icon: <Store className="w-12 h-12" />,
@@ -63,7 +63,7 @@ const tutorialSteps: TutorialStep[] = [
     titleEn: 'Medicine Store',
     descriptionHi: 'सस्ती और अच्छी दवाइयां खरीदें। खोजें, कार्ट में डालें, और ऑर्डर करें। कैश ऑन डिलीवरी उपलब्ध है।',
     descriptionEn: 'Buy affordable quality medicines. Search, add to cart, and order. Cash on Delivery available.',
-    color: 'bg-chart-3',
+    color: 'bg-primary',
   },
   {
     icon: <Building className="w-12 h-12" />,
@@ -71,7 +71,7 @@ const tutorialSteps: TutorialStep[] = [
     titleEn: 'Government Schemes',
     descriptionHi: 'आयुष्मान भारत जैसी मुफ्त स्वास्थ्य योजनाओं की जानकारी पाएं। देखें कि आप पात्र हैं या नहीं।',
     descriptionEn: 'Get information about free health schemes like Ayushman Bharat. Check if you are eligible.',
-    color: 'bg-chart-5',
+    color: 'bg-primary',
   },
   {
     icon: <MapPin className="w-12 h-12" />,
@@ -87,7 +87,7 @@ const tutorialSteps: TutorialStep[] = [
     titleEn: 'Change Language',
     descriptionHi: 'ऊपर भाषा बटन से अपनी पसंद की भाषा चुनें - हिंदी, अंग्रेजी, बंगाली, मराठी, भोजपुरी, या मैथिली।',
     descriptionEn: 'Select your preferred language from the language button above - Hindi, English, Bengali, Marathi, Bhojpuri, or Maithili.',
-    color: 'bg-chart-2',
+    color: 'bg-primary',
   },
 ];
 
