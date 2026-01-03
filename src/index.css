@@ -9,67 +9,67 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Professional Medical Healthcare Theme */
+    /* Healing Greens Theme */
     --background: 0 0% 100%;
-    --foreground: 220 13% 18%;
+    --foreground: 120 43% 20%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 13% 18%;
+    --card-foreground: 120 43% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 13% 18%;
+    --popover-foreground: 120 43% 20%;
 
-    /* Primary: Medical Teal - Professional & Trustworthy */
-    --primary: 174 62% 38%;
+    /* Primary: Deep Forest Green (#2A6A2A) */
+    --primary: 120 43% 29%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary: Soft Blue - Supporting Color */
-    --secondary: 204 45% 92%;
-    --secondary-foreground: 174 62% 38%;
+    /* Secondary: Light Mint Green (#B2E0B2) */
+    --secondary: 120 44% 79%;
+    --secondary-foreground: 120 43% 29%;
 
-    /* Muted: Very Light Gray */
-    --muted: 210 20% 96%;
-    --muted-foreground: 220 9% 46%;
+    /* Muted: Very Light Green */
+    --muted: 120 44% 96%;
+    --muted-foreground: 120 33% 40%;
 
-    /* Accent: Muted Medical Green - CTAs */
-    --accent: 168 55% 45%;
+    /* Accent: Medium Green (#5DAA5D) */
+    --accent: 120 33% 52%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Borders: Subtle Gray */
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 174 62% 38%;
+    /* Borders: Medium Light Green (#8CCB8C) */
+    --border: 120 39% 85%;
+    --input: 120 39% 90%;
+    --ring: 120 43% 29%;
 
     --radius: 0.75rem;
 
-    /* Sidebar: Soft greens */
-    --sidebar-background: 120 51% 95%;
-    --sidebar-foreground: 120 45% 20%;
-    --sidebar-primary: 120 45% 29%;
+    /* Sidebar */
+    --sidebar-background: 120 44% 96%;
+    --sidebar-foreground: 120 43% 20%;
+    --sidebar-primary: 120 43% 29%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 120 51% 79%;
-    --sidebar-accent-foreground: 120 45% 29%;
-    --sidebar-border: 120 41% 82%;
-    --sidebar-ring: 120 45% 29%;
+    --sidebar-accent: 120 44% 79%;
+    --sidebar-accent-foreground: 120 43% 29%;
+    --sidebar-border: 120 39% 85%;
+    --sidebar-ring: 120 43% 29%;
 
     /* Charts: Healing Greens Palette */
-    --chart-1: 120 45% 29%;
+    --chart-1: 120 43% 29%;
     --chart-2: 120 40% 39%;
-    --chart-3: 120 30% 52%;
-    --chart-4: 120 41% 67%;
-    --chart-5: 120 51% 79%;
+    --chart-3: 120 33% 52%;
+    --chart-4: 120 39% 67%;
+    --chart-5: 120 44% 79%;
 
-    --sidebar: 120 51% 95%;
+    --sidebar: 120 44% 96%;
 
-    /* Success: Darker Green (#3B8A3B) */
+    /* Status Colors */
     --success: 120 40% 39%;
     --success-foreground: 0 0% 100%;
-    --warning: 45 90% 55%;
-    --warning-foreground: 120 45% 20%;
-    --info: 200 80% 50%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 120 43% 20%;
+    --info: 199 89% 48%;
     --info-foreground: 0 0% 100%;
 
     --font-sans: 'Rubik', ui-sans-serif, system-ui, sans-serif;
