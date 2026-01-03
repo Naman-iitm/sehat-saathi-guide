@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Lora:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Roboto+Slab&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,39 +9,39 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Healing Greens Light Theme */
-    --background: 120 51% 96%;
-    --foreground: 120 45% 20%;
+    /* Professional Medical Healthcare Theme */
+    --background: 0 0% 100%;
+    --foreground: 220 13% 18%;
 
     --card: 0 0% 100%;
-    --card-foreground: 120 45% 20%;
+    --card-foreground: 220 13% 18%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 120 45% 20%;
+    --popover-foreground: 220 13% 18%;
 
-    /* Primary: Deep Forest Green (#2A6A2A) */
-    --primary: 120 45% 29%;
+    /* Primary: Medical Teal - Professional & Trustworthy */
+    --primary: 174 62% 38%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary: Soft Mint Green (#B2E0B2) */
-    --secondary: 120 51% 79%;
-    --secondary-foreground: 120 45% 29%;
+    /* Secondary: Soft Blue - Supporting Color */
+    --secondary: 204 45% 92%;
+    --secondary-foreground: 174 62% 38%;
 
-    /* Muted: Light Mint */
-    --muted: 120 51% 92%;
-    --muted-foreground: 120 30% 42%;
+    /* Muted: Very Light Gray */
+    --muted: 210 20% 96%;
+    --muted-foreground: 220 9% 46%;
 
-    /* Accent: Medium Green (#5DAA5D) */
-    --accent: 120 30% 52%;
+    /* Accent: Muted Medical Green - CTAs */
+    --accent: 168 55% 45%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
 
-    /* Borders: Medium Mint Green (#8CCB8C) */
-    --border: 120 41% 82%;
-    --input: 120 41% 87%;
-    --ring: 120 45% 29%;
+    /* Borders: Subtle Gray */
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 174 62% 38%;
 
     --radius: 0.75rem;
 
@@ -72,9 +72,9 @@ All colors MUST be HSL.
     --info: 200 80% 50%;
     --info-foreground: 0 0% 100%;
 
-    --font-sans: 'Noto Sans', 'Poppins', ui-sans-serif, system-ui, sans-serif;
-    --font-serif: 'Lora', ui-serif, Georgia, serif;
-    --font-mono: 'Space Mono', ui-monospace, monospace;
+    --font-sans: 'Rubik', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'IBM Plex Serif', ui-serif, Georgia, serif;
+    --font-mono: 'Roboto Slab', ui-monospace, monospace;
 
     --shadow-2xs: 0 1px 2px 0 hsl(150 30% 15% / 0.05);
     --shadow-xs: 0 1px 3px 0 hsl(150 30% 15% / 0.1);
