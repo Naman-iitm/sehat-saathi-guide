@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import AppTutorial from '@/components/AppTutorial';
 import HealthNewsPopup from '@/components/HealthNewsPopup';
+import AIAssistantPopup from '@/components/AIAssistantPopup';
 import {
   Heart,
   Activity,
@@ -149,6 +150,7 @@ const Index: React.FC = () => {
     <div className="min-h-screen">
       <AppTutorial isOpen={showTutorial} onClose={() => setShowTutorial(false)} />
       <HealthNewsPopup />
+      <AIAssistantPopup />
 
       {/* Hero Section - Modern Split Layout */}
       <section className="bg-white border-b border-border min-h-screen flex items-center">
@@ -248,16 +250,16 @@ const Index: React.FC = () => {
       </section>
 
       {/* Trust Indicators */}
-      <section className="bg-muted/50 border-b border-border">
-        <div className="container mx-auto px-4 py-12">
-          <div className="grid grid-cols-3 gap-4 md:gap-8 max-w-4xl mx-auto">
+      <section className="bg-muted/30 border-b border-border">
+        <div className="container mx-auto px-4 py-16">
+          <div className="grid grid-cols-3 gap-8 md:gap-12 max-w-5xl mx-auto">
             {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-primary/10 rounded-xl mb-3">
-                  <stat.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+              <div key={index} className="text-center space-y-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 bg-primary/10 rounded-2xl mb-2">
+                  <stat.icon className="w-8 h-8 md:w-10 md:h-10 text-primary" />
                 </div>
-                <div className="text-2xl md:text-3xl font-bold text-foreground mb-1">{stat.value}</div>
-                <div className="text-sm md:text-base text-muted-foreground font-medium">
+                <div className="text-3xl md:text-4xl font-bold text-foreground">{stat.value}</div>
+                <div className="text-base md:text-lg text-muted-foreground font-medium">
                   {language === 'hi' ? stat.labelHi : stat.labelEn}
                 </div>
               </div>
@@ -309,21 +311,21 @@ const Index: React.FC = () => {
       </section>
 
       {/* Health Tip Section */}
-      <section className="bg-secondary/30 py-12">
+      <section className="bg-muted/30 py-16">
         <div className="container mx-auto px-4">
-          <Card className="border border-border bg-white max-w-4xl mx-auto">
-            <CardContent className="p-6 md:p-8">
-              <div className="flex items-start gap-4">
+          <Card className="border border-border bg-white max-w-5xl mx-auto shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-8 md:p-10">
+              <div className="flex items-start gap-6">
                 <div className="flex-shrink-0">
-                  <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
-                    <Lightbulb className="w-6 h-6 text-accent" />
+                  <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center">
+                    <Lightbulb className="w-8 h-8 text-accent" />
                   </div>
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-lg text-foreground mb-2">
+                <div className="flex-1 space-y-3">
+                  <h3 className="font-bold text-2xl text-foreground">
                     {language === 'hi' ? 'आज का स्वास्थ्य सुझाव' : 'Daily Health Tip'}
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed">
+                  <p className="text-muted-foreground text-lg leading-relaxed">
                     {language === 'hi'
                       ? 'दिन में कम से कम 8 गिलास पानी पिएं। यह शरीर को स्वस्थ और हाइड्रेटेड रखता है।'
                       : 'Drink at least 8 glasses of water daily. It keeps your body healthy and hydrated.'}
@@ -336,26 +338,26 @@ const Index: React.FC = () => {
       </section>
 
       {/* Emergency Section */}
-      <section className="bg-white py-12 border-t border-border">
+      <section className="bg-white py-16 border-t border-border">
         <div className="container mx-auto px-4">
-          <Card className="border-2 border-destructive max-w-4xl mx-auto">
-            <CardContent className="p-6 md:p-8">
+          <Card className="border-2 border-destructive max-w-5xl mx-auto shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-8 md:p-10">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 bg-destructive/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Heart className="w-7 h-7 text-destructive" />
+                <div className="flex items-center gap-6">
+                  <div className="w-16 h-16 md:w-20 md:h-20 bg-destructive/10 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <Heart className="w-8 h-8 md:w-10 md:h-10 text-destructive" />
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-lg text-destructive mb-1">
+                  <div className="space-y-2">
+                    <h4 className="font-bold text-xl md:text-2xl text-destructive">
                       {language === 'hi' ? 'आपातकालीन सहायता' : 'Emergency Assistance'}
                     </h4>
-                    <p className="text-foreground font-mono text-2xl font-bold">108 / 112</p>
+                    <p className="text-foreground font-mono text-3xl md:text-4xl font-bold">108 / 112</p>
                   </div>
                 </div>
                 <Button
                   variant="destructive"
                   size="lg"
-                  className="font-medium"
+                  className="font-semibold text-lg px-8 py-6"
                   onClick={() => window.open('tel:108')}
                 >
                   {language === 'hi' ? 'अभी कॉल करें' : 'Call Now'}
