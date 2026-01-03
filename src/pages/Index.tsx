@@ -24,6 +24,49 @@ import {
 const Index: React.FC = () => {
   const { t, language } = useLanguage();
   const [showTutorial, setShowTutorial] = useState(false);
+  const [activeCard, setActiveCard] = useState(0);
+
+  const heroCards = [
+    {
+      icon: Activity,
+      titleHi: 'लक्षण ट्रैकिंग',
+      titleEn: 'Symptom Tracking',
+      messageHi: 'अपने लक्षणों को ट्रैक करें और व्यक्तिगत स्वास्थ्य सलाह प्राप्त करें',
+      messageEn: 'Track your symptoms and get personalized health advice',
+      color: 'bg-primary',
+    },
+    {
+      icon: Heart,
+      titleHi: 'स्वास्थ्य निगरानी',
+      titleEn: 'Health Monitoring',
+      messageHi: '24/7 अपने स्वास्थ्य की निगरानी करें और समय पर सहायता पाएं',
+      messageEn: 'Monitor your health 24/7 and get timely assistance',
+      color: 'bg-accent',
+    },
+    {
+      icon: MessageCircle,
+      titleHi: 'AI सहायता',
+      titleEn: 'AI Support',
+      messageHi: 'स्मार्ट AI सहायक से तुरंत स्वास्थ्य मार्गदर्शन प्राप्त करें',
+      messageEn: 'Get instant health guidance from smart AI assistant',
+      color: 'bg-primary',
+    },
+    {
+      icon: Shield,
+      titleHi: 'सुरक्षित देखभाल',
+      titleEn: 'Secure Care',
+      messageHi: 'आपका डेटा पूरी तरह सुरक्षित और गोपनीय है',
+      messageEn: 'Your data is completely secure and confidential',
+      color: 'bg-accent',
+    },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveCard((prev) => (prev + 1) % heroCards.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const tutorialCompleted = localStorage.getItem('tutorialCompleted');
@@ -41,8 +84,8 @@ const Index: React.FC = () => {
       labelHi: 'लक्षण ट्रैकर',
       descHi: 'अपनी तकलीफ लिखें',
       descEn: 'Record your symptoms',
-      color: 'bg-gradient-to-br from-rose-500 to-pink-600',
-      image: '🩺',
+      iconColor: 'text-primary',
+      bgColor: 'bg-primary/5',
     },
     {
       path: '/tips',
@@ -51,8 +94,8 @@ const Index: React.FC = () => {
       labelHi: 'स्वास्थ्य सुझाव',
       descHi: 'सरल स्वास्थ्य टिप्स',
       descEn: 'Simple health tips',
-      color: 'bg-gradient-to-br from-amber-500 to-orange-600',
-      image: '💡',
+      iconColor: 'text-accent',
+      bgColor: 'bg-accent/5',
     },
     {
       path: '/store',
@@ -61,8 +104,8 @@ const Index: React.FC = () => {
       labelHi: 'दवाई दुकान',
       descHi: 'सस्ती दवाइयां खरीदें',
       descEn: 'Buy affordable medicines',
-      color: 'bg-gradient-to-br from-emerald-500 to-teal-600',
-      image: '💊',
+      iconColor: 'text-primary',
+      bgColor: 'bg-primary/5',
     },
     {
       path: '/assistant',
@@ -71,8 +114,8 @@ const Index: React.FC = () => {
       labelHi: 'AI सहायक',
       descHi: 'स्वास्थ्य मार्गदर्शन',
       descEn: 'Health guidance',
-      color: 'bg-gradient-to-br from-blue-500 to-indigo-600',
-      image: '🤖',
+      iconColor: 'text-accent',
+      bgColor: 'bg-accent/5',
     },
     {
       path: '/schemes',
@@ -81,8 +124,8 @@ const Index: React.FC = () => {
       labelHi: 'सरकारी योजना',
       descHi: 'मुफ्त स्वास्थ्य सेवाएं',
       descEn: 'Free health services',
-      color: 'bg-gradient-to-br from-purple-500 to-violet-600',
-      image: '🏛️',
+      iconColor: 'text-primary',
+      bgColor: 'bg-primary/5',
     },
     {
       path: '/nearby',
@@ -91,8 +134,8 @@ const Index: React.FC = () => {
       labelHi: 'नजदीकी अस्पताल',
       descHi: 'अस्पताल खोजें',
       descEn: 'Find hospitals',
-      color: 'bg-gradient-to-br from-cyan-500 to-sky-600',
-      image: '🏥',
+      iconColor: 'text-accent',
+      bgColor: 'bg-accent/5',
     },
   ];
 
@@ -107,43 +150,114 @@ const Index: React.FC = () => {
       <AppTutorial isOpen={showTutorial} onClose={() => setShowTutorial(false)} />
       <HealthNewsPopup />
 
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary via-primary to-chart-2 text-primary-foreground py-16 px-4 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 text-8xl">💚</div>
-          <div className="absolute top-20 right-20 text-6xl">🏥</div>
-          <div className="absolute bottom-10 left-1/4 text-7xl">💊</div>
-          <div className="absolute bottom-20 right-10 text-5xl">🩺</div>
-        </div>
-        
-        <div className="container mx-auto text-center relative z-10">
-          <div className="w-24 h-24 bg-primary-foreground/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-            <Heart className="w-12 h-12 animate-float" />
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{t.appName}</h1>
-          <p className="text-xl opacity-90 max-w-md mx-auto mb-8">
-            {language === 'hi' ? 'आपका स्वास्थ्य, हमारी प्राथमिकता' : 'Your health, our priority'}
-          </p>
-          
-          <Button
-            onClick={() => setShowTutorial(true)}
-            variant="secondary"
-            size="lg"
-            className="gap-2 shadow-lg"
-          >
-            <HelpCircle className="w-5 h-5" />
-            {language === 'hi' ? 'ऐप कैसे इस्तेमाल करें?' : 'How to use this app?'}
-          </Button>
-        </div>
+      {/* Hero Section - Modern Split Layout */}
+      <section className="bg-white border-b border-border min-h-screen flex items-center">
+        <div className="container mx-auto px-4 py-16">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <div className="space-y-6">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight">
+                {language === 'hi' 
+                  ? 'आपका स्वास्थ्य, हमारी प्राथमिकता' 
+                  : 'Your health, our priority'}
+              </h1>
+              <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
+                {language === 'hi'
+                  ? 'व्यापक स्वास्थ्य सेवाओं तक आसान पहुंच। लक्षण ट्रैकिंग से लेकर AI सहायता तक।'
+                  : 'Easy access to comprehensive healthcare services. From symptom tracking to AI assistance.'}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Button
+                  size="lg"
+                  className="gap-2 text-lg font-medium"
+                  asChild
+                >
+                  <Link to="/symptoms">
+                    <Activity className="w-5 h-5" />
+                    {language === 'hi' ? 'लक्षण ट्रैक करें' : 'Track Symptoms'}
+                  </Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="gap-2 text-lg font-medium border-2"
+                  onClick={() => setShowTutorial(true)}
+                >
+                  <HelpCircle className="w-5 h-5" />
+                  {language === 'hi' ? 'कैसे काम करता है' : 'How it works'}
+                </Button>
+              </div>
+            </div>
+            
+            {/* Right Visual - Interactive Cards */}
+            <div className="relative">
+              {/* Main Display Card */}
+              <div className="relative bg-gradient-to-br from-secondary/50 to-primary/10 rounded-3xl p-8 md:p-12 min-h-[400px] flex items-center justify-center">
+                <div className="text-center space-y-6 animate-fade-in">
+                  <div className={`w-20 h-20 ${heroCards[activeCard].color} rounded-2xl flex items-center justify-center mx-auto shadow-lg`}>
+                    {React.createElement(heroCards[activeCard].icon, {
+                      className: 'w-10 h-10 text-white',
+                    })}
+                  </div>
+                  <div>
+                    <h3 className="text-3xl font-bold text-foreground mb-3">
+                      {language === 'hi' ? heroCards[activeCard].titleHi : heroCards[activeCard].titleEn}
+                    </h3>
+                    <p className="text-muted-foreground text-xl leading-relaxed max-w-md mx-auto">
+                      {language === 'hi' ? heroCards[activeCard].messageHi : heroCards[activeCard].messageEn}
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-        {/* Stats */}
-        <div className="container mx-auto mt-12">
-          <div className="grid grid-cols-3 gap-4 max-w-md mx-auto">
+              {/* Card Navigation */}
+              <div className="grid grid-cols-4 gap-3 mt-6">
+                {heroCards.map((card, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveCard(index)}
+                    className={`p-4 rounded-xl border-2 transition-all duration-300 hover:scale-105 ${
+                      activeCard === index
+                        ? 'border-primary bg-primary/5 shadow-md'
+                        : 'border-border bg-white hover:border-primary/50'
+                    }`}
+                  >
+                    <div className={`w-8 h-8 ${card.color} rounded-lg flex items-center justify-center mx-auto`}>
+                      {React.createElement(card.icon, {
+                        className: 'w-4 h-4 text-white',
+                      })}
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {/* Progress Indicator */}
+              <div className="flex gap-2 justify-center mt-4">
+                {heroCards.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`h-1 rounded-full transition-all duration-300 ${
+                      activeCard === index ? 'w-8 bg-primary' : 'w-4 bg-border'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust Indicators */}
+      <section className="bg-muted/50 border-b border-border">
+        <div className="container mx-auto px-4 py-12">
+          <div className="grid grid-cols-3 gap-4 md:gap-8 max-w-4xl mx-auto">
             {stats.map((stat, index) => (
-              <div key={index} className="text-center bg-primary-foreground/10 rounded-xl p-4">
-                <stat.icon className="w-6 h-6 mx-auto mb-2" />
-                <div className="text-2xl font-bold">{stat.value}</div>
-                <div className="text-sm opacity-80">
+              <div key={index} className="text-center">
+                <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-primary/10 rounded-xl mb-3">
+                  <stat.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+                </div>
+                <div className="text-2xl md:text-3xl font-bold text-foreground mb-1">{stat.value}</div>
+                <div className="text-sm md:text-base text-muted-foreground font-medium">
                   {language === 'hi' ? stat.labelHi : stat.labelEn}
                 </div>
               </div>
@@ -152,81 +266,104 @@ const Index: React.FC = () => {
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section className="container mx-auto px-4 py-12">
-        <h2 className="text-2xl font-bold text-foreground text-center mb-8">
-          {language === 'hi' ? '🌟 हमारी सेवाएं' : '🌟 Our Services'}
-        </h2>
-        
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {features.map((feature) => (
-            <Link key={feature.path} to={feature.path}>
-              <Card className="border-2 border-border hover:shadow-xl transition-all hover:-translate-y-2 h-full group overflow-hidden">
-                <CardContent className="p-0">
-                  <div className={`${feature.color} p-6 text-center`}>
-                    <span className="text-5xl block mb-2">{feature.image}</span>
-                    <feature.icon className="w-8 h-8 mx-auto text-primary-foreground" />
-                  </div>
-                  <div className="p-4 text-center">
-                    <h3 className="font-bold text-foreground mb-1">{feature.label}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {language === 'hi' ? feature.descHi : feature.descEn}
-                    </p>
-                    <div className="mt-3 flex items-center justify-center text-primary font-medium text-sm group-hover:gap-2 transition-all">
-                      {language === 'hi' ? 'खोलें' : 'Open'}
-                      <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+      {/* Services Section */}
+      <section className="bg-white py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              {language === 'hi' ? 'हमारी सेवाएं' : 'Our Services'}
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              {language === 'hi' 
+                ? 'आपकी स्वास्थ्य आवश्यकताओं के लिए व्यापक समाधान'
+                : 'Comprehensive solutions for your healthcare needs'}
+            </p>
+          </div>
+          
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {features.map((feature) => (
+              <Link key={feature.path} to={feature.path}>
+                <Card className="border border-border hover:border-primary/50 hover:shadow-md transition-all duration-200 h-full group">
+                  <CardContent className="p-6 space-y-4">
+                    <div className={`inline-flex items-center justify-center w-14 h-14 ${feature.bgColor} rounded-xl`}>
+                      <feature.icon className={`w-7 h-7 ${feature.iconColor}`} />
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
+                    <div>
+                      <h3 className="font-semibold text-lg text-foreground mb-2 group-hover:text-primary transition-colors">
+                        {feature.label}
+                      </h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {language === 'hi' ? feature.descHi : feature.descEn}
+                      </p>
+                    </div>
+                    <div className="flex items-center text-primary font-medium text-sm pt-2">
+                      {language === 'hi' ? 'और जानें' : 'Learn more'}
+                      <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Quick Tips Banner */}
-      <section className="container mx-auto px-4 pb-12">
-        <Card className="border-2 border-border bg-gradient-to-r from-secondary to-muted overflow-hidden">
-          <CardContent className="p-6 flex items-center gap-4">
-            <div className="text-5xl">💡</div>
-            <div className="flex-1">
-              <h3 className="font-bold text-foreground mb-1">
-                {language === 'hi' ? 'आज का स्वास्थ्य सुझाव' : 'Today\'s Health Tip'}
-              </h3>
-              <p className="text-muted-foreground">
-                {language === 'hi'
-                  ? 'दिन में कम से कम 8 गिलास पानी पिएं। यह शरीर को स्वस्थ रखता है।'
-                  : 'Drink at least 8 glasses of water daily. It keeps your body healthy.'}
-              </p>
-            </div>
-            <span className="text-4xl hidden md:block">💧</span>
-          </CardContent>
-        </Card>
+      {/* Health Tip Section */}
+      <section className="bg-secondary/30 py-12">
+        <div className="container mx-auto px-4">
+          <Card className="border border-border bg-white max-w-4xl mx-auto">
+            <CardContent className="p-6 md:p-8">
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
+                    <Lightbulb className="w-6 h-6 text-accent" />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-lg text-foreground mb-2">
+                    {language === 'hi' ? 'आज का स्वास्थ्य सुझाव' : 'Daily Health Tip'}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {language === 'hi'
+                      ? 'दिन में कम से कम 8 गिलास पानी पिएं। यह शरीर को स्वस्थ और हाइड्रेटेड रखता है।'
+                      : 'Drink at least 8 glasses of water daily. It keeps your body healthy and hydrated.'}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </section>
 
-      {/* Emergency Banner */}
-      <section className="container mx-auto px-4 pb-12">
-        <Card className="border-2 border-destructive bg-destructive/10">
-          <CardContent className="p-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">🚨</span>
-              <div>
-                <h4 className="font-bold text-destructive">
-                  {language === 'hi' ? 'आपातकालीन नंबर' : 'Emergency Number'}
-                </h4>
-                <p className="text-foreground font-mono text-xl">108 / 112</p>
+      {/* Emergency Section */}
+      <section className="bg-white py-12 border-t border-border">
+        <div className="container mx-auto px-4">
+          <Card className="border-2 border-destructive max-w-4xl mx-auto">
+            <CardContent className="p-6 md:p-8">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 bg-destructive/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Heart className="w-7 h-7 text-destructive" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-lg text-destructive mb-1">
+                      {language === 'hi' ? 'आपातकालीन सहायता' : 'Emergency Assistance'}
+                    </h4>
+                    <p className="text-foreground font-mono text-2xl font-bold">108 / 112</p>
+                  </div>
+                </div>
+                <Button
+                  variant="destructive"
+                  size="lg"
+                  className="font-medium"
+                  onClick={() => window.open('tel:108')}
+                >
+                  {language === 'hi' ? 'अभी कॉल करें' : 'Call Now'}
+                </Button>
               </div>
-            </div>
-            <Button
-              variant="destructive"
-              size="lg"
-              className="gap-2"
-              onClick={() => window.open('tel:108')}
-            >
-              {language === 'hi' ? 'कॉल करें' : 'Call Now'}
-            </Button>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       </section>
     </div>
   );
