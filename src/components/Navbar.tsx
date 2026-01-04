@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-40 w-full bg-card border-b-2 border-border shadow-sm">
+    <nav className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-md">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -90,7 +90,7 @@ const Navbar: React.FC = () => {
                 </Button>
               </Link>
             ))}
-            
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="gap-1">
