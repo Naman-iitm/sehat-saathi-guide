@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 import { Button } from '@/components/ui/button';
@@ -10,17 +11,27 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
-  Heart,
-  MapPin,
-  User,
-  ShoppingCart,
-  ChevronDown,
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import {
   Home,
-  Activity,
+  Heart,
   Lightbulb,
   Store,
   MessageCircle,
-  MoreHorizontal,
+  Building,
+  MapPin,
+  User,
+  ShoppingCart,
+  Menu,
+  Globe,
+  LogOut,
+  ChevronDown,
+  Activity,
   Home as HomeIcon,
   Stethoscope,
   Pill,
@@ -33,17 +44,13 @@ import {
 } from 'lucide-react';
 
 const Navbar: React.FC = () => {
-  const location = useLocation();
-  const { isAuthenticated } = useAuth();
+  const { t, language, setLanguage, languageNames, availableLanguages } = useLanguage();
+  const { user, isAuthenticated, logout } = useAuth();
   const { itemCount } = useCart();
-  const [pincodeOpen, setPincodeOpen] = useState(false);
+  const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { path: '/', label: 'Home', icon: Home },
-    { path: '/symptoms', label: 'Symptom Tracker', icon: Activity },
-    { path: '/tips', label: 'Health Tips', icon: Lightbulb },
-    { path: '/store', label: 'Medicine Store', icon: Store },
-    { path: '/assistant', label: 'AI Assistant', icon: MessageCircle },
     { path: '/', label: t.home, icon: Home, iconComponent: HomeIcon, color: 'bg-primary' },
     { path: '/symptoms', label: t.symptomTracker, icon: Activity, iconComponent: Stethoscope, color: 'bg-rose-500' },
     { path: '/tips', label: t.healthTips, icon: Lightbulb, iconComponent: Lightbulb, color: 'bg-amber-500' },
@@ -55,32 +62,29 @@ const Navbar: React.FC = () => {
 
   const isActive = (path: string) => location.pathname === path;
 
+  const languageFlags: Record<string, string> = {
+    hi: '🇮🇳',
+    en: '🇬🇧',
+    bn: '🇧🇩',
+    mr: '🇮🇳',
+    bho: '🇮🇳',
+    mai: '🇮🇳',
+  };
+
   return (
-    <header className="sticky top-0 z-50 w-full bg-white border-b">
-      {/* TOP BAR */}
-      <div className="flex items-center justify-between px-6 h-14">
-        {/* LEFT: Logo + Pincode */}
-        <div className="flex items-center gap-6">
+    <nav className="sticky top-0 z-40 w-full bg-card border-b-2 border-border shadow-sm">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-lg bg-green-600 flex items-center justify-center">
-              <Heart className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 bg-gradient-to-br from-primary to-chart-2 rounded-xl flex items-center justify-center shadow-md">
+              <Heart className="w-6 h-6 text-primary-foreground" />
             </div>
-            <span className="font-semibold text-lg">Swasthya Saathi</span>
+            <span className="font-bold text-lg text-foreground hidden sm:block">
+              {t.appName}
+            </span>
           </Link>
 
-          <DropdownMenu open={pincodeOpen} onOpenChange={setPincodeOpen}>
-            <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-1 text-sm text-gray-700 hover:text-black">
-                ⚡ Express delivery to
-                <span className="font-medium">Select Pincode</span>
-                <ChevronDown className="w-4 h-4" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem>Set Pincode</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-1">
             {navItems.slice(0, 5).map((item) => (
@@ -117,26 +121,31 @@ const Navbar: React.FC = () => {
             </DropdownMenu>
           </div>
 
-        {/* RIGHT: Login | Offers | Cart */}
-        <div className="flex items-center gap-6 text-sm">
-          <Link to="/auth" className="flex items-center gap-1">
-            <User className="w-4 h-4" />
-            Hello, Log in
-          </Link>
+          {/* Right Side */}
+          <div className="flex items-center gap-2">
+            {/* Language Selector */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="gap-2 border-2">
+                  <span className="text-lg">{languageFlags[language]}</span>
+                  <Globe className="w-4 h-4" />
+                  <span className="hidden sm:inline">{languageNames[language]}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="border-2 border-border">
+                {availableLanguages.map((lang) => (
+                  <DropdownMenuItem
+                    key={lang}
+                    onClick={() => setLanguage(lang)}
+                    className={`gap-3 py-2 ${language === lang ? 'bg-secondary' : ''}`}
+                  >
+                    <span className="text-xl">{languageFlags[lang]}</span>
+                    <span>{languageNames[lang]}</span>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-          <Link to="/offers" className="flex items-center gap-1">
-            ⚙ Offers
-          </Link>
-
-          <Link to="/cart" className="relative flex items-center gap-1">
-            <ShoppingCart className="w-4 h-4" />
-            Cart
-            {itemCount > 0 && (
-              <span className="absolute -top-2 -right-3 bg-green-600 text-white text-xs rounded-full px-1">
-                {itemCount}
-              </span>
-            )}
-          </Link>
             {/* Cart */}
             <Link to="/cart">
               <Button variant="outline" size="sm" className="relative border-2 gap-1">
@@ -214,46 +223,7 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* PRIMARY NAVIGATION */}
-      <div className="border-t">
-        <nav className="flex justify-center gap-2 py-2">
-          {navItems.map((item) => (
-            <Link key={item.path} to={item.path}>
-              <Button
-                variant="ghost"
-                className={`gap-2 rounded-full px-4 ${
-                  isActive(item.path)
-                    ? 'bg-green-600 text-white hover:bg-green-600'
-                    : 'text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                <item.icon className="w-4 h-4" />
-                {item.label}
-              </Button>
-            </Link>
-          ))}
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="rounded-full px-4 gap-2">
-                <MoreHorizontal className="w-4 h-4" />
-                More
-                <ChevronDown className="w-4 h-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem asChild>
-                <Link to="/schemes">Government Schemes</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to="/nearby">Nearby Hospitals</Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </nav>
-      </div>
-    </header>
+    </nav>
   );
 };
 
