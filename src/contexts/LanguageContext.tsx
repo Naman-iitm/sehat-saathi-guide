@@ -91,11 +91,175 @@ export interface Translations {
 }
 
 /* =======================
-   Translations (UNCHANGED)
+   Translations Data
 ======================= */
-/* 🔴 Your existing translations object remains exactly the same here */
-import { translations } from './translations'; // ← optional future refactor
-// If you prefer, keep your original translations object here directly
+
+const enTranslations: Translations = {
+  appName: 'Sehat Saathi',
+  home: 'Home',
+  symptomTracker: 'Symptom Tracker',
+  healthTips: 'Health Tips',
+  medicineStore: 'Medicine Store',
+  aiAssistant: 'AI Assistant',
+  sarkariYojana: 'Govt Schemes',
+  nearbyHospitals: 'Nearby Hospitals',
+  myProfile: 'My Profile',
+  login: 'Login',
+  register: 'Register',
+  logout: 'Logout',
+  loading: 'Loading...',
+  addSymptom: 'Add Symptom',
+  symptomName: 'Symptom Name',
+  symptomDescription: 'Description',
+  addedOn: 'Added on',
+  noSymptoms: 'No symptoms recorded yet.',
+  emptySymptomError: 'Please enter a symptom name.',
+  search: 'Search',
+  addToCart: 'Add to Cart',
+  cart: 'Cart',
+  checkout: 'Checkout',
+  total: 'Total',
+  address: 'Address',
+  payment: 'Payment',
+  proceedToPayment: 'Proceed to Payment',
+  orderPlaced: 'Order Placed Successfully!',
+  askHealth: 'Ask a health question...',
+  send: 'Send',
+  welcomeMessage: 'Hello! How can I assist with your health today?',
+  healthTipsTitle: 'Daily Health Tips',
+  governmentSchemes: 'Government Schemes',
+  freeHealthcare: 'Free Healthcare',
+  schemes: 'Schemes',
+  eligibility: 'Eligibility',
+  apply: 'Apply',
+  email: 'Email',
+  password: 'Password',
+  otp: 'OTP',
+  verifyOtp: 'Verify OTP',
+  name: 'Name',
+  phone: 'Phone',
+  selectLanguage: 'Select Language',
+  changeLanguage: 'Change Language',
+  price: 'Price',
+  quantity: 'Quantity',
+  remove: 'Remove',
+  emptyCart: 'Your cart is empty',
+  continueShopping: 'Continue Shopping',
+  viewCart: 'View Cart',
+  fullName: 'Full Name',
+  streetAddress: 'Street Address',
+  city: 'City',
+  pincode: 'Pincode',
+  paymentMethod: 'Payment Method',
+  cod: 'Cash on Delivery',
+  upi: 'UPI',
+  placeOrder: 'Place Order',
+  orderSuccess: 'Order Placed!',
+  backToHome: 'Back to Home',
+  description: 'Description',
+  date: 'Date',
+  time: 'Time',
+  deleteSymptom: 'Delete',
+  quickLinks: 'Quick Links',
+  legal: 'Legal',
+  privacyPolicy: 'Privacy Policy',
+  termsConditions: 'Terms & Conditions',
+  support: 'Support',
+  helpCenter: 'Help Center',
+  feedback: 'Feedback',
+  contact: 'Contact Us',
+  followUs: 'Follow Us',
+  rightsReserved: 'All Rights Reserved',
+};
+
+const hiTranslations: Translations = {
+  appName: 'सेहत साथी',
+  home: 'होम',
+  symptomTracker: 'लक्षण ट्रैकर',
+  healthTips: 'स्वास्थ्य सुझाव',
+  medicineStore: 'दवा की दुकान',
+  aiAssistant: 'AI सहायक',
+  sarkariYojana: 'सरकारी योजनाएं',
+  nearbyHospitals: 'निकटतम अस्पताल',
+  myProfile: 'मेरी प्रोफाइल',
+  login: 'लॉगिन',
+  register: 'रजिस्टर',
+  logout: 'लॉगआउट',
+  loading: 'लोड हो रहा है...',
+  addSymptom: 'लक्षण जोड़ें',
+  symptomName: 'लक्षण का नाम',
+  symptomDescription: 'विवरण',
+  addedOn: 'जोड़ा गया',
+  noSymptoms: 'अभी तक कोई लक्षण दर्ज नहीं किया गया।',
+  emptySymptomError: 'कृपया लक्षण का नाम दर्ज करें।',
+  search: 'खोजें',
+  addToCart: 'कार्ट में जोड़ें',
+  cart: 'कार्ट',
+  checkout: 'चेकआउट',
+  total: 'कुल',
+  address: 'पता',
+  payment: 'भुगतान',
+  proceedToPayment: 'भुगतान के लिए आगे बढ़ें',
+  orderPlaced: 'ऑर्डर सफलतापूर्वक दिया गया!',
+  askHealth: 'स्वास्थ्य संबंधी प्रश्न पूछें...',
+  send: 'भेजें',
+  welcomeMessage: 'नमस्ते! आज मैं आपकी स्वास्थ्य सहायता कैसे कर सकता हूँ?',
+  healthTipsTitle: 'दैनिक स्वास्थ्य सुझाव',
+  governmentSchemes: 'सरकारी योजनाएं',
+  freeHealthcare: 'मुफ्त स्वास्थ्य सेवा',
+  schemes: 'योजनाएं',
+  eligibility: 'पात्रता',
+  apply: 'आवेदन करें',
+  email: 'ईमेल',
+  password: 'पासवर्ड',
+  otp: 'ओटीपी',
+  verifyOtp: 'ओटीपी सत्यापित करें',
+  name: 'नाम',
+  phone: 'फ़ोन',
+  selectLanguage: 'भाषा चुनें',
+  changeLanguage: 'भाषा बदलें',
+  price: 'कीमत',
+  quantity: 'मात्रा',
+  remove: 'हटाएं',
+  emptyCart: 'आपकी कार्ट खाली है',
+  continueShopping: 'खरीदारी जारी रखें',
+  viewCart: 'कार्ट देखें',
+  fullName: 'पूरा नाम',
+  streetAddress: 'गली/मोहल्ला',
+  city: 'शहर',
+  pincode: 'पिन कोड',
+  paymentMethod: 'भुगतान का तरीका',
+  cod: 'कैश ऑन डिलीवरी',
+  upi: 'यूपीआई',
+  placeOrder: 'ऑर्डर दें',
+  orderSuccess: 'ऑर्डर सफल!',
+  backToHome: 'होम पर वापस जाएं',
+  description: 'विवरण',
+  date: 'तारीख',
+  time: 'समय',
+  deleteSymptom: 'हटाएं',
+  quickLinks: 'क्विक लिंक्स',
+  legal: 'कानूनी',
+  privacyPolicy: 'गोपनीयता नीति',
+  termsConditions: 'नियम और शर्तें',
+  support: 'सहायता',
+  helpCenter: 'सहायता केंद्र',
+  feedback: 'प्रतिक्रिया',
+  contact: 'संपर्क करें',
+  followUs: 'हमें फॉलो करें',
+  rightsReserved: 'सर्वाधिकार सुरक्षित',
+};
+
+// For other languages, using English as fallback for now to prevent errors.
+// You can replace these with real translations later.
+const translations: Record<Language, Translations> = {
+  en: enTranslations,
+  hi: hiTranslations,
+  bn: { ...enTranslations }, // Bengali Fallback
+  mr: { ...enTranslations }, // Marathi Fallback
+  bho: { ...enTranslations }, // Bhojpuri Fallback
+  mai: { ...enTranslations }, // Maithili Fallback
+};
 
 /* =======================
    Language Names
@@ -117,13 +281,8 @@ const languageNames: Record<Language, string> = {
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-
-  /** ✅ Old usage supported: t.home */
   t: Translations;
-
-  /** ✅ New safer usage: translate('home') */
   translate: (key: keyof Translations) => string;
-
   languageNames: Record<Language, string>;
   availableLanguages: Language[];
   currentLanguageName: string;
@@ -179,7 +338,10 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({
 
   /* 🔒 Create safe proxy so old code (t.home) never crashes */
   const safeT = useMemo(() => {
-    return new Proxy(translations[language], {
+    // Ensure we have a valid object to proxy, falling back to English if the language key is missing entirely
+    const targetObj = translations[language] || translations.en;
+    
+    return new Proxy(targetObj, {
       get(target, prop: string) {
         return safeTranslate(language, prop as keyof Translations);
       },
