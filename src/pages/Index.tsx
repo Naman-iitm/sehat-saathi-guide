@@ -20,6 +20,7 @@ import {
   Users,
   Clock,
   ArrowRight,
+  Phone,
 } from 'lucide-react';
 
 const Index: React.FC = () => {
@@ -159,8 +160,8 @@ const Index: React.FC = () => {
             {/* Left Content */}
             <div className="space-y-6">
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight">
-                {language === 'hi' 
-                  ? 'आपका स्वास्थ्य, हमारी प्राथमिकता' 
+                {language === 'hi'
+                  ? 'आपका स्वास्थ्य, हमारी प्राथमिकता'
                   : 'Your health, our priority'}
               </h1>
               <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
@@ -190,7 +191,7 @@ const Index: React.FC = () => {
                 </Button>
               </div>
             </div>
-            
+
             {/* Right Visual - Interactive Cards */}
             <div className="relative">
               {/* Main Display Card */}
@@ -218,11 +219,10 @@ const Index: React.FC = () => {
                   <button
                     key={index}
                     onClick={() => setActiveCard(index)}
-                    className={`p-4 rounded-xl border-2 transition-all duration-300 hover:scale-105 ${
-                      activeCard === index
+                    className={`p-4 rounded-xl border-2 transition-all duration-300 hover:scale-105 ${activeCard === index
                         ? 'border-primary bg-primary/5 shadow-md'
                         : 'border-border bg-white hover:border-primary/50'
-                    }`}
+                      }`}
                   >
                     <div className={`w-8 h-8 ${card.color} rounded-lg flex items-center justify-center mx-auto`}>
                       {React.createElement(card.icon, {
@@ -238,9 +238,8 @@ const Index: React.FC = () => {
                 {heroCards.map((_, index) => (
                   <div
                     key={index}
-                    className={`h-1 rounded-full transition-all duration-300 ${
-                      activeCard === index ? 'w-8 bg-primary' : 'w-4 bg-border'
-                    }`}
+                    className={`h-1 rounded-full transition-all duration-300 ${activeCard === index ? 'w-8 bg-primary' : 'w-4 bg-border'
+                      }`}
                   />
                 ))}
               </div>
@@ -276,12 +275,12 @@ const Index: React.FC = () => {
               {language === 'hi' ? 'हमारी सेवाएं' : 'Our Services'}
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {language === 'hi' 
+              {language === 'hi'
                 ? 'आपकी स्वास्थ्य आवश्यकताओं के लिए व्यापक समाधान'
                 : 'Comprehensive solutions for your healthcare needs'}
             </p>
           </div>
-          
+
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {features.map((feature) => (
               <Link key={feature.path} to={feature.path}>
@@ -310,19 +309,20 @@ const Index: React.FC = () => {
         </div>
       </section>
 
-      {/* Health Tip Section */}
-      <section className="bg-muted/30 py-16">
+      {/* Health Tip & Emergency Section */}
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
-          <Card className="border border-border bg-white max-w-5xl mx-auto shadow-sm hover:shadow-md transition-shadow">
-            <CardContent className="p-8 md:p-10">
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {/* Health Tip Card */}
+            <div className="bg-[#FFF9F0] rounded-[2rem] p-8 md:p-10 flex flex-col justify-center shadow-sm hover:shadow-md transition-shadow">
               <div className="flex items-start gap-6">
                 <div className="flex-shrink-0">
-                  <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center">
-                    <Lightbulb className="w-8 h-8 text-accent" />
+                  <div className="w-16 h-16 bg-[#FFF4D6] rounded-2xl flex items-center justify-center">
+                    <Lightbulb className="w-8 h-8 text-amber-600" />
                   </div>
                 </div>
-                <div className="flex-1 space-y-3">
-                  <h3 className="font-bold text-2xl text-foreground">
+                <div className="space-y-3">
+                  <h3 className="font-bold text-2xl text-[#064E3B]">
                     {language === 'hi' ? 'आज का स्वास्थ्य सुझाव' : 'Daily Health Tip'}
                   </h3>
                   <p className="text-muted-foreground text-lg leading-relaxed">
@@ -332,39 +332,35 @@ const Index: React.FC = () => {
                   </p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
+            </div>
 
-      {/* Emergency Section */}
-      <section className="bg-white py-16 border-t border-border">
-        <div className="container mx-auto px-4">
-          <Card className="border-2 border-destructive max-w-5xl mx-auto shadow-sm hover:shadow-md transition-shadow">
-            <CardContent className="p-8 md:p-10">
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-                <div className="flex items-center gap-6">
-                  <div className="w-16 h-16 md:w-20 md:h-20 bg-destructive/10 rounded-2xl flex items-center justify-center flex-shrink-0">
-                    <Heart className="w-8 h-8 md:w-10 md:h-10 text-destructive" />
+            {/* Emergency Card */}
+            <div className="bg-[#FFF0F0] rounded-[2rem] p-8 md:p-10 relative overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-[#FFE4E4] rounded-bl-full -mr-10 -mt-10 opacity-50" />
+
+              <div className="relative z-10 flex flex-col h-full justify-center">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+                  <div className="flex items-center gap-5">
+                    <div className="w-16 h-16 bg-[#FFE4E4] rounded-2xl flex items-center justify-center flex-shrink-0">
+                      <Phone className="w-8 h-8 text-red-600" />
+                    </div>
+                    <div className="space-y-1">
+                      <h4 className="font-bold text-xl text-red-600">
+                        {language === 'hi' ? 'आपातकालीन सहायता' : 'Emergency Help'}
+                      </h4>
+                      <p className="text-[#064E3B] font-mono text-4xl font-bold tracking-tight">108 / 112</p>
+                    </div>
                   </div>
-                  <div className="space-y-2">
-                    <h4 className="font-bold text-xl md:text-2xl text-destructive">
-                      {language === 'hi' ? 'आपातकालीन सहायता' : 'Emergency Assistance'}
-                    </h4>
-                    <p className="text-foreground font-mono text-3xl md:text-4xl font-bold">108 / 112</p>
-                  </div>
+                  <Button
+                    className="bg-red-500 hover:bg-red-600 text-white font-semibold text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-red-200 transition-all w-full sm:w-auto"
+                    onClick={() => window.open('tel:108')}
+                  >
+                    {language === 'hi' ? 'अभी कॉल करें' : 'Call Now'}
+                  </Button>
                 </div>
-                <Button
-                  variant="destructive"
-                  size="lg"
-                  className="font-semibold text-lg px-8 py-6"
-                  onClick={() => window.open('tel:108')}
-                >
-                  {language === 'hi' ? 'अभी कॉल करें' : 'Call Now'}
-                </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </section>
     </div>
