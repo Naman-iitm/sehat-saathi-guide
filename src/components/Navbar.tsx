@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -30,6 +31,7 @@ import {
   Menu,
   LogOut,
   Building,
+  Globe,
 } from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
 
@@ -37,20 +39,30 @@ const Navbar: React.FC = () => {
   const location = useLocation();
   const { isAuthenticated, user, logout } = useAuth();
   const { itemCount } = useCart();
+  const { t, language, setLanguage, languageNames, availableLanguages, currentLanguageName } = useLanguage();
   const [pincodeOpen, setPincodeOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { path: '/', label: 'Home', icon: Home },
-    { path: '/symptoms', label: 'Symptom Tracker', icon: Activity },
-    { path: '/tips', label: 'Health Tips', icon: Lightbulb },
-    { path: '/store', label: 'Medicine Store', icon: Store },
-    { path: '/assistant', label: 'AI Assistant', icon: MessageCircle },
-    { path: '/schemes', label: 'Schemes', icon: Building }, // Shortened label
-    { path: '/nearby', label: 'Hospitals', icon: MapPin }, // Shortened label
+    { path: '/', label: t.home, icon: Home },
+    { path: '/symptoms', label: t.symptomTracker, icon: Activity },
+    { path: '/tips', label: t.healthTips, icon: Lightbulb },
+    { path: '/store', label: t.medicineStore, icon: Store },
+    { path: '/assistant', label: t.aiAssistant, icon: MessageCircle },
+    { path: '/schemes', label: t.schemes, icon: Building },
+    { path: '/nearby', label: t.nearbyHospitals, icon: MapPin },
   ];
 
   const isActive = (path: string) => location.pathname === path;
+
+  const languageFlags: Record<string, string> = {
+    hi: '🇮🇳',
+    en: '🇬🇧',
+    bn: '🇧🇩',
+    mr: '🇮🇳',
+    bho: '🇮🇳',
+    mai: '🇮🇳',
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm border-b border-border">
@@ -63,7 +75,9 @@ const Navbar: React.FC = () => {
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-sm">
                 <Heart className="w-4 h-4 text-primary-foreground" />
               </div>
-              <span className="font-bold text-lg tracking-tight text-foreground hidden sm:block">Swasthya Saathi</span>
+              <span className="font-bold text-lg tracking-tight text-foreground hidden sm:block">
+                {language === 'en' ? 'Swasthya Saathi' : t.appName}
+              </span>
             </Link>
 
             <div className="hidden md:flex items-center h-4 w-px bg-border"></div>
@@ -86,8 +100,31 @@ const Navbar: React.FC = () => {
           {/* RIGHT: User Actions */}
           <div className="flex items-center gap-4 sm:gap-6">
             <ModeToggle />
-            {/* Offers Link - Optional, kept as per existing */}
-            <Link to="/offers" className="hidden sm:flex items-center gap-1.5 text-gray-600 hover:text-green-700 font-medium transition-colors">
+
+            {/* Language Selector */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="gap-1 text-muted-foreground hover:text-primary h-8 px-2">
+                  <Globe className="w-4 h-4" />
+                  <span className="hidden md:inline">{currentLanguageName}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="border border-border">
+                {availableLanguages.map((lang) => (
+                  <DropdownMenuItem
+                    key={lang}
+                    onClick={() => setLanguage(lang)}
+                    className={`gap-3 py-2 cursor-pointer ${language === lang ? 'bg-secondary' : ''}`}
+                  >
+                    <span className="text-xl">{languageFlags[lang]}</span>
+                    <span>{languageNames[lang]}</span>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Offers Link */}
+            <Link to="/offers" className="hidden sm:flex items-center gap-1.5 text-muted-foreground hover:text-primary font-medium transition-colors">
               <span className="text-lg">🏷️</span>
               <span>Offers</span>
             </Link>
@@ -109,12 +146,12 @@ const Navbar: React.FC = () => {
                   <DropdownMenuItem asChild>
                     <Link to="/profile" className="flex items-center gap-2 cursor-pointer">
                       <User className="w-4 h-4" />
-                      My Profile
+                      {t.myProfile}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={logout} className="flex items-center gap-2 text-destructive cursor-pointer focus:text-destructive focus:bg-destructive/10">
                     <LogOut className="w-4 h-4" />
-                    Logout
+                    {t.logout}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -127,7 +164,7 @@ const Navbar: React.FC = () => {
 
             <Link to="/cart" className="relative group flex items-center gap-2 text-muted-foreground hover:text-primary font-medium transition-colors">
               <ShoppingCart className="w-5 h-5" />
-              <span className="hidden sm:inline">Cart</span>
+              <span className="hidden sm:inline">{t.cart}</span>
               {itemCount > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 bg-primary text-primary-foreground text-[10px] font-bold h-5 w-5 flex items-center justify-center rounded-full border-2 border-background ring-1 ring-primary">
                   {itemCount}
@@ -150,7 +187,7 @@ const Navbar: React.FC = () => {
                         <Heart className="w-4 h-4 text-primary-foreground" />
                       </div>
                       <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
-                        Swasthya Saathi
+                        {language === 'en' ? 'Swasthya Saathi' : t.appName}
                       </span>
                     </SheetTitle>
                     <ModeToggle />
