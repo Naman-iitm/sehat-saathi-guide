@@ -7,7 +7,7 @@ export const healthTips: HealthTip[] = [
     titleHi: 'नियमित रूप से हाथ धोएं',
     description: 'Wash hands with soap and water for at least 20 seconds before eating, after using toilet, and after coming from outside. This prevents many diseases.',
     descriptionHi: 'खाने से पहले, शौचालय के बाद और बाहर से आने के बाद कम से कम 20 सेकंड तक साबुन और पानी से हाथ धोएं। इससे कई बीमारियां रुकती हैं।',
-    icon: '🧼',
+    icon: 'soap',
     category: 'hygiene',
   },
   {
@@ -16,7 +16,7 @@ export const healthTips: HealthTip[] = [
     titleHi: 'पीने से पहले पानी उबालें',
     description: 'Always boil water for at least 10 minutes before drinking. This kills germs and makes water safe.',
     descriptionHi: 'पीने से पहले हमेशा पानी को कम से कम 10 मिनट तक उबालें। इससे कीटाणु मर जाते हैं और पानी सुरक्षित हो जाता है।',
-    icon: '💧',
+    icon: 'droplets',
     category: 'water',
   },
   {
@@ -25,7 +25,7 @@ export const healthTips: HealthTip[] = [
     titleHi: 'ताजी सब्जियां खाएं',
     description: 'Include green vegetables and fruits in your daily diet. They give vitamins and keep you healthy.',
     descriptionHi: 'अपने रोजाना के खाने में हरी सब्जियां और फल शामिल करें। इससे विटामिन मिलते हैं और आप स्वस्थ रहते हैं।',
-    icon: '🥬',
+    icon: 'salad',
     category: 'nutrition',
   },
   {
@@ -34,7 +34,7 @@ export const healthTips: HealthTip[] = [
     titleHi: 'खाने को ढककर रखें',
     description: 'Always cover food with a lid or cloth. This keeps flies and dust away from food.',
     descriptionHi: 'खाने को हमेशा ढक्कन या कपड़े से ढककर रखें। इससे मक्खियां और धूल खाने से दूर रहती हैं।',
-    icon: '🍲',
+    icon: 'plate',
     category: 'food-safety',
   },
   {
@@ -43,7 +43,7 @@ export const healthTips: HealthTip[] = [
     titleHi: 'अच्छी नींद लें',
     description: 'Get 7-8 hours of sleep every night. Good sleep keeps your body and mind healthy.',
     descriptionHi: 'हर रात 7-8 घंटे की नींद लें। अच्छी नींद से शरीर और दिमाग स्वस्थ रहता है।',
-    icon: '😴',
+    icon: 'moon',
     category: 'lifestyle',
   },
   {
@@ -52,7 +52,7 @@ export const healthTips: HealthTip[] = [
     titleHi: 'साफ शौचालय का उपयोग करें',
     description: 'Always use toilet for defecation. Open defecation spreads diseases. Keep toilet clean.',
     descriptionHi: 'शौच के लिए हमेशा शौचालय का उपयोग करें। खुले में शौच से बीमारियां फैलती हैं। शौचालय को साफ रखें।',
-    icon: '🚽',
+    icon: 'toilet',
     category: 'sanitation',
   },
   {
@@ -61,7 +61,7 @@ export const healthTips: HealthTip[] = [
     titleHi: 'घर में हवा आने दें',
     description: 'Open windows and doors for fresh air. Good ventilation prevents respiratory problems.',
     descriptionHi: 'ताजी हवा के लिए खिड़कियां और दरवाजे खोलें। अच्छी हवा से सांस की समस्याएं कम होती हैं।',
-    icon: '🪟',
+    icon: 'window',
     category: 'environment',
   },
   {
@@ -70,7 +70,7 @@ export const healthTips: HealthTip[] = [
     titleHi: 'रोज व्यायाम करें',
     description: 'Walk or do light exercise for 30 minutes daily. This keeps your body fit and active.',
     descriptionHi: 'रोज 30 मिनट चलें या हल्का व्यायाम करें। इससे शरीर चुस्त और सक्रिय रहता है।',
-    icon: '🚶',
+    icon: 'activity',
     category: 'fitness',
   },
   {
@@ -79,7 +79,7 @@ export const healthTips: HealthTip[] = [
     titleHi: 'मच्छरों से बचें',
     description: 'Use mosquito net while sleeping. Remove stagnant water around house to prevent dengue and malaria.',
     descriptionHi: 'सोते समय मच्छरदानी का उपयोग करें। डेंगू और मलेरिया से बचने के लिए घर के आसपास जमा पानी हटाएं।',
-    icon: '🦟',
+    icon: 'bug',
     category: 'prevention',
   },
   {
@@ -88,7 +88,7 @@ export const healthTips: HealthTip[] = [
     titleHi: 'टीका लगवाएं',
     description: 'Ensure all family members, especially children, get their vaccines on time. Vaccines prevent serious diseases.',
     descriptionHi: 'सुनिश्चित करें कि परिवार के सभी सदस्य, विशेषकर बच्चे, समय पर टीके लगवाएं। टीके गंभीर बीमारियों से बचाते हैं।',
-    icon: '💉',
+    icon: 'syringe',
     category: 'prevention',
   },
 ];

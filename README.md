@@ -1,274 +1,173 @@
-# Welcome to your My project
+# 🏥 Sehat Saathi Guide (स्वास्थ्य साथी)
 
-## Project info
-
-**URL**: https://sehat-saathi-guide.netlify.app/
-## Don't forget to rate this app
-
-
-# 🏥 Sehat Saathi Guide
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/YOUR-BADGE-ID/deploy-status)](https://sehat-saathi-guide.netlify.app/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18.x-61dafb.svg)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.x-646cff.svg)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-38bdf8.svg)](https://tailwindcss.com/)
 
-A comprehensive guide and resource platform for the SAATHI initiative at IIT Madras - empowering students with mental wellness resources, information, and support systems.
+**Sehat Saathi** is a comprehensive, multi-language health assistant and resource platform designed to empower users with accessible healthcare information, mental wellness resources, and support systems. Originally inspired by the SAATHI initiative at IIT Madras, this platform aims to bridge the gap in healthcare accessibility through technology.
 
 🌐 **Live Demo:** [https://sehat-saathi-guide.netlify.app/](https://sehat-saathi-guide.netlify.app/)
 
 ---
 
-## 📋 Table of Contents
+## 🌟 Why Sehat Saathi?
 
-- [About](#about)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Scripts](#scripts)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+In many communities, healthcare information and mental wellness resources are often difficult to access or shrouded in stigma. **Sehat Saathi** (meaning "Health Companion") aims to:
+- **Democratize Wellness**: Make health resources accessible to everyone, regardless of their technical background.
+- **Multi-language Support**: Provide guidance in regional languages including Hindi, Bengali, Marathi, Bhojpuri, and Maithili.
+- **Reduce Stigma**: Offer a safe, digital space to explore wellness options and track symptoms.
+- **Empower through Information**: Connect users with government schemes (Sarkari Yojana) and nearby medical facilities.
 
 ---
 
-## 🎯 About
 
-**Sehat Saathi Guide** is a digital platform designed to provide accessible information and resources related to student wellness and mental health support systems at IIT Madras. SAATHI (Student wellness cell) is a proactive platform for self-growth and well-being, and this guide aims to make their services and resources more discoverable and accessible to students.
+## ✨ Key Features
 
-The application serves as a centralized hub for:
-- Information about wellness programs and initiatives
-- Mental health resources and support systems
-- Student mentorship and academic support services
-- Guidance for navigating campus wellness facilities
+- 🩺 **Symptom Tracker**: Record and monitor health symptoms with a simple, intuitive interface. Uses a rule-based triage system to provide immediate feedback.
+- 🤖 **AI Health Assistant**: Get instant guidance and answers to common health queries through a localized chat interface.
+- 💊 **Medicine Store**: Browse and purchase affordable medicines with a seamless cart and checkout experience.
+- 🏛️ **Sarkari Yojana**: Stay updated on government health schemes, eligibility criteria, and application processes.
+- 🏥 **Nearby Hospitals**: Locate Primary Health Centres (PHC), Community Health Centres (CHC), and District Hospitals using geolocation.
+- 🌍 **Multi-language Support**: Fully localized experience for diverse linguistic needs across India.
+- 📱 **Progressive Design**: Fully responsive, mobile-first design optimized for low-bandwidth environments.
 
 ---
 
-## ✨ Features
+## 🌐 Localization
 
-- 🎨 **Modern UI/UX** - Clean, responsive interface built with React and Tailwind CSS
-- ⚡ **Fast Performance** - Powered by Vite for lightning-fast development and optimized builds
-- 📱 **Fully Responsive** - Seamless experience across desktop, tablet, and mobile devices
-- 🧩 **Component-Based Architecture** - Reusable UI components using shadcn/ui
-- 🎭 **Type Safety** - Built with TypeScript for robust code quality
-- 🌐 **Deployed on Netlify** - Continuous deployment with automatic updates
+Sehat Saathi is built to be inclusive. We currently support the following languages:
+
+| Language | Code | Status |
+|----------|------|--------|
+| Hindi (हिन्दी) | `hi` | ✅ Fully Supported |
+| English | `en` | ✅ Fully Supported |
+| Bengali (বাংলা) | `bn` | ✅ Fully Supported |
+| Marathi (मराठी) | `mr` | ✅ Fully Supported |
+| Bhojpuri (भोजपुरी) | `bho` | ✅ Fully Supported |
+| Maithili (मैथिली) | `mai` | ✅ Fully Supported |
+
+---
+
+## ⚙️ Technical Highlights
+
+- **Rule-Based Triage**: The symptom tracker uses a sophisticated evaluator (`src/lib/triage/evaluator.ts`) that matches user symptoms against predefined medical rules to suggest urgency levels.
+- **Accessible UI**: Built using [Radix UI](https://www.radix-ui.com/) primitives via [shadcn/ui](https://ui.shadcn.com/), ensuring high accessibility (WAI-ARIA) standards.
+- **Type Safety**: 100% TypeScript coverage for robust state management and API interactions.
+- **Performance**: Optimized asset delivery and fast refresh using Vite and Bun, ensuring the app remains lightweight for mobile users.
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Frontend Framework
-- **React 18.x** - UI library for building interactive interfaces
-- **TypeScript 5.x** - Type-safe JavaScript
-- **Vite 5.x** - Next-generation frontend tooling
-
-### Styling & UI
-- **Tailwind CSS** - Utility-first CSS framework
-- **PostCSS** - CSS transformations and optimizations
-- **shadcn/ui** - High-quality, accessible component library
-- **Lucide React** - Beautiful, consistent icon set
-
-### Development Tools
-- **ESLint** - Code linting and quality checks
-- **Bun** - Fast JavaScript runtime and package manager (alternative to npm/yarn)
+- **Frontend**: [React 18](https://reactjs.org/) with [TypeScript](https://www.typescriptlang.org/)
+- **Build Tool**: [Vite](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com/) (Radix UI)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **State Management**: [TanStack Query](https://tanstack.com/query/latest)
+- **Routing**: [React Router DOM](https://reactrouter.com/)
+- **Package Manager**: [Bun](https://bun.sh/) (Recommended) or [npm](https://www.npmjs.com/)
 
 ---
 
-## 📦 Prerequisites
+## 🚀 Getting Started
 
-Before you begin, ensure you have the following installed on your system:
+### Prerequisites
+- **Node.js** (v18.x or higher)
+- **Bun** (Optional, but recommended for speed)
 
-- **Node.js** (v18.x or higher) - [Download here](https://nodejs.org/)
-- **npm** (v9.x or higher) or **Bun** - Comes with Node.js or [install Bun](https://bun.sh/)
-- **Git** - [Download here](https://git-scm.com/)
+### Installation
 
----
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/Naman-iitm/sehat-saathi-guide.git
+   cd sehat-saathi-guide
+   ```
 
-## 🚀 Installation
+2. **Install Dependencies**
+   ```bash
+   bun install
+   # or
+   npm install
+   ```
 
-Follow these steps to set up the project locally:
+3. **Start Development Server**
+   ```bash
+   bun run dev
+   # or
+   npm run dev
+   ```
 
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/Naman-iitm/sehat-saathi-guide.git
-cd sehat-saathi-guide
-```
-
-### 2. Install Dependencies
-
-Using npm:
-```bash
-npm install
-```
-
-Or using Bun:
-```bash
-bun install
-```
-
-### 3. Start Development Server
-
-Using npm:
-```bash
-npm run dev
-```
-
-Or using Bun:
-```bash
-bun run dev
-```
-
-The application will be available at `http://localhost:5173/` (or another port if 5173 is busy).
+The app will be live at `http://localhost:5173/`.
 
 ---
 
-## 💻 Usage
+## 📖 How to Use
 
-### Development Mode
-
-Run the development server with hot module replacement:
-
-```bash
-npm run dev
-# or
-bun run dev
-```
-
-### Production Build
-
-Create an optimized production build:
-
-```bash
-npm run build
-# or
-bun run build
-```
-
-The built files will be in the `dist/` directory.
-
-### Preview Production Build
-
-Preview the production build locally:
-
-```bash
-npm run preview
-# or
-bun run preview
-```
-
-### Linting
-
-Run ESLint to check for code quality issues:
-
-```bash
-npm run lint
-# or
-bun run lint
-```
+1. **Select Language**: On your first visit, choose your preferred language from the onboarding screen.
+2. **Track Symptoms**: Go to the "Symptom Tracker" to log any health issues. The system will categorize them and provide initial guidance.
+3. **Consult AI**: Use the "AI Assistant" for quick questions about common ailments or wellness tips.
+4. **Find Care**: Use the "Nearby Hospitals" feature to find the closest government health facility based on your current location.
+5. **Explore Schemes**: Check the "Sarkari Yojana" section to see if you are eligible for any free healthcare services.
 
 ---
 
-## 📁 Project Structure
+## �📁 Project Structure
 
 ```
 sehat-saathi-guide/
 ├── public/                 # Static assets
+├── screenshots/            # UI screenshots for documentation
 ├── src/                    # Source code
-│   ├── components/         # React components
-│   │   └── ui/            # shadcn/ui components
-│   ├── lib/               # Utility functions and helpers
-│   ├── App.tsx            # Main application component
-│   ├── main.tsx           # Application entry point
-│   └── index.css          # Global styles
-├── .gitignore             # Git ignore rules
-├── components.json        # shadcn/ui configuration
-├── eslint.config.js       # ESLint configuration
-├── index.html             # HTML template
-├── package.json           # Project dependencies and scripts
-├── postcss.config.js      # PostCSS configuration
-├── tailwind.config.ts     # Tailwind CSS configuration
-├── tsconfig.json          # TypeScript configuration
-├── tsconfig.app.json      # TypeScript app-specific config
-├── tsconfig.node.json     # TypeScript Node-specific config
-└── vite.config.ts         # Vite configuration
+│   ├── components/         # React components (AIAssistant, Cart, etc.)
+│   │   └── ui/            # shadcn/ui base components
+│   ├── contexts/           # Auth, Language, and Cart contexts
+│   ├── data/               # Static data for tips, medicines, and schemes
+│   ├── hooks/              # Custom React hooks
+│   ├── lib/                # Utility functions and triage logic
+│   ├── pages/              # Main page views (Index, NotFound)
+│   ├── types/              # TypeScript interfaces
+│   ├── App.tsx             # Main application component & routing
+│   └── index.css           # Global styles & Tailwind imports
+├── components.json         # shadcn/ui configuration
+├── package.json            # Project dependencies and scripts
+├── tailwind.config.ts      # Tailwind CSS configuration
+└── vite.config.ts          # Vite configuration
 ```
-
----
-
-## 📜 Scripts
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run preview` | Preview production build |
-| `npm run lint` | Run ESLint |
-
----
 
 ## 🤝 Contributing
 
-We welcome contributions from the community! Here's how you can help:
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-### Steps to Contribute
+### How to Contribute
 
-1. **Fork the Repository**
-   - Click the "Fork" button at the top right of this page
-
-2. **Clone Your Fork**
+1. **Fork the Repository**: Click the 'Fork' button at the top right of this page to create a copy of the repository in your account.
+2. **Clone your Fork**: 
    ```bash
-   git clone https://github.com/YOUR-USERNAME/sehat-saathi-guide.git
-   cd sehat-saathi-guide
+   git clone https://github.com/YOUR_USERNAME/sehat-saathi-guide.git
    ```
+3. **Create a Feature Branch**: Always create a new branch for your changes (e.g., `feature/AmazingFeature`).
 
-3. **Create a New Branch**
    ```bash
-   git checkout -b feature/your-feature-name
+   git checkout -b feature/AmazingFeature
    ```
-
-4. **Make Your Changes**
-   - Follow the existing code style
-   - Write clear commit messages
-   - Test your changes thoroughly
-
-5. **Commit Your Changes**
+4. **Commit your Changes**: Write clear and concise commit messages (e.g., `Add some AmazingFeature`).
    ```bash
-   git add .
-   git commit -m "Add: brief description of your changes"
+   git commit -m 'Add some AmazingFeature'
    ```
-
-6. **Push to Your Fork**
+5. **Push to your Fork**:
    ```bash
-   git push origin feature/your-feature-name
+   git push origin feature/AmazingFeature
    ```
+6. **Open a Pull Request**: Go to the original repository and click 'New Pull Request'.
 
-7. **Create a Pull Request**
-   - Go to the original repository
-   - Click "New Pull Request"
-   - Select your fork and branch
-   - Describe your changes in detail
-
-### Contribution Guidelines
-
-- Ensure your code follows the existing style and conventions
-- Write meaningful commit messages
-- Update documentation if needed
-- Test your changes before submitting
-- Be respectful and constructive in discussions
-
-### Code of Conduct
-
-This project follows a Code of Conduct to ensure a welcoming environment for all contributors. Please be respectful, inclusive, and considerate in all interactions.
 
 ---
 
 ## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
+Distributed under the MIT License. See `LICENSE` for more information (coming soon).
 
 ---
 
@@ -278,25 +177,6 @@ This project is open source and available under the [MIT License](LICENSE).
 
 **Project Link:** [https://github.com/Naman-iitm/sehat-saathi-guide](https://github.com/Naman-iitm/sehat-saathi-guide)
 
-**Live Website:** [https://sehat-saathi-guide.netlify.app/](https://sehat-saathi-guide.netlify.app/)
-
 ---
 
-## 🙏 Acknowledgments
-
-- **SAATHI Team** - Student Wellness Cell, IIT Madras
-- **IIT Madras** - For supporting student wellness initiatives
-- **shadcn/ui** - For the beautiful component library
-- **Netlify** - For hosting and continuous deployment
-
----
-
-## 📊 Project Status
-
-🚧 **Status:** Active Development
-
-This project is actively maintained and open to contributions. Check the [Issues](https://github.com/Naman-iitm/sehat-saathi-guide/issues) page for current tasks and feature requests.
-
----
-
-Made with ❤️ for the IIT Madras community
+<p align="center">Made with ❤️ for a healthier community</p>
