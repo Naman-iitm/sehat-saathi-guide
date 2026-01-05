@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { CartProvider } from '@/contexts/CartContext';
 import { AuthProvider } from '@/contexts/AuthContext';
@@ -27,16 +27,72 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// Component to scroll to top on route change
+const ScrollToTopOnRouteChange = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, [pathname]);
+
+  return null;
+};
+
+// Floating Scroll to Top Button Component
+const ScrollToTopButton = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  // Show button when page is scrolled down
+  const toggleVisibility = () => {
+    if (window.pageYOffset > 300) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  };
+
+  // Scroll to top smoothly
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', toggleVisibility);
+    
+    return () => {
+      window.removeEventListener('scroll', toggleVisibility);
+    };
+  }, []);
+
+  return (
+    <>
+      {isVisible && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-5 right-5 w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center text-2xl shadow-lg hover:bg-blue-600 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:translate-y-0 z-50"
+          aria-label="Scroll to top"
+        >
+          ↑
+        </button>
+      )}
+    </>
+  );
+};
+
 const App = () => {
   const [loading, setLoading] = useState(true);
 
-  // 🔽 TEMPORARY TEST (safe place)
-  const test = evaluateSymptoms({
-    symptoms: ["chest pain", "shortness of breath"]
-  });
+  useEffect(() => {
+    // Simulate loading completion after a short delay
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
 
-  console.log("Triage test:", test);
-  // 🔼 TEMPORARY TEST
+    return () => clearTimeout(timer);
+  }, []);
 
   if (loading) {
     return <LoadingScreen onComplete={() => setLoading(false)} />;
@@ -52,7 +108,8 @@ const App = () => {
               <Toaster />
               <Sonner />
               <BrowserRouter>
-                <div className="min-h-screen bg-background">
+                <ScrollToTopOnRouteChange />
+                <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
                   <Navbar />
                   <Routes>
                     <Route path="/" element={<Index />} />
@@ -69,6 +126,7 @@ const App = () => {
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                   <Footer />
+                  <ScrollToTopButton />
                 </div>
               </BrowserRouter>
             </TooltipProvider>
