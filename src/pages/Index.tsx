@@ -7,6 +7,8 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import AppTutorial from '@/components/AppTutorial';
 import HealthNewsPopup from '@/components/HealthNewsPopup';
+import { medicines } from '@/data/medicines';
+import { governmentSchemes } from '@/data/schemes';
 import {
   Heart,
   Activity,
@@ -42,7 +44,35 @@ const Index: React.FC = () => {
   const { toast } = useToast();
   const [showTutorial, setShowTutorial] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  const allSearchableItems = [
+    ...medicines.map(m => language === 'hi' ? m.nameHi : m.name),
+    ...governmentSchemes.map(s => language === 'hi' ? s.nameHi : s.name),
+    'Primary Health Centre',
+    'Community Health Centre',
+    'District Hospital',
+    'City General Hospital',
+    'St. Mary\'s Clinic',
+    'Apollo Pharmacy',
+    'MedPlus',
+  ];
+
+  useEffect(() => {
+    if (searchQuery.trim().length > 1) {
+      const filtered = allSearchableItems.filter(item => 
+        item.toLowerCase().includes(searchQuery.toLowerCase())
+      ).slice(0, 5);
+      setSuggestions(filtered);
+      setShowSuggestions(true);
+    } else {
+      setSuggestions([]);
+      setShowSuggestions(false);
+    }
+  }, [searchQuery, language]);
 
   useEffect(() => {
     const tutorialCompleted = localStorage.getItem('tutorialCompleted');
@@ -68,7 +98,18 @@ const Index: React.FC = () => {
     const revealElements = document.querySelectorAll('.reveal');
     revealElements.forEach((el) => observer.observe(el));
 
-    return () => observer.disconnect();
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   const handleSearch = (e?: React.FormEvent) => {
@@ -246,19 +287,41 @@ const Index: React.FC = () => {
                 <h2 className="text-xl md:text-2xl font-bold text-foreground mb-2">
                   {language === 'hi' ? 'आप क्या खोज रहे हैं?' : 'What are you looking for?'}
                 </h2>
-                <form onSubmit={handleSearch} className="relative mt-4">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
-                  <Input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder={language === 'hi' ? 'दवाइयां, अस्पताल या लक्षण खोजें...' : 'Search for medicines, hospitals, or symptoms...'}
-                    className="w-full pl-10 pr-24 md:pr-32 py-6 md:py-7 bg-muted/50 border-2 border-border rounded-xl focus-visible:ring-primary text-sm md:text-base"
-                  />
-                  <Button type="submit" className="absolute right-1.5 top-1/2 -translate-y-1/2 px-4 md:px-8 h-9 md:h-11 text-xs md:text-sm">
-                    {language === 'hi' ? 'खोजें' : 'Search'}
-                  </Button>
-                </form>
+                <div className="relative mt-4" ref={searchRef}>
+                  <form onSubmit={handleSearch} className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
+                    <Input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onFocus={() => searchQuery.trim().length > 1 && setShowSuggestions(true)}
+                      placeholder={language === 'hi' ? 'दवाइयां, अस्पताल या लक्षण खोजें...' : 'Search for medicines, hospitals, or symptoms...'}
+                      className="w-full pl-10 pr-24 md:pr-32 py-6 md:py-7 bg-muted/50 border-2 border-border rounded-xl focus-visible:ring-primary text-sm md:text-base"
+                    />
+                    <Button type="submit" className="absolute right-1.5 top-1/2 -translate-y-1/2 px-4 md:px-8 h-9 md:h-11 text-xs md:text-sm">
+                      {language === 'hi' ? 'खोजें' : 'Search'}
+                    </Button>
+                  </form>
+
+                  {showSuggestions && suggestions.length > 0 && (
+                    <div className="absolute top-full left-0 right-0 mt-2 bg-card border-2 border-border rounded-xl shadow-2xl z-50 overflow-hidden">
+                      {suggestions.map((suggestion, index) => (
+                        <button
+                          key={index}
+                          className="w-full text-left px-4 py-3 hover:bg-muted transition-colors flex items-center gap-3 border-b border-border last:border-0"
+                          onClick={() => {
+                            setSearchQuery(suggestion);
+                            setShowSuggestions(false);
+                            navigate(`/store?search=${encodeURIComponent(suggestion)}`);
+                          }}
+                        >
+                          <Search className="w-4 h-4 text-muted-foreground" />
+                          <span className="text-sm font-medium">{suggestion}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
                 
                 {/* Category Quick Links */}
                 <div className="flex flex-wrap gap-x-4 gap-y-2 mt-4">
