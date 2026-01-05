@@ -47,6 +47,25 @@ const Index: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, observerOptions);
+
+    const revealElements = document.querySelectorAll('.reveal');
+    revealElements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
+
   const features = [
     {
       path: '/store',
@@ -152,10 +171,10 @@ const Index: React.FC = () => {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-primary via-primary to-chart-2 text-primary-foreground py-16 px-4 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
-          <HeartPulse className="absolute top-10 left-10 w-32 h-32 text-primary-foreground/20" />
-          <Hospital className="absolute top-20 right-20 w-24 h-24 text-primary-foreground/20" />
-          <Pill className="absolute bottom-10 left-1/4 w-28 h-28 text-primary-foreground/20" />
-          <Stethoscope className="absolute bottom-20 right-10 w-20 h-20 text-primary-foreground/20" />
+          <HeartPulse className="absolute top-10 left-10 w-32 h-32 text-primary-foreground/20 animate-float" style={{ animationDelay: '0s' }} />
+          <Hospital className="absolute top-20 right-20 w-24 h-24 text-primary-foreground/20 animate-float" style={{ animationDelay: '1s' }} />
+          <Pill className="absolute bottom-10 left-1/4 w-28 h-28 text-primary-foreground/20 animate-float" style={{ animationDelay: '2s' }} />
+          <Stethoscope className="absolute bottom-20 right-10 w-20 h-20 text-primary-foreground/20 animate-float" style={{ animationDelay: '1.5s' }} />
         </div>
         
         <div className="container mx-auto text-center relative z-10">
@@ -195,12 +214,12 @@ const Index: React.FC = () => {
       </section>
 
       {/* Search Section */}
-      <section className="container mx-auto px-4 -mt-8 relative z-20">
+      <section className="container mx-auto px-4 -mt-8 relative z-20 reveal">
         <Card className="border-2 border-border shadow-xl overflow-hidden">
-          <CardContent className="p-6 md:p-8">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <CardContent className="p-4 md:p-8">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
               <div className="flex-1">
-                <h2 className="text-2xl font-bold text-foreground mb-2">
+                <h2 className="text-xl md:text-2xl font-bold text-foreground mb-2">
                   {language === 'hi' ? 'आप क्या खोज रहे हैं?' : 'What are you looking for?'}
                 </h2>
                 <div className="relative mt-4">
@@ -208,21 +227,33 @@ const Index: React.FC = () => {
                   <Input
                     type="text"
                     placeholder={language === 'hi' ? 'दवाइयां, अस्पताल या लक्षण खोजें...' : 'Search for medicines, hospitals, or symptoms...'}
-                    className="w-full pl-10 pr-32 py-7 bg-muted/50 border-2 border-border rounded-xl focus-visible:ring-primary"
+                    className="w-full pl-10 pr-24 md:pr-32 py-6 md:py-7 bg-muted/50 border-2 border-border rounded-xl focus-visible:ring-primary text-sm md:text-base"
                   />
-                  <Button className="absolute right-2 top-1/2 -translate-y-1/2 px-8 h-11">
+                  <Button className="absolute right-1.5 top-1/2 -translate-y-1/2 px-4 md:px-8 h-9 md:h-11 text-xs md:text-sm">
                     {language === 'hi' ? 'खोजें' : 'Search'}
                   </Button>
                 </div>
-              </div>
-              <div className="bg-primary/5 rounded-2xl p-6 border border-primary/10 flex flex-col items-center text-center min-w-[240px]">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-3">
-                  <FileText className="w-6 h-6 text-primary" />
+                
+                {/* Category Quick Links */}
+                <div className="flex flex-wrap gap-x-4 gap-y-2 mt-4">
+                  {['Medicine', 'Healthcare', 'Lab Tests', 'Doctor Consult', 'Offers'].map((cat) => (
+                    <button key={cat} className="text-xs md:text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
+                      {cat}
+                    </button>
+                  ))}
                 </div>
-                <p className="text-sm font-medium text-muted-foreground mb-2">
-                  {language === 'hi' ? 'पर्चे के साथ ऑर्डर करें' : 'Order with prescription'}
-                </p>
-                <button className="text-primary font-bold flex items-center gap-1 hover:gap-2 transition-all">
+              </div>
+              
+              <div className="bg-primary/5 rounded-2xl p-4 md:p-6 border border-primary/10 flex flex-row lg:flex-col items-center justify-between lg:justify-center text-center lg:min-w-[240px] gap-4">
+                <div className="flex items-center lg:flex-col gap-3 lg:gap-0">
+                  <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-full flex items-center justify-center lg:mb-3">
+                    <FileText className="w-5 h-5 md:w-6 md:h-6 text-primary" />
+                  </div>
+                  <p className="text-xs md:text-sm font-medium text-muted-foreground lg:mb-2">
+                    {language === 'hi' ? 'पर्चे के साथ ऑर्डर करें' : 'Order with prescription'}
+                  </p>
+                </div>
+                <button className="text-primary text-xs md:text-sm font-bold flex items-center gap-1 hover:gap-2 transition-all whitespace-nowrap">
                   {language === 'hi' ? 'अभी अपलोड करें' : 'UPLOAD NOW'}
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -233,40 +264,34 @@ const Index: React.FC = () => {
       </section>
 
       {/* Features Horizontal Scroll */}
-      <section className="container mx-auto px-4 py-12">
+      <section className="container mx-auto px-4 py-12 reveal">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl font-bold text-foreground">
             {language === 'hi' ? '🌟 हमारी सेवाएं' : '🌟 Our Services'}
           </h2>
-          <div className="flex gap-2">
-            <Button variant="outline" size="icon" className="rounded-full hidden md:flex">
-              <ChevronRight className="w-5 h-5 rotate-180" />
-            </Button>
-            <Button variant="outline" size="icon" className="rounded-full hidden md:flex">
-              <ChevronRight className="w-5 h-5" />
-            </Button>
-          </div>
         </div>
         
-        <div className="flex gap-6 overflow-x-auto pb-6 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
-          {features.map((feature, index) => (
-            <Link key={index} to={feature.path} className="flex-shrink-0 w-[140px] group">
-              <div className="flex flex-col items-center text-center">
-                <div className={`${feature.color} w-24 h-24 rounded-3xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110 shadow-sm`}>
-                  <feature.iconComponent className={`w-10 h-10 ${feature.iconColor}`} />
+        <div className="overflow-hidden -mx-4 px-4 md:mx-0 md:px-0 pt-6">
+          <div className="animate-marquee flex gap-6">
+            {[...features, ...features].map((feature, index) => (
+              <Link key={index} to={feature.path} className="flex-shrink-0 w-[140px] group">
+                <div className="flex flex-col items-center text-center">
+                  <div className={`${feature.color} w-24 h-24 rounded-3xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110 shadow-sm`}>
+                    <feature.iconComponent className={`w-10 h-10 ${feature.iconColor}`} />
+                  </div>
+                  <h3 className="font-bold text-foreground text-sm mb-1 line-clamp-1">{feature.label}</h3>
+                  <p className={`text-[10px] font-bold uppercase tracking-wider ${feature.iconColor}`}>
+                    {language === 'hi' ? feature.descHi : feature.descEn}
+                  </p>
                 </div>
-                <h3 className="font-bold text-foreground text-sm mb-1 line-clamp-1">{feature.label}</h3>
-                <p className={`text-[10px] font-bold uppercase tracking-wider ${feature.iconColor}`}>
-                  {language === 'hi' ? feature.descHi : feature.descEn}
-                </p>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Quick Tips Banner */}
-      <section className="container mx-auto px-4 pb-12">
+      <section className="container mx-auto px-4 pb-12 reveal">
         <Card className="border-2 border-border bg-gradient-to-r from-secondary to-muted overflow-hidden">
           <CardContent className="p-6 flex items-center gap-4">
             <Lightbulb className="w-14 h-14 text-foreground" />
@@ -286,7 +311,7 @@ const Index: React.FC = () => {
       </section>
 
       {/* Emergency Banner */}
-      <section className="container mx-auto px-4 pb-12">
+      <section className="container mx-auto px-4 pb-12 reveal">
         <Card className="border-2 border-destructive bg-destructive/10">
           <CardContent className="p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
