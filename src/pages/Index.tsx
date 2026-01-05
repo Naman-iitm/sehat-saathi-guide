@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import AppTutorial from '@/components/AppTutorial';
 import HealthNewsPopup from '@/components/HealthNewsPopup';
 import {
@@ -27,6 +28,11 @@ import {
   Droplets,
   AlertTriangle,
   HeartPulse,
+  Search,
+  FileText,
+  ChevronRight,
+  Tag,
+  Zap,
 } from 'lucide-react';
 
 const Index: React.FC = () => {
@@ -43,64 +49,92 @@ const Index: React.FC = () => {
 
   const features = [
     {
-      path: '/symptoms',
-      icon: Activity,
-      label: t.symptomTracker,
-      labelHi: 'लक्षण ट्रैकर',
-      descHi: 'अपनी तकलीफ लिखें',
-      descEn: 'Record your symptoms',
-      color: 'bg-gradient-to-br from-rose-500 to-pink-600',
-      iconComponent: Stethoscope,
-    },
-    {
-      path: '/tips',
-      icon: Lightbulb,
-      label: t.healthTips,
-      labelHi: 'स्वास्थ्य सुझाव',
-      descHi: 'सरल स्वास्थ्य टिप्स',
-      descEn: 'Simple health tips',
-      color: 'bg-gradient-to-br from-amber-500 to-orange-600',
-      iconComponent: Lightbulb,
-    },
-    {
       path: '/store',
       icon: Store,
       label: t.medicineStore,
       labelHi: 'दवाई दुकान',
-      descHi: 'सस्ती दवाइयां खरीदें',
-      descEn: 'Buy affordable medicines',
-      color: 'bg-gradient-to-br from-emerald-500 to-teal-600',
+      descHi: '27% तक बचत',
+      descEn: 'SAVE 27%',
+      color: 'bg-rose-50',
+      iconColor: 'text-rose-600',
       iconComponent: Pill,
+    },
+    {
+      path: '/symptoms',
+      icon: Activity,
+      label: language === 'hi' ? 'लैब टेस्ट' : 'Lab Tests',
+      labelHi: 'लैब टेस्ट',
+      descHi: '70% तक छूट',
+      descEn: 'UPTO 70% OFF',
+      color: 'bg-blue-50',
+      iconColor: 'text-blue-600',
+      iconComponent: Stethoscope,
     },
     {
       path: '/assistant',
       icon: MessageCircle,
-      label: t.aiAssistant,
-      labelHi: 'AI सहायक',
-      descHi: 'स्वास्थ्य मार्गदर्शन',
-      descEn: 'Health guidance',
-      color: 'bg-gradient-to-br from-blue-500 to-indigo-600',
-      iconComponent: Bot,
+      label: language === 'hi' ? 'डॉक्टर परामर्श' : 'Doctor Consult',
+      labelHi: 'डॉक्टर परामर्श',
+      descHi: '₹199 से शुरू',
+      descEn: 'FROM ₹199',
+      color: 'bg-emerald-50',
+      iconColor: 'text-emerald-600',
+      iconComponent: Users,
+    },
+    {
+      path: '/store',
+      icon: Store,
+      label: language === 'hi' ? 'ब्रांडेड विकल्प' : 'Branded Substitute',
+      labelHi: 'ब्रांडेड विकल्प',
+      descHi: '50% तक बचत',
+      descEn: 'UPTO 50% OFF',
+      color: 'bg-amber-50',
+      iconColor: 'text-amber-600',
+      iconComponent: Zap,
+    },
+    {
+      path: '/tips',
+      icon: Lightbulb,
+      label: language === 'hi' ? 'हेल्थकेयर' : 'Healthcare',
+      labelHi: 'हेल्थकेयर',
+      descHi: '60% तक छूट',
+      descEn: 'UPTO 60% OFF',
+      color: 'bg-purple-50',
+      iconColor: 'text-purple-600',
+      iconComponent: Heart,
+    },
+    {
+      path: '/tips',
+      icon: Lightbulb,
+      label: language === 'hi' ? 'स्वास्थ्य ब्लॉग' : 'Health Blogs',
+      labelHi: 'स्वास्थ्य ब्लॉग',
+      descHi: 'नया पढ़ें',
+      descEn: 'READ NEW',
+      color: 'bg-pink-50',
+      iconColor: 'text-pink-600',
+      iconComponent: FileText,
     },
     {
       path: '/schemes',
       icon: Building,
-      label: t.sarkariYojana,
-      labelHi: 'सरकारी योजना',
-      descHi: 'मुफ्त स्वास्थ्य सेवाएं',
-      descEn: 'Free health services',
-      color: 'bg-gradient-to-br from-purple-500 to-violet-600',
-      iconComponent: ShieldIcon,
+      label: 'PLUS',
+      labelHi: 'PLUS',
+      descHi: '5% अतिरिक्त बचत',
+      descEn: 'SAVE 5% EXTRA',
+      color: 'bg-indigo-50',
+      iconColor: 'text-indigo-600',
+      iconComponent: Sparkles,
     },
     {
-      path: '/nearby',
-      icon: MapPin,
-      label: t.nearbyHospitals,
-      labelHi: 'नजदीकी अस्पताल',
-      descHi: 'अस्पताल खोजें',
-      descEn: 'Find hospitals',
-      color: 'bg-gradient-to-br from-cyan-500 to-sky-600',
-      iconComponent: Hospital,
+      path: '/store',
+      icon: Store,
+      label: language === 'hi' ? 'ऑफर' : 'Offers',
+      labelHi: 'ऑफर',
+      descHi: 'सर्वश्रेष्ठ डील',
+      descEn: 'BEST DEALS',
+      color: 'bg-orange-50',
+      iconColor: 'text-orange-600',
+      iconComponent: Tag,
     },
   ];
 
@@ -160,32 +194,72 @@ const Index: React.FC = () => {
         </div>
       </section>
 
-      {/* Features Grid */}
+      {/* Search Section */}
+      <section className="container mx-auto px-4 -mt-8 relative z-20">
+        <Card className="border-2 border-border shadow-xl overflow-hidden">
+          <CardContent className="p-6 md:p-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="flex-1">
+                <h2 className="text-2xl font-bold text-foreground mb-2">
+                  {language === 'hi' ? 'आप क्या खोज रहे हैं?' : 'What are you looking for?'}
+                </h2>
+                <div className="relative mt-4">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
+                  <Input
+                    type="text"
+                    placeholder={language === 'hi' ? 'दवाइयां, अस्पताल या लक्षण खोजें...' : 'Search for medicines, hospitals, or symptoms...'}
+                    className="w-full pl-10 pr-32 py-7 bg-muted/50 border-2 border-border rounded-xl focus-visible:ring-primary"
+                  />
+                  <Button className="absolute right-2 top-1/2 -translate-y-1/2 px-8 h-11">
+                    {language === 'hi' ? 'खोजें' : 'Search'}
+                  </Button>
+                </div>
+              </div>
+              <div className="bg-primary/5 rounded-2xl p-6 border border-primary/10 flex flex-col items-center text-center min-w-[240px]">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-3">
+                  <FileText className="w-6 h-6 text-primary" />
+                </div>
+                <p className="text-sm font-medium text-muted-foreground mb-2">
+                  {language === 'hi' ? 'पर्चे के साथ ऑर्डर करें' : 'Order with prescription'}
+                </p>
+                <button className="text-primary font-bold flex items-center gap-1 hover:gap-2 transition-all">
+                  {language === 'hi' ? 'अभी अपलोड करें' : 'UPLOAD NOW'}
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Features Horizontal Scroll */}
       <section className="container mx-auto px-4 py-12">
-        <h2 className="text-2xl font-bold text-foreground text-center mb-8">
-          {language === 'hi' ? '🌟 हमारी सेवाएं' : '🌟 Our Services'}
-        </h2>
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-bold text-foreground">
+            {language === 'hi' ? '🌟 हमारी सेवाएं' : '🌟 Our Services'}
+          </h2>
+          <div className="flex gap-2">
+            <Button variant="outline" size="icon" className="rounded-full hidden md:flex">
+              <ChevronRight className="w-5 h-5 rotate-180" />
+            </Button>
+            <Button variant="outline" size="icon" className="rounded-full hidden md:flex">
+              <ChevronRight className="w-5 h-5" />
+            </Button>
+          </div>
+        </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {features.map((feature) => (
-            <Link key={feature.path} to={feature.path}>
-              <Card className="border-2 border-border hover:shadow-xl transition-all hover:-translate-y-2 h-full group overflow-hidden">
-                <CardContent className="p-0">
-                  <div className={`${feature.color} p-6 text-center`}>
-                    <feature.iconComponent className="w-12 h-12 mx-auto text-primary-foreground" />
-                  </div>
-                  <div className="p-4 text-center">
-                    <h3 className="font-bold text-foreground mb-1">{feature.label}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {language === 'hi' ? feature.descHi : feature.descEn}
-                    </p>
-                    <div className="mt-4 flex items-center justify-center text-primary font-large text-base group-hover:gap-2 transition-all">
-                      {language === 'hi' ? 'खोलें' : 'Open'}
-                      <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+        <div className="flex gap-6 overflow-x-auto pb-6 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
+          {features.map((feature, index) => (
+            <Link key={index} to={feature.path} className="flex-shrink-0 w-[140px] group">
+              <div className="flex flex-col items-center text-center">
+                <div className={`${feature.color} w-24 h-24 rounded-3xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110 shadow-sm`}>
+                  <feature.iconComponent className={`w-10 h-10 ${feature.iconColor}`} />
+                </div>
+                <h3 className="font-bold text-foreground text-sm mb-1 line-clamp-1">{feature.label}</h3>
+                <p className={`text-[10px] font-bold uppercase tracking-wider ${feature.iconColor}`}>
+                  {language === 'hi' ? feature.descHi : feature.descEn}
+                </p>
+              </div>
             </Link>
           ))}
         </div>
