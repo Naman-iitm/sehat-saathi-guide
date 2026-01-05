@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 import AppTutorial from '@/components/AppTutorial';
 import HealthNewsPopup from '@/components/HealthNewsPopup';
 import {
@@ -37,7 +38,11 @@ import {
 
 const Index: React.FC = () => {
   const { t, language } = useLanguage();
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const [showTutorial, setShowTutorial] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const tutorialCompleted = localStorage.getItem('tutorialCompleted');
@@ -65,6 +70,25 @@ const Index: React.FC = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  const handleSearch = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/store?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      toast({
+        title: language === 'hi' ? 'पर्चा अपलोड किया गया' : 'Prescription Uploaded',
+        description: language === 'hi' 
+          ? `${file.name} सफलतापूर्वक प्राप्त हुआ।` 
+          : `${file.name} has been received successfully.`,
+      });
+    }
+  };
 
   const features = [
     {
@@ -222,22 +246,31 @@ const Index: React.FC = () => {
                 <h2 className="text-xl md:text-2xl font-bold text-foreground mb-2">
                   {language === 'hi' ? 'आप क्या खोज रहे हैं?' : 'What are you looking for?'}
                 </h2>
-                <div className="relative mt-4">
+                <form onSubmit={handleSearch} className="relative mt-4">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
                   <Input
                     type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder={language === 'hi' ? 'दवाइयां, अस्पताल या लक्षण खोजें...' : 'Search for medicines, hospitals, or symptoms...'}
                     className="w-full pl-10 pr-24 md:pr-32 py-6 md:py-7 bg-muted/50 border-2 border-border rounded-xl focus-visible:ring-primary text-sm md:text-base"
                   />
-                  <Button className="absolute right-1.5 top-1/2 -translate-y-1/2 px-4 md:px-8 h-9 md:h-11 text-xs md:text-sm">
+                  <Button type="submit" className="absolute right-1.5 top-1/2 -translate-y-1/2 px-4 md:px-8 h-9 md:h-11 text-xs md:text-sm">
                     {language === 'hi' ? 'खोजें' : 'Search'}
                   </Button>
-                </div>
+                </form>
                 
                 {/* Category Quick Links */}
                 <div className="flex flex-wrap gap-x-4 gap-y-2 mt-4">
                   {['Medicine', 'Healthcare', 'Lab Tests', 'Doctor Consult', 'Offers'].map((cat) => (
-                    <button key={cat} className="text-xs md:text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
+                    <button 
+                      key={cat} 
+                      onClick={() => {
+                        setSearchQuery(cat);
+                        navigate(`/store?search=${encodeURIComponent(cat)}`);
+                      }}
+                      className="text-xs md:text-sm text-muted-foreground hover:text-primary transition-colors font-medium"
+                    >
                       {cat}
                     </button>
                   ))}
@@ -253,7 +286,17 @@ const Index: React.FC = () => {
                     {language === 'hi' ? 'पर्चे के साथ ऑर्डर करें' : 'Order with prescription'}
                   </p>
                 </div>
-                <button className="text-primary text-xs md:text-sm font-bold flex items-center gap-1 hover:gap-2 transition-all whitespace-nowrap">
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileUpload}
+                  className="hidden"
+                  accept="image/*,.pdf"
+                />
+                <button 
+                  onClick={() => fileInputRef.current?.click()}
+                  className="text-primary text-xs md:text-sm font-bold flex items-center gap-1 hover:gap-2 transition-all whitespace-nowrap"
+                >
                   {language === 'hi' ? 'अभी अपलोड करें' : 'UPLOAD NOW'}
                   <ChevronRight className="w-4 h-4" />
                 </button>
