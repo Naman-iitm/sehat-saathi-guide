@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { CartProvider } from '@/contexts/CartContext';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 import LoadingScreen from '@/components/LoadingScreen';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -43,10 +44,11 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <LanguageProvider>
-        <AuthProvider>
-          <CartProvider>
-            <TooltipProvider>
+      <ThemeProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <CartProvider>
+              <TooltipProvider>
               <Toaster />
               <Sonner />
               <BrowserRouter>
@@ -73,6 +75,7 @@ const App = () => {
           </CartProvider>
         </AuthProvider>
       </LanguageProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 };
