@@ -64,6 +64,7 @@ const Navbar: React.FC = () => {
     mr: '🇮🇳',
     bho: '🇮🇳',
     mai: '🇮🇳',
+  };
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-background shadow-sm dark:shadow-gray-800 transition-colors duration-300">
