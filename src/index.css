@@ -242,6 +242,27 @@ All colors MUST be HSL.
   .animate-spin-slow {
     animation: spin 3s linear infinite;
   }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-50% - 12px)); }
+  }
+
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+    width: max-content;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
   
   .glass {
     backdrop-filter: blur(10px);

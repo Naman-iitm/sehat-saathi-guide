@@ -8,13 +8,13 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { CartProvider } from '@/contexts/CartContext';
 import { AuthProvider } from '@/contexts/AuthContext';
-import { ThemeProvider } from '@/contexts/ThemeContext';
+import { ThemeProvider as ContextThemeProvider } from '@/contexts/ThemeContext';
 import LoadingScreen from '@/components/LoadingScreen';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Index from "./pages/Index";
 import SymptomTracker from '@/components/SymptomTracker';
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider as UIThemeProvider } from "@/components/theme-provider"
 import HealthTips from '@/components/HealthTips';
 import MedicineStore from '@/components/MedicineStore';
 import AIAssistant from '@/components/AIAssistant';
@@ -103,42 +103,44 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-        <LanguageProvider>
-          <AuthProvider>
-            <CartProvider>
-              <TooltipProvider>
-                <Toaster />
-                <Sonner />
-                <BrowserRouter>
-                  <ScrollToTopOnRouteChange />
-                  <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
-                    <Navbar />
-                    <Routes>
-                      <Route path="/" element={<Index />} />
-                      <Route path="/symptoms" element={<SymptomTracker />} />
-                      <Route path="/tips" element={<HealthTips />} />
-                      <Route path="/store" element={<MedicineStore />} />
-                      <Route path="/assistant" element={<AIAssistant />} />
-                      <Route path="/schemes" element={<SarkariYojana />} />
-                      <Route path="/nearby" element={<NearbyHospitals />} />
-                      <Route path="/cart" element={<Cart />} />
-                      <Route path="/checkout" element={<Checkout />} />
-                      <Route path="/auth" element={<Auth />} />
-                      <Route path="/profile" element={<Profile />} />
-                      <Route path="*" element={<NotFound />} />
-                      <Route path="/reminders" element={<Reminders />} />
-                    </Routes>
-                    <Footer />
-                    {/* NEW: Add the floating scroll to top button */}
-                    <ScrollToTopButton />
-                  </div>
-                </BrowserRouter>
-              </TooltipProvider>
-            </CartProvider>
-          </AuthProvider>
-        </LanguageProvider>
-      </ThemeProvider>
+      <UIThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+        <ContextThemeProvider>
+          <LanguageProvider>
+            <AuthProvider>
+              <CartProvider>
+                <TooltipProvider>
+                  <Toaster />
+                  <Sonner />
+                  <BrowserRouter>
+                    <ScrollToTopOnRouteChange />
+                    <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
+                      <Navbar />
+                      <Routes>
+                        <Route path="/" element={<Index />} />
+                        <Route path="/symptoms" element={<SymptomTracker />} />
+                        <Route path="/tips" element={<HealthTips />} />
+                        <Route path="/store" element={<MedicineStore />} />
+                        <Route path="/assistant" element={<AIAssistant />} />
+                        <Route path="/schemes" element={<SarkariYojana />} />
+                        <Route path="/nearby" element={<NearbyHospitals />} />
+                        <Route path="/cart" element={<Cart />} />
+                        <Route path="/checkout" element={<Checkout />} />
+                        <Route path="/auth" element={<Auth />} />
+                        <Route path="/profile" element={<Profile />} />
+                        <Route path="*" element={<NotFound />} />
+                        <Route path="/reminders" element={<Reminders />} />
+                      </Routes>
+                      <Footer />
+                      {/* NEW: Add the floating scroll to top button */}
+                      <ScrollToTopButton />
+                    </div>
+                  </BrowserRouter>
+                </TooltipProvider>
+              </CartProvider>
+            </AuthProvider>
+          </LanguageProvider>
+        </ContextThemeProvider>
+      </UIThemeProvider>
     </QueryClientProvider>
   );
 };
