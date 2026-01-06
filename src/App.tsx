@@ -25,7 +25,10 @@ import Checkout from '@/components/Checkout';
 import Auth from '@/components/Auth';
 import Profile from '@/components/Profile';
 import NotFound from "./pages/NotFound";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsConditions from "./pages/TermsConditions";
 import Reminders from "@/pages/Reminders";
+
 
 
 const queryClient = new QueryClient();
@@ -128,6 +131,8 @@ const App = () => {
                         <Route path="/auth" element={<Auth />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="*" element={<NotFound />} />
+                        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                        <Route path="/terms-and-conditions" element={<TermsConditions />} />
                         <Route path="/reminders" element={<Reminders />} />
                       </Routes>
                       <Footer />

@@ -114,16 +114,24 @@ const Footer: React.FC = () => {
                         <h3 className="font-semibold text-lg mb-4">{t.legal}</h3>
                         <ul className="space-y-3">
                             <li>
-                                <Link to="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                                    {t.privacyPolicy}
+                                <Link
+                                to="/privacy-policy"
+                                className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                                >
+                                {t.privacyPolicy}
                                 </Link>
                             </li>
+
                             <li>
-                                <Link to="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                                    {t.termsConditions}
+                                <Link
+                                to="/terms-and-conditions"
+                                className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                                >
+                                {t.termsConditions}
                                 </Link>
                             </li>
                         </ul>
+
                         <div className="mt-6 p-4 bg-muted/50 rounded-lg">
                             <h4 className="font-medium text-sm mb-2">{t.followUs}</h4>
                             <p className="text-xs text-muted-foreground">

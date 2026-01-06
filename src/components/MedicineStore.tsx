@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { medicines, categories } from '@/data/medicines';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,9 +12,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { toast } from 'sonner';
 import { Search, ShoppingCart, Star, Tag, X } from 'lucide-react';
 
+
 const MedicineStore: React.FC = () => {
+  const navigate = useNavigate();
   const { t, language } = useLanguage();
   const { addToCart } = useCart();
+  const { isAuthenticated } = useAuth(); //auth check
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedMedicine, setSelectedMedicine] = useState<typeof medicines[0] | null>(null);
@@ -28,6 +33,15 @@ const MedicineStore: React.FC = () => {
   });
 
   const handleAddToCart = (medicine: typeof medicines[0]) => {
+    if (!isAuthenticated) {
+      toast.error(
+        language === 'hi'
+          ? 'कार्ट में जोड़ने के लिए कृपया लॉगिन करें'
+          : 'Please login to add items to cart'
+      );
+      navigate('/auth');
+      return;
+    }
     addToCart({
       id: medicine.id,
       name: medicine.name,
