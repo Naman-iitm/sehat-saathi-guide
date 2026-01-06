@@ -18,7 +18,6 @@ import {
   Building,
   MapPin,
   HelpCircle,
-  Sparkles,
   Shield,
   Users,
   Clock,
@@ -36,6 +35,7 @@ import {
   ChevronRight,
   Tag,
   Zap,
+  Sparkles,
 } from 'lucide-react';
 
 const Index: React.FC = () => {
@@ -133,8 +133,27 @@ const Index: React.FC = () => {
 
   const features = [
     {
+      path: '/symptoms',
+      label: t.symptomTracker,
+      labelHi: 'लक्षण ट्रैकर',
+      descHi: 'अपनी तकलीफ लिखें',
+      descEn: 'Record symptoms',
+      color: 'bg-rose-50',
+      iconColor: 'text-rose-600',
+      iconComponent: Stethoscope,
+    },
+    {
+      path: '/tips',
+      label: t.healthTips,
+      labelHi: 'स्वास्थ्य सुझाव',
+      descHi: 'सरल स्वास्थ्य टिप्स',
+      descEn: 'Simple health tips',
+      color: 'bg-amber-50',
+      iconColor: 'text-amber-600',
+      iconComponent: Lightbulb,
+    },
+    {
       path: '/store',
-      icon: Store,
       label: t.medicineStore,
       labelHi: 'दवाई दुकान',
       descHi: '27% तक बचत',
@@ -145,18 +164,26 @@ const Index: React.FC = () => {
     },
     {
       path: '/symptoms',
-      icon: Activity,
       label: language === 'hi' ? 'लैब टेस्ट' : 'Lab Tests',
       labelHi: 'लैब टेस्ट',
       descHi: '70% तक छूट',
       descEn: 'UPTO 70% OFF',
       color: 'bg-blue-50',
       iconColor: 'text-blue-600',
-      iconComponent: Stethoscope,
+      iconComponent: Activity,
     },
     {
       path: '/assistant',
-      icon: MessageCircle,
+      label: t.aiAssistant,
+      labelHi: 'AI सहायक',
+      descHi: 'स्वास्थ्य मार्गदर्शन',
+      descEn: 'Health guidance',
+      color: 'bg-blue-50',
+      iconColor: 'text-blue-600',
+      iconComponent: Bot,
+    },
+    {
+      path: '/assistant',
       label: language === 'hi' ? 'डॉक्टर परामर्श' : 'Doctor Consult',
       labelHi: 'डॉक्टर परामर्श',
       descHi: '₹199 से शुरू',
@@ -167,7 +194,6 @@ const Index: React.FC = () => {
     },
     {
       path: '/store',
-      icon: Store,
       label: language === 'hi' ? 'ब्रांडेड विकल्प' : 'Branded Substitute',
       labelHi: 'ब्रांडेड विकल्प',
       descHi: '50% तक बचत',
@@ -177,19 +203,27 @@ const Index: React.FC = () => {
       iconComponent: Zap,
     },
     {
-      path: '/tips',
-      icon: Lightbulb,
-      label: language === 'hi' ? 'हेल्थकेयर' : 'Healthcare',
-      labelHi: 'हेल्थकेयर',
-      descHi: '60% तक छूट',
-      descEn: 'UPTO 60% OFF',
+      path: '/schemes',
+      label: t.sarkariYojana,
+      labelHi: 'सरकारी योजना',
+      descHi: 'मुफ्त स्वास्थ्य सेवाएं',
+      descEn: 'Free health services',
       color: 'bg-purple-50',
       iconColor: 'text-purple-600',
-      iconComponent: Heart,
+      iconComponent: ShieldIcon,
+    },
+    {
+      path: '/nearby',
+      label: t.nearbyHospitals,
+      labelHi: 'नजदीकी अस्पताल',
+      descHi: 'अस्पताल खोजें',
+      descEn: 'Find hospitals',
+      color: 'bg-cyan-50',
+      iconColor: 'text-cyan-600',
+      iconComponent: Hospital,
     },
     {
       path: '/tips',
-      icon: Lightbulb,
       label: language === 'hi' ? 'स्वास्थ्य ब्लॉग' : 'Health Blogs',
       labelHi: 'स्वास्थ्य ब्लॉग',
       descHi: 'नया पढ़ें',
@@ -200,25 +234,13 @@ const Index: React.FC = () => {
     },
     {
       path: '/schemes',
-      icon: Building,
-      label: 'PLUS',
-      labelHi: 'PLUS',
+      label: 'Health PLUS',
+      labelHi: 'Health PLUS',
       descHi: '5% अतिरिक्त बचत',
       descEn: 'SAVE 5% EXTRA',
       color: 'bg-indigo-50',
       iconColor: 'text-indigo-600',
       iconComponent: Sparkles,
-    },
-    {
-      path: '/store',
-      icon: Store,
-      label: language === 'hi' ? 'ऑफर' : 'Offers',
-      labelHi: 'ऑफर',
-      descHi: 'सर्वश्रेष्ठ डील',
-      descEn: 'BEST DEALS',
-      color: 'bg-orange-50',
-      iconColor: 'text-orange-600',
-      iconComponent: Tag,
     },
   ];
 
@@ -229,7 +251,7 @@ const Index: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen font-sans">
       <AppTutorial isOpen={showTutorial} onClose={() => setShowTutorial(false)} />
       <HealthNewsPopup />
 
@@ -241,25 +263,35 @@ const Index: React.FC = () => {
           <Pill className="absolute bottom-10 left-1/4 w-28 h-28 text-primary-foreground/20 animate-float" style={{ animationDelay: '2s' }} />
           <Stethoscope className="absolute bottom-20 right-10 w-20 h-20 text-primary-foreground/20 animate-float" style={{ animationDelay: '1.5s' }} />
         </div>
-        
-        <div className="container mx-auto text-center relative z-10">
-          <div className="w-24 h-24 bg-primary-foreground/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-            <Heart className="w-12 h-12 animate-float" />
+
+        <div className="container mx-auto relative z-10">
+          <div className="max-w-3xl mx-auto text-center bg-primary-foreground/10 backdrop-blur-lg p-8 rounded-3xl shadow-xl">
+            <div className="w-24 h-24 bg-primary-foreground/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Heart className="w-12 h-12 animate-float" />
+            </div>
+
+            <h1 className="text-4xl md:text-5xl font-semibold tracking-tight mb-4">
+              {t.appName}
+            </h1>
+
+            <p className="text-lg md:text-xl opacity-90 max-w-md mx-auto mb-8">
+              {language === 'hi'
+                ? 'आपका स्वास्थ्य, हमारी प्राथमिकता'
+                : 'Your health, our priority'}
+            </p>
+
+            <Button
+              onClick={() => setShowTutorial(true)}
+              variant="secondary"
+              size="lg"
+              className="gap-2 shadow-lg"
+            >
+              <HelpCircle className="w-5 h-5" />
+              {language === 'hi'
+                ? 'ऐप कैसे इस्तेमाल करें?'
+                : 'How to use this app?'}
+            </Button>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{t.appName}</h1>
-          <p className="text-xl opacity-90 max-w-md mx-auto mb-8">
-            {language === 'hi' ? 'आपका स्वास्थ्य, हमारी प्राथमिकता' : 'Your health, our priority'}
-          </p>
-          
-          <Button
-            onClick={() => setShowTutorial(true)}
-            variant="secondary"
-            size="lg"
-            className="gap-2 shadow-lg"
-          >
-            <HelpCircle className="w-5 h-5" />
-            {language === 'hi' ? 'ऐप कैसे इस्तेमाल करें?' : 'How to use this app?'}
-          </Button>
         </div>
 
         {/* Stats */}
@@ -268,7 +300,7 @@ const Index: React.FC = () => {
             {stats.map((stat, index) => (
               <div key={index} className="text-center bg-primary-foreground/10 rounded-xl p-4">
                 <stat.icon className="w-6 h-6 mx-auto mb-2" />
-                <div className="text-2xl font-bold">{stat.value}</div>
+                <div className="text-2xl font-semibold">{stat.value}</div>
                 <div className="text-sm opacity-80">
                   {language === 'hi' ? stat.labelHi : stat.labelEn}
                 </div>
@@ -423,16 +455,15 @@ const Index: React.FC = () => {
             <div className="flex items-center gap-3">
               <AlertTriangle className="w-8 h-8 text-destructive" />
               <div>
-                <h4 className="font-bold text-destructive">
+                <h4 className="font-semibold text-destructive">
                   {language === 'hi' ? 'आपातकालीन नंबर' : 'Emergency Number'}
                 </h4>
-                <p className="text-foreground font-mono text-xl">108 / 112</p>
+                <p className="font-mono text-xl">108 / 112</p>
               </div>
             </div>
             <Button
               variant="destructive"
               size="lg"
-              className="gap-2"
               onClick={() => window.open('tel:108')}
             >
               {language === 'hi' ? 'कॉल करें' : 'Call Now'}

@@ -25,16 +25,20 @@ const Footer: React.FC = () => {
                             {t.welcomeMessage}
                         </p>
                         <div className="flex gap-4 pt-2">
-                            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                            <a href="#" onClick={(e) => e.preventDefault()}
+                                title="Facebook page coming soon" className="text-muted-foreground hover:text-primary transition-colors">
                                 <Facebook className="w-5 h-5" />
                             </a>
-                            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                            <a href="#" onClick={(e) => e.preventDefault()}
+                                title="Twitter page coming soon" className="text-muted-foreground hover:text-primary transition-colors">
                                 <Twitter className="w-5 h-5" />
                             </a>
-                            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                            <a href="#" onClick={(e) => e.preventDefault()}
+                                title="Instagram page coming soon" className="text-muted-foreground hover:text-primary transition-colors">
                                 <Instagram className="w-5 h-5" />
                             </a>
-                            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                            <a href="#" onClick={(e) => e.preventDefault()}
+                                title="Linkedin page coming soon" className="text-muted-foreground hover:text-primary transition-colors">
                                 <Linkedin className="w-5 h-5" />
                             </a>
                         </div>
@@ -82,9 +86,13 @@ const Footer: React.FC = () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdcOXvJuxajDPVtOQEPl2g9xKYB81FO9_RfEsQpz7jajvghzA/viewform?usp=publish-editor"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                                    >
                                     {t.feedback}
-                                </Link>
+                                </a>
                             </li>
                             <li>
                                 <div className="flex items-center gap-2 text-muted-foreground text-sm">

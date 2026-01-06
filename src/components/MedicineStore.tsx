@@ -6,14 +6,17 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { toast } from 'sonner';
-import { Search, ShoppingCart, Star, Tag } from 'lucide-react';
+import { Search, ShoppingCart, Star, Tag, X } from 'lucide-react';
 
 const MedicineStore: React.FC = () => {
   const { t, language } = useLanguage();
   const { addToCart } = useCart();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedMedicine, setSelectedMedicine] = useState<typeof medicines[0] | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filteredMedicines = medicines.filter((medicine) => {
     const matchesSearch =
@@ -37,6 +40,11 @@ const MedicineStore: React.FC = () => {
         ? `${medicine.nameHi} कार्ट में जोड़ा गया`
         : `${medicine.name} added to cart`
     );
+  };
+
+  const openMedicineModal = (medicine: typeof medicines[0]) => {
+    setSelectedMedicine(medicine);
+    setIsModalOpen(true);
   };
 
   return (
@@ -83,7 +91,8 @@ const MedicineStore: React.FC = () => {
         {filteredMedicines.map((medicine) => (
           <Card
             key={medicine.id}
-            className="border-2 border-border overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1"
+            className="border-2 border-border overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1 cursor-pointer"
+            onClick={() => openMedicineModal(medicine)}
           >
             <div className="relative aspect-square bg-muted">
               <img
@@ -124,7 +133,10 @@ const MedicineStore: React.FC = () => {
                 </div>
                 <Button
                   size="sm"
-                  onClick={() => handleAddToCart(medicine)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAddToCart(medicine);
+                  }}
                   className="gap-1"
                 >
                   <ShoppingCart className="w-4 h-4" />
@@ -143,6 +155,107 @@ const MedicineStore: React.FC = () => {
           </p>
         </div>
       )}
+
+      {/* Medicine Detail Modal */}
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl">
+              {selectedMedicine && (language === 'hi' ? selectedMedicine.nameHi : selectedMedicine.name)}
+            </DialogTitle>
+          </DialogHeader>
+          
+          {selectedMedicine && (
+            <div className="space-y-6">
+              <div className="flex flex-col md:flex-row gap-6">
+                <div className="md:w-1/3">
+                  <img
+                    src={selectedMedicine.image}
+                    alt={language === 'hi' ? selectedMedicine.nameHi : selectedMedicine.name}
+                    className="w-full h-64 object-contain rounded-lg"
+                  />
+                </div>
+                <div className="md:w-2/3 space-y-4">
+                  <div>
+                    <h3 className="font-semibold text-lg mb-2">{language === 'hi' ? 'विवरण' : 'Description'}</h3>
+                    <p className="text-muted-foreground">
+                      {language === 'hi' ? selectedMedicine.descriptionHi : selectedMedicine.description}
+                    </p>
+                  </div>
+                  
+                  <div className="flex items-center gap-4">
+                    <div>
+                      <h3 className="font-semibold text-lg">{language === 'hi' ? 'मूल्य' : 'Price'}</h3>
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl font-bold text-foreground">₹{selectedMedicine.price}</span>
+                        {selectedMedicine.originalPrice > selectedMedicine.price && (
+                          <span className="text-muted-foreground line-through">₹{selectedMedicine.originalPrice}</span>
+                        )}
+                        {selectedMedicine.originalPrice > selectedMedicine.price && (
+                          <Badge className="bg-destructive text-destructive-foreground">
+                            {Math.round(((selectedMedicine.originalPrice - selectedMedicine.price) / selectedMedicine.originalPrice) * 100)}% OFF
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <h3 className="font-semibold text-lg">{language === 'hi' ? 'रेटिंग' : 'Rating'}</h3>
+                      <div className="flex items-center gap-1">
+                        <Star className="w-5 h-5 text-warning fill-current" />
+                        <span className="font-medium">{selectedMedicine.rating}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-semibold text-lg">{language === 'hi' ? 'उपलब्धता' : 'Availability'}</h3>
+                    <Badge variant={selectedMedicine.inStock ? 'default' : 'destructive'}>
+                      {selectedMedicine.inStock 
+                        ? (language === 'hi' ? 'स्टॉक में' : 'In Stock') 
+                        : (language === 'hi' ? 'स्टॉक में नहीं' : 'Out of Stock')}
+                    </Badge>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <h3 className="font-semibold mb-2">{language === 'hi' ? 'श्रेणी' : 'Category'}</h3>
+                  <p className="text-muted-foreground">
+                    {categories.find(cat => cat.id === selectedMedicine.category)?.[language === 'hi' ? 'nameHi' : 'name']}
+                  </p>
+                </div>
+                
+                <div>
+                  <h3 className="font-semibold mb-2">{language === 'hi' ? 'आईडी' : 'ID'}</h3>
+                  <p className="text-muted-foreground">{selectedMedicine.id}</p>
+                </div>
+              </div>
+              
+              <div className="flex gap-3 pt-4">
+                <Button 
+                  className="flex-1"
+                  onClick={() => {
+                    handleAddToCart(selectedMedicine);
+                    setIsModalOpen(false);
+                  }}
+                >
+                  <ShoppingCart className="w-4 h-4 mr-2" />
+                  {language === 'hi' ? 'कार्ट में जोड़ें' : 'Add to Cart'}
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="flex-1"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  {language === 'hi' ? 'बंद करें' : 'Close'}
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

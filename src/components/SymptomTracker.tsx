@@ -10,6 +10,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Plus, Trash2, Calendar, Clock, FileText } from "lucide-react";
 
+import { Download } from "lucide-react";
+import { exportToCSV, exportToPDF } from "@/lib/exportUtils";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 const severityStyles = {
   low: {
     border: "border-green-300",
@@ -105,6 +114,40 @@ const SymptomTracker: React.FC = () => {
       handleAdd();
     }
   };
+
+  const handleExportCSV = () => {
+  const result = exportToCSV(symptoms);
+  if (result) {
+    toast.success(
+      language === "hi"
+        ? "CSV डाउनलोड हो गया!"
+        : "CSV downloaded successfully!"
+    );
+  } else {
+    toast.error(
+      language === "hi"
+        ? "कोई लक्षण निर्यात करने के लिए नहीं"
+        : "No symptoms to export"
+    );
+  }
+};
+
+const handleExportPDF = () => {
+  const result = exportToPDF(symptoms, language);
+  if (result) {
+    toast.success(
+      language === "hi"
+        ? "PDF डाउनलोड हो गया!"
+        : "PDF downloaded successfully!"
+    );
+  } else {
+    toast.error(
+      language === "hi"
+        ? "कोई लक्षण निर्यात करने के लिए नहीं"
+        : "No symptoms to export"
+    );
+  }
+};
 
   const styles = triageResult
     ? severityStyles[triageResult.severity]
@@ -212,9 +255,30 @@ const SymptomTracker: React.FC = () => {
       </Card>
 
       {/* SYMPTOM LIST */}
-      <h2 className="text-xl font-bold">
-        {language === "hi" ? "आपके लक्षण" : "Your Symptoms"}
-      </h2>
+      <div className="flex justify-between items-center">
+  <h2 className="text-xl font-bold">
+    {language === "hi" ? "आपके लक्षण" : "Your Symptoms"}
+  </h2>
+  
+  {symptoms.length > 0 && (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="sm">
+          <Download className="mr-2 h-4 w-4" />
+          {language === "hi" ? "निर्यात करें" : "Export Data"}
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem onClick={handleExportCSV}>
+          📊 {language === "hi" ? "CSV के रूप में" : "Download as CSV"}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleExportPDF}>
+          📄 {language === "hi" ? "PDF के रूप में" : "Download as PDF"}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )}
+</div>
 
       {symptoms.length === 0 ? (
         <Card className="border-dashed border-2">

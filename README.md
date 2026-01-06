@@ -1,14 +1,54 @@
-# 🏥 Sehat Saathi Guide (स्वास्थ्य साथी)
+<div align="center">
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-18.x-61dafb.svg)](https://reactjs.org/)
-[![Vite](https://img.shields.io/badge/Vite-5.x-646cff.svg)](https://vitejs.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-38bdf8.svg)](https://tailwindcss.com/)
+# 🏥 Sehat Saathi (स्वास्थ्य साथी)
+### **Your Multilingual Healthcare Companion**
 
-**Sehat Saathi** is a comprehensive, multi-language health assistant and resource platform designed to empower users with accessible healthcare information, mental wellness resources, and support systems. Originally inspired by the SAATHI initiative at IIT Madras, this platform aims to bridge the gap in healthcare accessibility through technology.
+**Empowering communities through accessible healthcare information, mental wellness resources, and real-time support.**
 
-🌐 **Live Demo:** [https://sehat-saathi-guide.netlify.app/](https://sehat-saathi-guide.netlify.app/)
+[![Live Demo](https://img.shields.io/badge/Demo-Live-brightgreen?style=for-the-badge&logo=netlify&logoColor=white)](https://sehat-saathi-guide.netlify.app/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind](https://img.shields.io/badge/Tailwind-38BDF8?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
+---
+
+[📖 Overview](#-overview) • [✨ Features](#-key-features) • [🏗️ Architecture](#-system-design) • [🚀 Get Started](#-installation) • [🤝 Support](#-contributing)
+
+</div>
+
+---
+
+## 🌐 The Mission
+Inspired by the **SAATHI initiative at IIT Madras**, Sehat Saathi bridges the critical gap in healthcare accessibility. By combining technology with a human-centric approach, we provide a localized, multi-language guide for physical and mental well-being.
+
+
+
+---
+
+## 🏗️ System Design
+
+The platform is architected for speed, modularity, and offline-first reliability.
+
+```text
+Sehat Saathi (Health Core)
+┃
+┣━━ 🧩 UI/UX Layer (React + Tailwind)
+┃   ┣━━ 🌍 Multilingual Module .... [HINDI / ENGLISH Support]
+┃   ┣━━ 🧠 Mental Wellness Hub .... [Resource Discovery]
+┃   ┗━━ 📱 Responsive Interface ... [Mobile/Desktop Sync]
+┃
+┣━━ 🛠️ Logic Engine
+┃   ┣━━ 🔍 Resource Search ........ [Optimized Filtering]
+┃   ┣━━ 🏥 Healthcare Directory ... [Facility Mapping]
+┃   ┗━━ 💬 Support Connect ........ [Direct Link Systems]
+┃
+┣━━ ⚡ Infrastructure (Vite)
+┃   ┣━━ 📦 Optimized Bundling ..... [Sub-second Loads]
+┃   ┗━━ 🛡️ Type-Safety (TS) ....... [Strict Data Integrity]
+┃
+┗━━ 📊 Analytics & Impact
+    ┗━━ 📝 Feedback Loop .......... [User Growth Tracking]
 ---
 
 ## 🌟 Why Sehat Saathi?

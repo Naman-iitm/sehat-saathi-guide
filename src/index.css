@@ -37,6 +37,33 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* Custom homepage font (expects files in /public/fonts/) */
+  @font-face {
+    font-family: 'Neue Montreal';
+    src: url('/fonts/NeueMontreal-Regular.woff2') format('woff2'),
+         url('/fonts/NeueMontreal-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* Hero-specific font utility */
+  .hero-font {
+    font-family: 'Neue Montreal', var(--font-sans);
+  }
+
+  /* Glass / hero styles */
+  .hero-glass {
+    backdrop-filter: blur(10px) saturate(1.05);
+    background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .hero-glow {
+    filter: blur(36px);
+    opacity: 0.6;
+  }
 }
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
@@ -228,6 +255,6 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-300;
   }
 }

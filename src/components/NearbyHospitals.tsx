@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { MapPin, Navigation, Phone, Clock } from 'lucide-react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import AsyncErrorFallback from "@/components/AsyncErrorFallback";
+
 
 interface Hospital {
   id: string;

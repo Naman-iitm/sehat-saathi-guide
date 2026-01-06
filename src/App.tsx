@@ -14,6 +14,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Index from "./pages/Index";
 import SymptomTracker from '@/components/SymptomTracker';
+import { ThemeProvider } from "@/components/theme-provider"
 import HealthTips from '@/components/HealthTips';
 import MedicineStore from '@/components/MedicineStore';
 import AIAssistant from '@/components/AIAssistant';
@@ -24,6 +25,8 @@ import Checkout from '@/components/Checkout';
 import Auth from '@/components/Auth';
 import Profile from '@/components/Profile';
 import NotFound from "./pages/NotFound";
+import Reminders from "@/pages/Reminders";
+
 
 const queryClient = new QueryClient();
 
@@ -61,7 +64,7 @@ const ScrollToTopButton = () => {
 
   useEffect(() => {
     window.addEventListener('scroll', toggleVisibility);
-    
+
     return () => {
       window.removeEventListener('scroll', toggleVisibility);
     };
@@ -72,7 +75,7 @@ const ScrollToTopButton = () => {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-5 right-5 w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center text-2xl shadow-lg hover:bg-blue-600 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:translate-y-0 z-50"
+          className="fixed bottom-5 right-5 w-12 h-12 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-2xl shadow-lg hover:bg-primary/90 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:translate-y-0 z-50"
           aria-label="Scroll to top"
         >
           ↑
@@ -100,7 +103,7 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
+      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
         <LanguageProvider>
           <AuthProvider>
             <CartProvider>
@@ -124,6 +127,7 @@ const App = () => {
                       <Route path="/auth" element={<Auth />} />
                       <Route path="/profile" element={<Profile />} />
                       <Route path="*" element={<NotFound />} />
+                      <Route path="/reminders" element={<Reminders />} />
                     </Routes>
                     <Footer />
                     {/* NEW: Add the floating scroll to top button */}
