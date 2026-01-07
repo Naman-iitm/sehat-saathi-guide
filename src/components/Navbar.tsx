@@ -222,27 +222,47 @@ const Navbar: React.FC = () => {
                   </div>
                 </SheetHeader>
                 <div className="flex flex-col gap-1">
-                  {navItems.map((item) => (
-                    <Link key={item.path} to={item.path} onClick={() => setIsOpen(false)}>
-                      <Button
-                        variant={isActive(item.path) ? 'secondary' : 'ghost'}
-                        className={`w-full justify-start gap-3 h-11 transition-all ${isActive(item.path) ? 'bg-secondary text-primary hover:bg-secondary/80' : 'text-muted-foreground hover:text-primary hover:bg-secondary/50'
-                          }`}
-                      >
-                        <item.icon className={`w-5 h-5 ${isActive(item.path) ? 'text-primary' : 'text-muted-foreground'}`} />
-                        {item.label}
-                      </Button>
-                    </Link>
-                  ))}
-                  <div className="my-2 border-t border-border"></div>
-                  {!isAuthenticated && (
-                    <Link to="/auth" onClick={() => setIsOpen(false)}>
-                      <Button className="w-full mt-2">
-                        Log In / Sign Up
-                      </Button>
-                    </Link>
-                  )}
-                </div>
+  {isAuthenticated && (
+    <>
+      {navItems.map((item) => (
+        <Link
+          key={item.path}
+          to={item.path}
+          onClick={() => setIsOpen(false)}
+        >
+          <Button
+            variant={isActive(item.path) ? 'secondary' : 'ghost'}
+            className={`w-full justify-start gap-3 h-11 transition-all ${
+              isActive(item.path)
+                ? 'bg-secondary text-primary hover:bg-secondary/80'
+                : 'text-muted-foreground hover:text-primary hover:bg-secondary/50'
+            }`}
+          >
+            <item.icon
+              className={`w-5 h-5 ${
+                isActive(item.path)
+                  ? 'text-primary'
+                  : 'text-muted-foreground'
+              }`}
+            />
+            {item.label}
+          </Button>
+        </Link>
+      ))}
+
+      <div className="my-2 border-t border-border"></div>
+    </>
+  )}
+
+  {!isAuthenticated && (
+    <Link to="/auth" onClick={() => setIsOpen(false)}>
+      <Button className="w-full mt-2">
+        Log In / Sign Up
+      </Button>
+    </Link>
+  )}
+</div>
+
               </SheetContent>
             </Sheet>
     <nav className="sticky top-0 z-40 w-full bg-background shadow-sm dark:shadow-gray-800 transition-colors duration-300">
