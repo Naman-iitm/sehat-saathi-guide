@@ -7,7 +7,6 @@ import { MapPin, Navigation, Phone, Clock } from 'lucide-react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-
 interface Hospital {
   id: string;
   name: string;

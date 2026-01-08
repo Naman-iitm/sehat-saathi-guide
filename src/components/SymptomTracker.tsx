@@ -42,7 +42,12 @@ const SymptomTracker: React.FC = () => {
  console.log("CURRENT LANGUAGE:", language);
   const [symptoms, setSymptoms] = useState<Symptom[]>(() => {
     const saved = localStorage.getItem("symptoms");
-    return saved ? JSON.parse(saved) : [];
+    try {
+      return saved ? JSON.parse(saved) : [];
+    } catch (error) {
+      console.error("Error parsing symptoms from localStorage:", error);
+      return [];
+    }
   });
 
   const [triageResult, setTriageResult] = useState<TriageResult | null>(null);
