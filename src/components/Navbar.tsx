@@ -33,7 +33,11 @@ import {
 } from 'lucide-react';
 
 const Navbar: React.FC = () => {
-  const { t, language, setLanguage, languageNames, availableLanguages, currentLanguageName } = useLanguage();
+  const [customRegion, setCustomRegion] = useState('');
+  const [showRegionInput, setShowRegionInput] = useState(false);
+  const [isOtherSelected, setIsOtherSelected] = useState(false);
+  const [showServiceTip, setShowServiceTip] = useState(false);
+  const { t, language, setLanguage, languageNames, availableLanguages } = useLanguage();
   const { user, isAuthenticated, logout } = useAuth();
   const { itemCount } = useCart();
 
@@ -85,26 +89,110 @@ const Navbar: React.FC = () => {
               </Link>
 
               {/* Express Delivery Section */}
-              <div className="hidden md:flex items-center gap-2 bg-secondary/50 px-4 py-1.5 rounded-full border border-border mt-1">
-                <Zap className="w-4 h-4 text-amber-500 fill-amber-500" />
-                <div className="flex flex-col -gap-1">
-                  <span className="text-[10px] text-muted-foreground leading-tight uppercase font-bold tracking-wider">Express Delivery to</span>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm" className="gap-1 text-primary font-bold p-0 h-auto hover:bg-transparent text-xs justify-start">
-                        {selectedPincode}
-                        <ChevronDown className="w-3 h-3" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
-                      <DropdownMenuItem onClick={() => setSelectedPincode('110001')}>110001 - New Delhi</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setSelectedPincode('400001')}>400001 - Mumbai</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setSelectedPincode('560001')}>560001 - Bangalore</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
+              <div className="flex items-center gap-1 sm:gap-2 bg-amber-50 dark:bg-amber-950 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg border border-amber-200 dark:border-amber-800">
+                <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-amber-500" />
+                <span className="text-xs sm:text-sm text-muted-foreground hidden sm:inline">Express delivery to</span>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="gap-1 text-emerald-700 font-medium p-0 h-auto hover:bg-transparent text-xs sm:text-sm">
+                      {selectedPincode}
+                      <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="border border-gray-200">
+                    <DropdownMenuItem
+                        onClick={() => {
+                          setSelectedPincode('110001');
+                          setIsOtherSelected(false);
+                          setShowServiceTip(false);
+                        }}
+                      >
+                        110001 - New Delhi
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => {
+                          setSelectedPincode('120001');
+                          setIsOtherSelected(false);
+                          setShowServiceTip(false);
+                        }}
+                      >
+                        120001 - Mumbai
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => {
+                          setSelectedPincode('130001');
+                          setIsOtherSelected(false);
+                          setShowServiceTip(false);
+                        }}
+                      >
+                        130001 - Bangalore
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => {
+                          setSelectedPincode('140001');
+                          setIsOtherSelected(false);
+                          setShowServiceTip(false);
+                        }}
+                      >
+                        140001 - Kolkata
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => {
+                          setSelectedPincode('150001');
+                          setIsOtherSelected(false);
+                          setShowServiceTip(false);
+                        }}
+                      >
+                        150001 - Pune
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => {
+                          setSelectedPincode('160001');
+                          setIsOtherSelected(false);
+                          setShowServiceTip(false);
+                        }}
+                      >
+                        160001 - chennai
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        onClick={() => {
+                          setIsOtherSelected(true);
+                          setShowRegionInput(true);
+                          setShowServiceTip(false);
+                        }}
+                      >
+                        Other
+                      </DropdownMenuItem>
+
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
+            {showRegionInput && (
+              <div className="px-3 py-2 border-t space-y-2">
+                <input
+                  type="text"
+                  placeholder="Enter your region / pincode"
+                  value={customRegion}
+                  onChange={(e) => setCustomRegion(e.target.value)}
+                  className="w-full px-2 py-1 text-sm border rounded-md focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                />
+                <Button
+                    size="sm"
+                    className="w-full"
+                    onClick={() => {
+                      if (!customRegion.trim()) return;
+
+                      setSelectedPincode(customRegion);
+                      setShowServiceTip(true);
+                      setShowRegionInput(false);
+                    }}
+                  >
+                    OK
+                  </Button>
+              </div>
+            )}
+            {isOtherSelected && showServiceTip && (
+              <p className="text-xs text-amber-600 mt-1">
+                🚧 Soon service will be available in your region
+              </p>
+            )}
+
 
             {/* Right Side Actions */}
             <div className="flex items-center gap-3">
