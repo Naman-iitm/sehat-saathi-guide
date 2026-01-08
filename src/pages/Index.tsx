@@ -109,59 +109,94 @@ const Index: React.FC = () => {
       <HealthNewsPopup />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary via-primary to-chart-2 text-primary-foreground py-16 px-4 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <HeartPulse className="absolute top-10 left-10 w-32 h-32" />
-          <Hospital className="absolute top-20 right-20 w-24 h-24" />
-          <Pill className="absolute bottom-10 left-1/4 w-28 h-28" />
-          <Stethoscope className="absolute bottom-20 right-10 w-20 h-20" />
-        </div>
+<section className="relative min-h-[90vh] flex items-center overflow-hidden text-white">
+  {/* Background Video */}
+{/* Background Video */}
+<div className="absolute inset-0 z-0">
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="metadata"
+    className="h-full w-full object-cover"
+  >
+    <source src="/video/video.mp4" type="video/mp4" />
+  </video>
 
-        <div className="container mx-auto relative z-10">
-          <div className="max-w-3xl mx-auto text-center bg-primary-foreground/10 backdrop-blur-lg p-8 rounded-3xl shadow-xl">
-            <div className="w-24 h-24 bg-primary-foreground/20 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Heart className="w-12 h-12 animate-float" />
+  {/* Soft white overlay */}
+  <div className="absolute inset-0 bg-white/10" />
+
+  {/* Light frosted blur */}
+  <div className="absolute inset-0 backdrop-blur-[7px]" />
+</div>
+
+
+  {/* Content */}
+  <div className="container mx-auto px-4 relative z-10">
+    <div className="max-w-4xl mx-auto text-center">
+
+      {/* Trust Badge */}
+      <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md px-4 py-2 rounded-full text-sm mb-6">
+        <Shield className="w-4 h-4" />
+        <span>
+          {language === 'hi'
+            ? 'विश्वसनीय डिजिटल स्वास्थ्य प्लेटफ़ॉर्म'
+            : 'Trusted Digital Health Platform'}
+        </span>
+      </div>
+
+      {/* Heading */}
+      <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
+        {t.appName}
+      </h1>
+
+      {/* Subheading */}
+      <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-10">
+        {language === 'hi'
+          ? 'आपका स्वास्थ्य, हमारी प्राथमिकता — सरल, सुरक्षित और हर समय उपलब्ध'
+          : 'Your health, our priority — simple, secure, and available anytime'}
+      </p>
+
+      {/* CTA Buttons */}
+      <div className="flex flex-col sm:flex-row justify-center gap-4 mb-14">
+        <Button size="lg" className="gap-2 shadow-xl">
+          <Activity className="w-5 h-5" />
+          {language === 'hi' ? 'लक्षण जांचें' : 'Check Symptoms'}
+        </Button>
+
+        <Button
+          size="lg"
+          variant="secondary"
+          className="gap-2 bg-white text-primary hover:bg-white/90"
+          onClick={() => setShowTutorial(true)}
+        >
+          <HelpCircle className="w-5 h-5" />
+          {language === 'hi' ? 'ऐप कैसे काम करता है' : 'How it works'}
+        </Button>
+      </div>
+
+      {/* Trust Stats */}
+      <div className="grid grid-cols-3 gap-4 max-w-xl mx-auto">
+        {stats.map((stat, index) => (
+          <div
+            key={index}
+            className="bg-white/15 backdrop-blur-md rounded-xl p-4 text-center"
+          >
+            <stat.icon className="w-6 h-6 mx-auto mb-2" />
+            <div className="text-2xl font-semibold">{stat.value}</div>
+            <div className="text-sm text-white/80">
+              {language === 'hi' ? stat.labelHi : stat.labelEn}
             </div>
-
-            <h1 className="text-4xl md:text-5xl font-semibold tracking-tight mb-4">
-              {t.appName}
-            </h1>
-
-            <p className="text-lg md:text-xl opacity-90 max-w-md mx-auto mb-8">
-              {language === 'hi'
-                ? 'आपका स्वास्थ्य, हमारी प्राथमिकता'
-                : 'Your health, our priority'}
-            </p>
-
-            <Button
-              onClick={() => setShowTutorial(true)}
-              variant="secondary"
-              size="lg"
-              className="gap-2 shadow-lg"
-            >
-              <HelpCircle className="w-5 h-5" />
-              {language === 'hi'
-                ? 'ऐप कैसे इस्तेमाल करें?'
-                : 'How to use this app?'}
-            </Button>
           </div>
-        </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
 
-        {/* Stats */}
-        <div className="container mx-auto mt-12">
-          <div className="grid grid-cols-3 gap-4 max-w-md mx-auto">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center bg-primary-foreground/10 rounded-xl p-4">
-                <stat.icon className="w-6 h-6 mx-auto mb-2" />
-                <div className="text-2xl font-semibold">{stat.value}</div>
-                <div className="text-sm opacity-80">
-                  {language === 'hi' ? stat.labelHi : stat.labelEn}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+
+
 
       {/* Features */}
       <section className="container mx-auto px-4 py-12">
