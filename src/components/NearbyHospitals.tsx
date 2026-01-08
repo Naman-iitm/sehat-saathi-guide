@@ -6,8 +6,6 @@ import AsyncErrorFallback from "@/components/AsyncErrorFallback";
 import { MapPin, Navigation, Phone, Clock } from 'lucide-react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import AsyncErrorFallback from "@/components/AsyncErrorFallback";
-
 
 interface Hospital {
   id: string;
@@ -84,13 +82,10 @@ function calculateDistance(lat1: number, lng1: number, lat2: number, lng2: numbe
 
 const SIMULATE_API_FAILURE = false;
 
-
-
 async function fetchNearbyHospitals(lat: number, lng: number): Promise<Hospital[]> {
   if (SIMULATE_API_FAILURE) {
-    
+    throw new Error('Simulated API failure for testing');
   }
-
 
   const query = `
     [out:json][timeout:25];

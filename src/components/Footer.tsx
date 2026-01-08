@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Heart, Facebook, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { IconBrandX } from '@tabler/icons-react'; // Add this import
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 
@@ -29,9 +30,10 @@ const Footer: React.FC = () => {
                                 title="Facebook page coming soon" className="text-muted-foreground hover:text-primary transition-colors">
                                 <Facebook className="w-5 h-5" />
                             </a>
+                            {/* Replace this Twitter icon with X icon */}
                             <a href="#" onClick={(e) => e.preventDefault()}
-                                title="Twitter page coming soon" className="text-muted-foreground hover:text-primary transition-colors">
-                                <Twitter className="w-5 h-5" />
+                                title="X (Twitter) page coming soon" className="text-muted-foreground hover:text-primary transition-colors">
+                                <IconBrandX className="w-5 h-5" />
                             </a>
                             <a href="#" onClick={(e) => e.preventDefault()}
                                 title="Instagram page coming soon" className="text-muted-foreground hover:text-primary transition-colors">
@@ -90,7 +92,7 @@ const Footer: React.FC = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="text-muted-foreground hover:text-primary transition-colors text-sm"
-                                    >
+                                >
                                     {t.feedback}
                                 </a>
                             </li>
@@ -115,19 +117,19 @@ const Footer: React.FC = () => {
                         <ul className="space-y-3">
                             <li>
                                 <Link
-                                to="/privacy-policy"
-                                className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                                    to="/privacy-policy"
+                                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
                                 >
-                                {t.privacyPolicy}
+                                    {t.privacyPolicy}
                                 </Link>
                             </li>
 
                             <li>
                                 <Link
-                                to="/terms-and-conditions"
-                                className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                                    to="/terms-and-conditions"
+                                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
                                 >
-                                {t.termsConditions}
+                                    {t.termsConditions}
                                 </Link>
                             </li>
                         </ul>
