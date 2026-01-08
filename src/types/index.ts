@@ -48,3 +48,27 @@ export interface ChatMessage {
   content: string;
   timestamp: Date;
 }
+
+export interface Offer {
+  id: string;
+  title: string;
+  titleHi: string;
+  description: string;
+  descriptionHi: string;
+  productName: string;
+  productNameHi: string;
+  originalPrice: number;
+  discountedPrice: number;
+  discountPercentage: number;
+  image: string;
+  category: 'medicines' | 'supplements' | 'devices' | 'bundle';
+  validFrom: Date;
+  validUntil: Date;
+  termsAndConditions: string;
+  termsAndConditionsHi: string;
+  isLimitedTime: boolean;
+  isFirstTimeUser: boolean;
+  isSeasonal: boolean;
+  seasonalTag?: string;
+  seasonalTagHi?: string;
+}

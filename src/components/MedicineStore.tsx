@@ -49,11 +49,16 @@ const MedicineStore: React.FC = () => {
       price: medicine.price,
       image: medicine.image,
     });
-    toast.success(
-      language === 'hi'
-        ? `${medicine.nameHi} कार्ट में जोड़ा गया`
-        : `${medicine.name} added to cart`
-    );
+toast.success(
+  language === 'hi'
+    ? ` ${medicine.nameHi} कार्ट में जोड़ा गया!`
+    : ` ${medicine.name} added to cart!`,
+  {
+    duration: 3000,
+    position: 'bottom-right',
+    className: 'toast-sparkle',
+  }
+);
   };
 
   const openMedicineModal = (medicine: typeof medicines[0]) => {

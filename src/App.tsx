@@ -8,7 +8,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { CartProvider } from '@/contexts/CartContext';
 import { AuthProvider } from '@/contexts/AuthContext';
-import { ThemeProvider } from '@/contexts/ThemeContext';
+
 import LoadingScreen from '@/components/LoadingScreen';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -28,6 +28,7 @@ import NotFound from "./pages/NotFound";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/TermsConditions";
 import Reminders from "@/pages/Reminders";
+import Offers from "@/components/Offers";
 
 const queryClient = new QueryClient();
 
@@ -144,6 +145,45 @@ const App = () => {
           </LanguageProvider>
         </ThemeProvider>
       </ShadcnThemeProvider>
+      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+        <LanguageProvider>
+          <AuthProvider>
+            <CartProvider>
+              <TooltipProvider>
+                <Toaster />
+                <Sonner />
+                <BrowserRouter>
+                  <ScrollToTopOnRouteChange />
+                  <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
+                    <Navbar/>
+                    <Routes>
+                      <Route path="/" element={<Index />} />
+                      <Route path="/symptoms" element={<SymptomTracker />} />
+                      <Route path="/tips" element={<HealthTips />} />
+                      <Route path="/store" element={<MedicineStore />} />
+                      <Route path="/assistant" element={<AIAssistant />} />
+                      <Route path="/schemes" element={<SarkariYojana />} />
+                      <Route path="/nearby" element={<NearbyHospitals />} />
+                      <Route path="/cart" element={<Cart />} />
+                      <Route path="/checkout" element={<Checkout />} />
+                      <Route path="/auth" element={<Auth />} />
+                      <Route path="/profile" element={<Profile />} />
+                      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                      <Route path="/terms-and-conditions" element={<TermsConditions />} />
+                      <Route path="/reminders" element={<Reminders />} />
+                      <Route path="/offers" element={<Offers />} />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                    <Footer />
+                    {/* NEW: Add the floating scroll to top button */}
+                    <ScrollToTopButton />
+                  </div>
+                </BrowserRouter>
+              </TooltipProvider>
+            </CartProvider>
+          </AuthProvider>
+        </LanguageProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 };

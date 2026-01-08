@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -19,7 +18,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import {
-  Home as HomeIcon,
+  Home,
   Heart,
   User,
   ShoppingCart,
@@ -49,8 +48,10 @@ const Navbar: React.FC = () => {
   const { toggleTheme, isDark } = useTheme();
   const [pincodeOpen, setPincodeOpen] = useState(false);
   const location = useLocation();
-  const [isOpen, setIsOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [selectedPincode, setSelectedPincode] = useState('Select Pincode');
+  const [pincodeOpen, setPincodeOpen] = useState(false);
+
 
   const navItems = [
     { path: '/', label: t.home, icon: HomeIcon },

@@ -155,13 +155,13 @@ async function fetchNearbyHospitals(lat: number, lng: number): Promise<Hospital[
 
 const NearbyHospitals: React.FC = () => {
   const { t, language } = useLanguage();
-  
+
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [isLoadingLocation, setIsLoadingLocation] = useState(true);
   const [hospitals, setHospitals] = useState<Hospital[]>(mockHospitals);
   const [isLoadingHospitals, setIsLoadingHospitals] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
 
@@ -172,7 +172,7 @@ const NearbyHospitals: React.FC = () => {
 
     try {
       const fetchedHospitals = await fetchNearbyHospitals(location.lat, location.lng);
-      
+
       if (fetchedHospitals.length > 0) {
         setHospitals(fetchedHospitals);
       }
@@ -197,10 +197,10 @@ const NearbyHospitals: React.FC = () => {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
-        
+
         setUserLocation(location);
         setIsLoadingLocation(false);
-        
+
         await loadHospitals(location);
       },
       (err) => {
