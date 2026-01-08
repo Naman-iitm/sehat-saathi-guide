@@ -49,6 +49,10 @@ import {
 } from 'lucide-react';
 
 const Navbar: React.FC = () => {
+  const [customRegion, setCustomRegion] = useState('');
+  const [showRegionInput, setShowRegionInput] = useState(false);
+  const [isOtherSelected, setIsOtherSelected] = useState(false);
+  const [showServiceTip, setShowServiceTip] = useState(false);
   const { t, language, setLanguage, languageNames, availableLanguages } = useLanguage();
   const { user, isAuthenticated, logout } = useAuth();
   const { itemCount } = useCart();
@@ -110,22 +114,99 @@ const Navbar: React.FC = () => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start" className="border border-gray-200">
-                    <DropdownMenuItem onClick={() => setSelectedPincode('110001')}>
-                      110001 - New Delhi
+                    <DropdownMenuItem
+                        onClick={() => {
+                          setSelectedPincode('110001');
+                          setIsOtherSelected(false);
+                          setShowServiceTip(false);
+                        }}
+                      >
+                        110001 - New Delhi
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setSelectedPincode('400001')}>
-                      400001 - Mumbai
+                    <DropdownMenuItem onClick={() => {
+                          setSelectedPincode('120001');
+                          setIsOtherSelected(false);
+                          setShowServiceTip(false);
+                        }}
+                      >
+                        120001 - Mumbai
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setSelectedPincode('560001')}>
-                      560001 - Bangalore
+                    <DropdownMenuItem onClick={() => {
+                          setSelectedPincode('130001');
+                          setIsOtherSelected(false);
+                          setShowServiceTip(false);
+                        }}
+                      >
+                        130001 - Bangalore
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setSelectedPincode('700001')}>
-                      700001 - Kolkata
+                    <DropdownMenuItem onClick={() => {
+                          setSelectedPincode('140001');
+                          setIsOtherSelected(false);
+                          setShowServiceTip(false);
+                        }}
+                      >
+                        140001 - Kolkata
                     </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => {
+                          setSelectedPincode('150001');
+                          setIsOtherSelected(false);
+                          setShowServiceTip(false);
+                        }}
+                      >
+                        150001 - Pune
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => {
+                          setSelectedPincode('160001');
+                          setIsOtherSelected(false);
+                          setShowServiceTip(false);
+                        }}
+                      >
+                        160001 - chennai
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        onClick={() => {
+                          setIsOtherSelected(true);
+                          setShowRegionInput(true);
+                          setShowServiceTip(false);
+                        }}
+                      >
+                        Other
+                      </DropdownMenuItem>
+
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
             </div>
+            {showRegionInput && (
+              <div className="px-3 py-2 border-t space-y-2">
+                <input
+                  type="text"
+                  placeholder="Enter your region / pincode"
+                  value={customRegion}
+                  onChange={(e) => setCustomRegion(e.target.value)}
+                  className="w-full px-2 py-1 text-sm border rounded-md focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                />
+                <Button
+                    size="sm"
+                    className="w-full"
+                    onClick={() => {
+                      if (!customRegion.trim()) return;
+
+                      setSelectedPincode(customRegion);
+                      setShowServiceTip(true);
+                      setShowRegionInput(false);
+                    }}
+                  >
+                    OK
+                  </Button>
+              </div>
+            )}
+            {isOtherSelected && showServiceTip && (
+              <p className="text-xs text-amber-600 mt-1">
+                🚧 Soon service will be available in your region
+              </p>
+            )}
+
 
             {/* Right Side Actions */}
             <div className="flex items-center gap-4">
