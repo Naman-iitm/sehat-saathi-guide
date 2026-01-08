@@ -1,5 +1,5 @@
-import { evaluateSymptoms } from "./lib/triage";
 import { useState, useEffect } from 'react';
+import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,7 +8,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { CartProvider } from '@/contexts/CartContext';
 import { AuthProvider } from '@/contexts/AuthContext';
-import { ThemeProvider } from '@/contexts/ThemeContext';
+
 import LoadingScreen from '@/components/LoadingScreen';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -24,6 +24,10 @@ import Checkout from '@/components/Checkout';
 import Auth from '@/components/Auth';
 import Profile from '@/components/Profile';
 import NotFound from "./pages/NotFound";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsConditions from "./pages/TermsConditions";
+import Reminders from "@/pages/Reminders";
+import Offers from "@/components/Offers";
 
 const queryClient = new QueryClient();
 
@@ -61,7 +65,7 @@ const ScrollToTopButton = () => {
 
   useEffect(() => {
     window.addEventListener('scroll', toggleVisibility);
-    
+
     return () => {
       window.removeEventListener('scroll', toggleVisibility);
     };
@@ -72,7 +76,7 @@ const ScrollToTopButton = () => {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-5 right-5 w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center text-2xl shadow-lg hover:bg-blue-600 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:translate-y-0 z-50"
+          className="fixed bottom-5 right-5 w-12 h-12 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-2xl shadow-lg hover:bg-primary/90 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:translate-y-0 z-50"
           aria-label="Scroll to top"
         >
           ↑
@@ -100,7 +104,7 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
+      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
         <LanguageProvider>
           <AuthProvider>
             <CartProvider>
@@ -110,7 +114,7 @@ const App = () => {
                 <BrowserRouter>
                   <ScrollToTopOnRouteChange />
                   <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
-                    <Navbar />
+                    <Navbar/>
                     <Routes>
                       <Route path="/" element={<Index />} />
                       <Route path="/symptoms" element={<SymptomTracker />} />
@@ -123,6 +127,10 @@ const App = () => {
                       <Route path="/checkout" element={<Checkout />} />
                       <Route path="/auth" element={<Auth />} />
                       <Route path="/profile" element={<Profile />} />
+                      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                      <Route path="/terms-and-conditions" element={<TermsConditions />} />
+                      <Route path="/reminders" element={<Reminders />} />
+                      <Route path="/offers" element={<Offers />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                     <Footer />

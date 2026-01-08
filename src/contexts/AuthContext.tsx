@@ -22,7 +22,12 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(() => {
     const saved = localStorage.getItem('user');
-    return saved ? JSON.parse(saved) : null;
+    try {
+      return saved ? JSON.parse(saved) : null;
+    } catch (error) {
+      console.error('Error parsing user from localStorage:', error);
+      return null;
+    }
   });
   const [pendingVerification, setPendingVerification] = useState(false);
   const [tempUserData, setTempUserData] = useState<{ name: string; email: string; phone: string } | null>(null);
@@ -40,7 +45,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     await new Promise((resolve) => setTimeout(resolve, 1000));
     
     const savedUsers = localStorage.getItem('registeredUsers');
-    const users = savedUsers ? JSON.parse(savedUsers) : [];
+    let users = [];
+    try {
+      users = savedUsers ? JSON.parse(savedUsers) : [];
+    } catch (error) {
+      console.error('Error parsing registeredUsers from localStorage:', error);
+      users = [];
+    }
     const foundUser = users.find((u: any) => u.email === email);
     
     if (foundUser) {
@@ -68,7 +79,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       };
       
       const savedUsers = localStorage.getItem('registeredUsers');
-      const users = savedUsers ? JSON.parse(savedUsers) : [];
+      let users = [];
+      try {
+        users = savedUsers ? JSON.parse(savedUsers) : [];
+      } catch (error) {
+        console.error('Error parsing registeredUsers from localStorage:', error);
+        users = [];
+      }
       users.push(newUser);
       localStorage.setItem('registeredUsers', JSON.stringify(users));
       

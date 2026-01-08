@@ -1,17 +1,57 @@
-# 🏥 Sehat Saathi Guide (स्वास्थ्य साथी)
+<div align="center">
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-18.x-61dafb.svg)](https://reactjs.org/)
-[![Vite](https://img.shields.io/badge/Vite-5.x-646cff.svg)](https://vitejs.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-38bdf8.svg)](https://tailwindcss.com/)
+# 🏥 Sehat Saathi (स्वास्थ्य साथी) 
+### **Your Multilingual Healthcare Companion**
 
-**Sehat Saathi** is a comprehensive, multi-language health assistant and resource platform designed to empower users with accessible healthcare information, mental wellness resources, and support systems. Originally inspired by the SAATHI initiative at IIT Madras, this platform aims to bridge the gap in healthcare accessibility through technology.
+**✨Empowering communities through accessible healthcare information, mental wellness resources, and real-time support.✨**
 
-🌐 **Live Demo:** [https://sehat-saathi-guide.netlify.app/](https://sehat-saathi-guide.netlify.app/)
+[![Live Demo](https://img.shields.io/badge/Demo-Live-brightgreen?style=for-the-badge&logo=netlify&logoColor=white)](https://sehat-saathi-guide.netlify.app/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind](https://img.shields.io/badge/Tailwind-38BDF8?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
 ---
 
-## 🌟 Why Sehat Saathi?
+[📖 Overview](#-overview) • [✨ Features](#-key-features) • [🏗️ Architecture](#-system-design) • [🚀 Get Started](#-installation) • [🤝 Support](#-contributing)
+
+</div>
+
+---
+
+## 🌐 THE MISSION
+Inspired by the **SAATHI initiative at IIT Madras**, Sehat Saathi bridges the critical gap in healthcare accessibility. By combining technology with a human-centric approach, we provide a localized, multi-language guide for physical and mental well-being.
+
+
+
+---
+
+## 🏗️ SYSTEM DESIGN
+
+The platform is architected for speed, modularity, and offline-first reliability.
+
+```text
+Sehat Saathi (Health Core)
+┃
+┣━━ 🧩 UI/UX Layer (React + Tailwind)
+┃   ┣━━ 🌍 Multilingual Module .... [HINDI / ENGLISH Support]
+┃   ┣━━ 🧠 Mental Wellness Hub .... [Resource Discovery]
+┃   ┗━━ 📱 Responsive Interface ... [Mobile/Desktop Sync]
+┃
+┣━━ 🛠️ Logic Engine
+┃   ┣━━ 🔍 Resource Search ........ [Optimized Filtering]
+┃   ┣━━ 🏥 Healthcare Directory ... [Facility Mapping]
+┃   ┗━━ 💬 Support Connect ........ [Direct Link Systems]
+┃
+┣━━ ⚡ Infrastructure (Vite)
+┃   ┣━━ 📦 Optimized Bundling ..... [Sub-second Loads]
+┃   ┗━━ 🛡️ Type-Safety (TS) ....... [Strict Data Integrity]
+┃
+┗━━ 📊 Analytics & Impact
+    ┗━━ 📝 Feedback Loop .......... [User Growth Tracking]
+---
+
+ 🌟 WHY SEHAT SAATHI?
 
 In many communities, healthcare information and mental wellness resources are often difficult to access or shrouded in stigma. **Sehat Saathi** (meaning "Health Companion") aims to:
 - **Democratize Wellness**: Make health resources accessible to everyone, regardless of their technical background.
@@ -22,7 +62,7 @@ In many communities, healthcare information and mental wellness resources are of
 ---
 
 
-## ✨ Key Features
+ ✨ KEY FEATURES
 
 - 🩺 **Symptom Tracker**: Record and monitor health symptoms with a simple, intuitive interface. Uses a rule-based triage system to provide immediate feedback.
 - 🤖 **AI Health Assistant**: Get instant guidance and answers to common health queries through a localized chat interface.
@@ -34,7 +74,7 @@ In many communities, healthcare information and mental wellness resources are of
 
 ---
 
-## 🌐 Localization
+ 🌐 LOCALIZATION
 
 Sehat Saathi is built to be inclusive. We currently support the following languages:
 
@@ -49,7 +89,7 @@ Sehat Saathi is built to be inclusive. We currently support the following langua
 
 ---
 
-## ⚙️ Technical Highlights
+ ⚙️ TECHNICAL HIGHLIGHTS
 
 - **Rule-Based Triage**: The symptom tracker uses a sophisticated evaluator (`src/lib/triage/evaluator.ts`) that matches user symptoms against predefined medical rules to suggest urgency levels.
 - **Accessible UI**: Built using [Radix UI](https://www.radix-ui.com/) primitives via [shadcn/ui](https://ui.shadcn.com/), ensuring high accessibility (WAI-ARIA) standards.
@@ -58,7 +98,7 @@ Sehat Saathi is built to be inclusive. We currently support the following langua
 
 ---
 
-## 🛠️ Tech Stack
+ 🛠️ TECH STACK
 
 - **Frontend**: [React 18](https://reactjs.org/) with [TypeScript](https://www.typescriptlang.org/)
 - **Build Tool**: [Vite](https://vitejs.dev/)
@@ -71,13 +111,13 @@ Sehat Saathi is built to be inclusive. We currently support the following langua
 
 ---
 
-## 🚀 Getting Started
+ 🚀 GETTING STARTED
 
-### Prerequisites
+⭐ Prerequisites: 
 - **Node.js** (v18.x or higher)
 - **Bun** (Optional, but recommended for speed)
 
-### Installation
+⭐ Installation:
 
 1. **Clone the Repository**
    ```bash
@@ -103,7 +143,7 @@ The app will be live at `http://localhost:5173/`.
 
 ---
 
-## 📖 How to Use
+## 📖 HOW TO USE
 
 1. **Select Language**: On your first visit, choose your preferred language from the onboarding screen.
 2. **Track Symptoms**: Go to the "Symptom Tracker" to log any health issues. The system will categorize them and provide initial guidance.
@@ -113,7 +153,7 @@ The app will be live at `http://localhost:5173/`.
 
 ---
 
-## �📁 Project Structure
+## 📁 PROJECT STRUCTURE
 
 ```
 sehat-saathi-guide/
@@ -136,7 +176,7 @@ sehat-saathi-guide/
 └── vite.config.ts          # Vite configuration
 ```
 
-## 🤝 Contributing
+## 🤝 CONTRIBUTING
 
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
@@ -165,13 +205,13 @@ Contributions are what make the open-source community such an amazing place to l
 
 ---
 
-## 📄 License
+## 📄 LICENSE
 
 Distributed under the MIT License. See `LICENSE` for more information (coming soon).
 
 ---
 
-## 👤 Contact
+## 👤 CONTACT
 
 **Naman Jha** - [GitHub Profile](https://github.com/Naman-iitm)
 

@@ -3,6 +3,33 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom homepage font (expects files in /public/fonts/) */
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('/fonts/NeueMontreal-Regular.woff2') format('woff2'),
+       url('/fonts/NeueMontreal-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Hero-specific font utility */
+.hero-font {
+  font-family: 'Neue Montreal', var(--font-sans);
+}
+
+/* Glass / hero styles */
+.hero-glass {
+  backdrop-filter: blur(10px) saturate(1.05);
+  background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+.hero-glow {
+  filter: blur(36px);
+  opacity: 0.6;
+}
+
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */
@@ -179,6 +206,27 @@ All colors MUST be HSL.
   .animate-spin-slow {
     animation: spin 3s linear infinite;
   }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-50% - 12px)); }
+  }
+
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+    width: max-content;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
   
   .glass {
     backdrop-filter: blur(10px);
@@ -192,6 +240,27 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-300;
   }
+}
+
+/* Sparkle animation for toast */
+@keyframes sparkle {
+  0%, 100% {
+    box-shadow: 
+      0 0 5px rgba(34, 197, 94, 0.5),
+      0 0 10px rgba(34, 197, 94, 0.3),
+      0 0 15px rgba(34, 197, 94, 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 0 10px rgba(34, 197, 94, 0.8),
+      0 0 20px rgba(34, 197, 94, 0.6),
+      0 0 30px rgba(34, 197, 94, 0.4);
+  }
+}
+
+.toast-sparkle {
+  animation: sparkle 2s ease-in-out infinite;
+  border: 2px solid rgba(34, 197, 94, 0.5) !important;
 }

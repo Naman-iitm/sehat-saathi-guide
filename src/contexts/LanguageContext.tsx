@@ -78,6 +78,7 @@ interface Translations {
   contact: string;
   followUs: string;
   rightsReserved: string;
+  offers: string;
 }
 
 const translations: Record<Language, Translations> = {
@@ -157,6 +158,7 @@ const translations: Record<Language, Translations> = {
     contact: 'संपर्क करें',
     followUs: 'हमें फॉलो करें',
     rightsReserved: 'सर्वाधिकार सुरक्षित',
+    offers: 'ऑफर',
   },
   en: {
     appName: 'Sehat Saathi',
@@ -234,6 +236,7 @@ const translations: Record<Language, Translations> = {
     contact: 'Contact',
     followUs: 'Follow Us',
     rightsReserved: 'All Rights Reserved',
+    offers: 'Offers',
   },
   bn: {
     appName: 'স্বাস্থ্য সাথী',
@@ -311,6 +314,7 @@ const translations: Record<Language, Translations> = {
     contact: 'যোগাযোগ',
     followUs: 'আমাদের অনুসরণ করুন',
     rightsReserved: 'সর্বস্বত্ব সংরক্ষিত',
+    offers: 'অফার',
   },
   mr: {
     appName: 'स्वास्थ्य साथी',
@@ -388,6 +392,7 @@ const translations: Record<Language, Translations> = {
     contact: 'संपर्क करा',
     followUs: 'आम्हाला फॉलो करा',
     rightsReserved: 'सर्व हक्क राखीव',
+    offers: 'ऑफर',
   },
   bho: {
     appName: 'स्वास्थ्य साथी',
@@ -465,6 +470,7 @@ const translations: Record<Language, Translations> = {
     contact: 'Contact Us',
     followUs: 'Follow Us',
     rightsReserved: 'All Rights Reserved',
+    offers: 'ऑफर',
   },
   mai: {
     appName: 'स्वास्थ्य साथी',
@@ -542,6 +548,7 @@ const translations: Record<Language, Translations> = {
     contact: 'Contact Us',
     followUs: 'Follow Us',
     rightsReserved: 'All Rights Reserved',
+    offers: 'ऑफर',
   },
 };
 
