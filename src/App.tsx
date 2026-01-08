@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { CartProvider } from '@/contexts/CartContext';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { ThemeProvider } from '@/components/theme-provider';
 
 import LoadingScreen from '@/components/LoadingScreen';
 import Navbar from '@/components/Navbar';
@@ -114,7 +115,7 @@ const App = () => {
                 <BrowserRouter>
                   <ScrollToTopOnRouteChange />
                   <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
-                    <Navbar/>
+                    <Navbar />
                     <Routes>
                       <Route path="/" element={<Index />} />
                       <Route path="/symptoms" element={<SymptomTracker />} />

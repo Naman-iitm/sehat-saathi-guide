@@ -79,6 +79,12 @@ interface Translations {
   followUs: string;
   rightsReserved: string;
   offers: string;
+  ourLocation: string;
+  getDirections: string;
+  certifications: string;
+  officeHours: string;
+  madeWith: string;
+  forBetterHealth: string;
 }
 
 const translations: Record<Language, Translations> = {
@@ -159,6 +165,12 @@ const translations: Record<Language, Translations> = {
     followUs: 'हमें फॉलो करें',
     rightsReserved: 'सर्वाधिकार सुरक्षित',
     offers: 'ऑफर',
+    ourLocation: 'हमारा स्थान',
+    getDirections: 'दिशा-निर्देश प्राप्त करें',
+    certifications: 'प्रमाणपत्र',
+    officeHours: 'कार्यालय समय',
+    madeWith: 'के साथ बनाया',
+    forBetterHealth: 'बेहतर स्वास्थ्य के लिए',
   },
   en: {
     appName: 'Sehat Saathi',
@@ -237,6 +249,12 @@ const translations: Record<Language, Translations> = {
     followUs: 'Follow Us',
     rightsReserved: 'All Rights Reserved',
     offers: 'Offers',
+    ourLocation: 'Our Location',
+    getDirections: 'Get Directions',
+    certifications: 'Certifications',
+    officeHours: 'Office Hours',
+    madeWith: 'Made with',
+    forBetterHealth: 'for better health',
   },
   bn: {
     appName: 'স্বাস্থ্য সাথী',
@@ -315,6 +333,12 @@ const translations: Record<Language, Translations> = {
     followUs: 'আমাদের অনুসরণ করুন',
     rightsReserved: 'সর্বস্বত্ব সংরক্ষিত',
     offers: 'অফার',
+    ourLocation: 'আমাদের অবস্থান',
+    getDirections: 'দিকনির্দেশ নিন',
+    certifications: 'সার্টিফিকেশন',
+    officeHours: 'অফিস সময়',
+    madeWith: 'সাথে তৈরি',
+    forBetterHealth: 'ভালো স্বাস্থ্যের জন্য',
   },
   mr: {
     appName: 'स्वास्थ्य साथी',
@@ -393,6 +417,12 @@ const translations: Record<Language, Translations> = {
     followUs: 'आम्हाला फॉलो करा',
     rightsReserved: 'सर्व हक्क राखीव',
     offers: 'ऑफर',
+    ourLocation: 'आमचे स्थान',
+    getDirections: 'दिशानिर्देश मिळवा',
+    certifications: 'प्रमाणपत्रे',
+    officeHours: 'कार्यालय वेळ',
+    madeWith: 'सह बनवले',
+    forBetterHealth: 'चांगल्या आरोग्यासाठी',
   },
   bho: {
     appName: 'स्वास्थ्य साथी',
@@ -471,6 +501,12 @@ const translations: Record<Language, Translations> = {
     followUs: 'Follow Us',
     rightsReserved: 'All Rights Reserved',
     offers: 'ऑफर',
+    ourLocation: 'हमार स्थान',
+    getDirections: 'रास्ता देखीं',
+    certifications: 'प्रमाणपत्र',
+    officeHours: 'कार्यालय समय',
+    madeWith: 'के साथ बनावल',
+    forBetterHealth: 'बढ़िया स्वास्थ्य खातिर',
   },
   mai: {
     appName: 'स्वास्थ्य साथी',
@@ -549,6 +585,12 @@ const translations: Record<Language, Translations> = {
     followUs: 'Follow Us',
     rightsReserved: 'All Rights Reserved',
     offers: 'ऑफर',
+    ourLocation: 'हमर स्थान',
+    getDirections: 'रस्ता देखू',
+    certifications: 'प्रमाणपत्र',
+    officeHours: 'कार्यालय समय',
+    madeWith: 'के साथ बनाएल',
+    forBetterHealth: 'बढ़िया स्वास्थ्य लेल',
   },
 };
 
