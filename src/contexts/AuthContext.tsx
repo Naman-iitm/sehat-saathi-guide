@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { authApi } from '@/lib/api';
 
 interface User {
   id: string;
@@ -11,119 +12,93 @@ interface User {
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
-  register: (name: string, email: string, phone: string, password: string) => Promise<boolean>;
-  verifyOtp: (otp: string) => Promise<boolean>;
+  isLoading: boolean;
+  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  register: (name: string, email: string, phone: string, password: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
-  pendingVerification: boolean;
-  updateProfile: (updatedUser: User) => Promise<void>;
+  updateProfile: (updatedUser: Partial<User>) => Promise<{ success: boolean; error?: string }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem('user');
-    try {
-      return saved ? JSON.parse(saved) : null;
-    } catch (error) {
-      console.error('Error parsing user from localStorage:', error);
-      return null;
-    }
-  });
-  const [pendingVerification, setPendingVerification] = useState(false);
-  const [tempUserData, setTempUserData] = useState<{ name: string; email: string; phone: string } | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Check for existing session on mount
   useEffect(() => {
-    if (user) {
-      localStorage.setItem('user', JSON.stringify(user));
-    } else {
-      localStorage.removeItem('user');
-    }
-  }, [user]);
-
-  const login = async (email: string, password: string): Promise<boolean> => {
-    // Simulate login - in production, connect to backend
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-    const savedUsers = localStorage.getItem('registeredUsers');
-    let users = [];
-    try {
-      users = savedUsers ? JSON.parse(savedUsers) : [];
-    } catch (error) {
-      console.error('Error parsing registeredUsers from localStorage:', error);
-      users = [];
-    }
-    const foundUser = users.find((u: any) => u.email === email);
-    
-    if (foundUser) {
-      setUser(foundUser);
-      return true;
-    }
-    return false;
-  };
-  
-  const register = async (name: string, email: string, phone: string, password: string): Promise<boolean> => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setTempUserData({ name, email, phone });
-    setPendingVerification(true);
-    return true;
-  };
-  
-
-  const verifyOtp = async (otp: string): Promise<boolean> => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-    // Simulate OTP verification (accept any 6-digit code for demo)
-    if (otp.length === 6 && tempUserData) {
-      const newUser: User = {
-        id: Date.now().toString(),
-        ...tempUserData,
-      };
-      
-      const savedUsers = localStorage.getItem('registeredUsers');
-      let users = [];
-      try {
-        users = savedUsers ? JSON.parse(savedUsers) : [];
-      } catch (error) {
-        console.error('Error parsing registeredUsers from localStorage:', error);
-        users = [];
+    const initAuth = async () => {
+      const token = localStorage.getItem('auth_token');
+      if (token) {
+        const { data, error } = await authApi.getMe();
+        if (data && !error) {
+          setUser(data.user);
+        } else {
+          // Token invalid, clear it
+          localStorage.removeItem('auth_token');
+        }
       }
-      users.push(newUser);
-      localStorage.setItem('registeredUsers', JSON.stringify(users));
-      
-      setUser(newUser);
-      setPendingVerification(false);
-      setTempUserData(null);
-      return true;
+      setIsLoading(false);
+    };
+
+    initAuth();
+  }, []);
+
+  const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+    const { data, error } = await authApi.login(email, password);
+
+    if (error) {
+      return { success: false, error };
     }
-    return false;
+
+    if (data) {
+      localStorage.setItem('auth_token', data.token);
+      setUser(data.user);
+      return { success: true };
+    }
+
+    return { success: false, error: 'Unknown error occurred' };
+  };
+
+  const register = async (
+    name: string,
+    email: string,
+    phone: string,
+    password: string
+  ): Promise<{ success: boolean; error?: string }> => {
+    const { data, error } = await authApi.register(name, email, phone, password);
+
+    if (error) {
+      return { success: false, error };
+    }
+
+    if (data) {
+      localStorage.setItem('auth_token', data.token);
+      setUser(data.user);
+      return { success: true };
+    }
+
+    return { success: false, error: 'Unknown error occurred' };
   };
 
   const logout = () => {
+    localStorage.removeItem('auth_token');
     setUser(null);
-    localStorage.removeItem('user');
   };
 
-  const updateProfile = async (updatedUser: User) => {
-    setUser(updatedUser);
-    // Update in localStorage
-    localStorage.setItem('user', JSON.stringify(updatedUser));
-    
-    // Update in registeredUsers list if needed
-    try {
-      const savedUsers = localStorage.getItem('registeredUsers');
-      let users = savedUsers ? JSON.parse(savedUsers) : [];
-      
-      // Find and update the user in the list
-      const userIndex = users.findIndex((u: User) => u.id === updatedUser.id);
-      if (userIndex !== -1) {
-        users[userIndex] = updatedUser;
-        localStorage.setItem('registeredUsers', JSON.stringify(users));
-      }
-    } catch (error) {
-      console.error('Error updating user in registeredUsers:', error);
+  const updateProfile = async (updates: Partial<User>): Promise<{ success: boolean; error?: string }> => {
+    const { data, error } = await authApi.updateProfile(updates);
+
+    if (error) {
+      return { success: false, error };
     }
+
+    if (data) {
+      setUser(data.user);
+      return { success: true };
+    }
+
+    return { success: false, error: 'Unknown error occurred' };
   };
 
   return (
@@ -131,12 +106,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       value={{
         user,
         isAuthenticated: !!user,
+        isLoading,
         login,
         register,
-        verifyOtp,
         logout,
-        pendingVerification,
-        updateProfile,
+        updateProfile
       }}
     >
       {children}
