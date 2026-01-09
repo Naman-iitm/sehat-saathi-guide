@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline - Sehat Saathi</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      text-align: center;
+      max-width: 400px;
+    }
+    .icon {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 24px;
+      background: #16a34a;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 40px rgba(22, 163, 74, 0.3);
+    }
+    .icon svg {
+      width: 60px;
+      height: 60px;
+      fill: white;
+    }
+    h1 {
+      color: #166534;
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    .hindi {
+      color: #15803d;
+      font-size: 20px;
+      margin-bottom: 24px;
+    }
+    p {
+      color: #4b5563;
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+    .btn {
+      display: inline-block;
+      background: #16a34a;
+      color: white;
+      padding: 14px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: #15803d;
+    }
+    .tips {
+      margin-top: 40px;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    .tips h3 {
+      color: #166534;
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+    .tips ul {
+      text-align: left;
+      color: #4b5563;
+      font-size: 14px;
+      padding-left: 20px;
+    }
+    .tips li {
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+      </svg>
+    </div>
+    <h1>You're Offline</h1>
+    <p class="hindi">आप ऑफ़लाइन हैं</p>
+    <p>Don't worry! Your health data is saved locally. Connect to the internet to sync and access all features.</p>
+    <button class="btn" onclick="window.location.reload()">Try Again</button>
+    
+    <div class="tips">
+      <h3>💡 Offline Health Tips</h3>
+      <ul>
+        <li>Stay hydrated - drink 8 glasses of water daily</li>
+        <li>Take deep breaths to reduce stress</li>
+        <li>Wash hands frequently for 20 seconds</li>
+        <li>Get 7-8 hours of sleep each night</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

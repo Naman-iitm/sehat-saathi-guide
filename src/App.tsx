@@ -31,6 +31,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/TermsConditions";
 import Reminders from "@/pages/Reminders";
 import Offers from "@/components/Offers";
+import PWAInstallPrompt, { OfflineIndicator } from '@/components/PWAInstallPrompt';
 
 const queryClient = new QueryClient();
 
@@ -140,8 +141,9 @@ const App = () => {
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                     <Footer />
-                    {/* NEW: Add the floating scroll to top button */}
                     <ScrollToTopButton />
+                    <OfflineIndicator />
+                    <PWAInstallPrompt />
                   </div>
                 </BrowserRouter>
               </TooltipProvider>
