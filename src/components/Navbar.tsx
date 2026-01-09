@@ -30,6 +30,7 @@ import {
   Zap,
   Moon,
   Sun,
+  Bell,
 } from 'lucide-react';
 
 const Navbar: React.FC = () => {
@@ -128,6 +129,12 @@ const Navbar: React.FC = () => {
                       <Link to="/profile" className="flex items-center gap-2 py-2">
                         <User className="w-4 h-4" />
                         {t.myProfile}
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/reminders" className="flex items-center gap-2 py-2">
+                        <Bell className="w-4 h-4" />
+                        {language === 'hi' ? 'रिमाइंडर' : 'Reminders'}
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={logout} className="flex items-center gap-2 py-2 text-destructive">
