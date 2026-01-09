@@ -39,7 +39,6 @@ const severityStyles = {
 
 const SymptomTracker: React.FC = () => {
   const { t, language } = useLanguage();
- console.log("CURRENT LANGUAGE:", language);
   const [symptoms, setSymptoms] = useState<Symptom[]>(() => {
     const saved = localStorage.getItem("symptoms");
     try {
@@ -66,8 +65,6 @@ const SymptomTracker: React.FC = () => {
     const result = evaluateSymptoms({
       symptoms: symptoms.map((s) => s.name.toLowerCase()),
     });
-
-    console.log("TRIAGE RESULT:", result);
 
     setTriageResult(result);
   }, [symptoms]);
