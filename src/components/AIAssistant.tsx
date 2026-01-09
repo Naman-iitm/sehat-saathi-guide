@@ -39,7 +39,8 @@ const AIAssistant: React.FC = () => {
   const [chatHistories, setChatHistories] = useState<ChatHistoryItem[]>([]);
   const [activeChatId, setActiveChatId] = useState<string | null>(null);
 
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Load chat history from localStorage on mount
   useEffect(() => {
@@ -61,12 +62,24 @@ const AIAssistant: React.FC = () => {
     }
   }, []);
 
-  // Auto-scroll to bottom when messages change
+  // Smooth scroll to bottom when messages change
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [messages]);
+    const scrollToBottom = () => {
+      if (messagesEndRef.current && scrollAreaRef.current) {
+        const scrollContainer = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+        if (scrollContainer) {
+          scrollContainer.scrollTo({
+            top: scrollContainer.scrollHeight,
+            behavior: 'smooth'
+          });
+        }
+      }
+    };
+
+    // Use a small delay to ensure DOM is updated
+    const timeoutId = setTimeout(scrollToBottom, 100);
+    return () => clearTimeout(timeoutId);
+  }, [messages, isTyping]);
 
   // Save chat history to localStorage whenever it changes
   useEffect(() => {
@@ -77,7 +90,7 @@ const AIAssistant: React.FC = () => {
   useEffect(() => {
     const script = document.createElement('script');
     script.type = 'text/javascript';
-    script.onload = function() {
+    script.onload = function () {
       // @ts-ignore
       window.voiceflow.chat.load({
         verify: { projectID: '695a5f1cf022b12146863e82' },
@@ -99,13 +112,13 @@ const AIAssistant: React.FC = () => {
       });
     };
     script.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
-    
+
     const scriptParentElement = document.getElementsByTagName('head')[0];
     scriptParentElement.appendChild(script);
-    
+
     return () => {
       scriptParentElement.removeChild(script);
-      
+
       const vfElements = document.querySelectorAll('[id*="voiceflow"], [class*="voiceflow"]');
       vfElements.forEach(el => el.remove());
     };
@@ -196,6 +209,13 @@ const AIAssistant: React.FC = () => {
     sendMessageAsync(input);
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); // Prevent default form submission
+      handleSend();
+    }
+  };
+
   const handleRetry = () => {
     if (messages.length > 0) {
       const lastUserMessage = [...messages].reverse().find(m => m.role === 'user');
@@ -207,9 +227,9 @@ const AIAssistant: React.FC = () => {
   };
 
   const updateChatTitle = (chatId: string, title: string) => {
-    setChatHistories(prev => 
-      prev.map(chat => 
-        chat.id === chatId 
+    setChatHistories(prev =>
+      prev.map(chat =>
+        chat.id === chatId
           ? { ...chat, title: title.length > 30 ? title.substring(0, 30) + '...' : title }
           : chat
       )
@@ -229,16 +249,24 @@ const AIAssistant: React.FC = () => {
       title: language === 'hi' ? `नई चैट ${timeString}` : `New Chat ${timeString}`,
       timestamp: now
     };
-    
+
     setChatHistories(prev => [newChat, ...prev]);
     setActiveChatId(newChat.id);
+    setMessages([
+      {
+        id: '1',
+        role: 'assistant',
+        content: t.welcomeMessage,
+        timestamp: new Date(),
+      },
+    ]);
   };
 
   const deleteChat = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    
+
     setChatHistories(prev => prev.filter(chat => chat.id !== id));
-    
+
     if (activeChatId === id && chatHistories.length > 1) {
       setActiveChatId(chatHistories[0].id);
     } else if (chatHistories.length <= 1) {
@@ -263,15 +291,15 @@ const AIAssistant: React.FC = () => {
           <Plus className="w-4 h-4" />
           {language === 'hi' ? 'नई चैट' : 'New Chat'}
         </Button>
-        
+
         <div className="flex-1 overflow-y-auto">
           <h3 className="text-sm font-semibold text-muted-foreground mb-2 px-2">
             {language === 'hi' ? 'चैट इतिहास' : 'Chat History'}
           </h3>
-          
+
           <div className="space-y-1">
             {chatHistories.map((chat) => (
-              <Card 
+              <Card
                 key={chat.id}
                 className={`cursor-pointer transition-colors ${activeChatId === chat.id ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}
                 onClick={() => switchToChat(chat.id)}
@@ -297,7 +325,7 @@ const AIAssistant: React.FC = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col max-w-3xl mx-auto w-full">
         <div className="text-center mb-6">
@@ -306,9 +334,9 @@ const AIAssistant: React.FC = () => {
             {language === 'hi' ? 'हमारे वॉयस फ्लो हैल्थ एआई सहायक के साथ बात करें' : 'Talk with our Health AI assistant'}
           </p>
         </div>
-        
+
         {/* Chat Interface */}
-        <Card className="flex-1 border-2 border-border shadow-lg flex flex-col">
+        <Card className="flex-1 border-2 border-border shadow-lg flex flex-col min-h-0">
           <CardHeader className="bg-primary text-primary-foreground">
             <CardTitle className="flex items-center gap-3">
               <MessageCircle className="w-6 h-6" />
@@ -316,7 +344,11 @@ const AIAssistant: React.FC = () => {
             </CardTitle>
           </CardHeader>
 
-          <ScrollArea className="flex-1 p-4">
+          <ScrollArea
+            ref={scrollAreaRef}
+            className="flex-1 p-4 overflow-auto"
+            style={{ maxHeight: '500px' }}
+          >
             <div className="space-y-4">
               {messages.map((message) => (
                 <div key={message.id} className={`flex gap-3 ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
@@ -324,13 +356,29 @@ const AIAssistant: React.FC = () => {
                     {message.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
                   </div>
                   <div className="max-w-[80%] p-3 rounded-lg bg-secondary">
-                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                    <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </p>
                   </div>
                 </div>
               ))}
 
-              {isTyping && <p className="text-sm text-muted-foreground">AI is typing…</p>}
-              <div ref={scrollRef} />
+              {isTyping && (
+                <div className="flex gap-3">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-primary text-primary-foreground">
+                    <Bot className="w-4 h-4" />
+                  </div>
+                  <div className="max-w-[80%] p-3 rounded-lg bg-secondary">
+                    <div className="flex gap-1">
+                      <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                      <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                      <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
             </div>
           </ScrollArea>
 
@@ -339,17 +387,20 @@ const AIAssistant: React.FC = () => {
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                onKeyPress={handleKeyPress}
                 placeholder={t.askHealth}
                 disabled={loading}
               />
-              <Button onClick={handleSend} disabled={loading}>
+              <Button onClick={handleSend} disabled={loading || !input.trim()}>
                 <Send className="w-4 h-4" />
               </Button>
             </div>
+            <p className="text-xs text-muted-foreground mt-2 text-center">
+              {language === 'hi' ? 'चैट शुरू करने के लिए मैसेज लिखें और भेजें' : 'Type a message to start chatting'}
+            </p>
           </CardContent>
         </Card>
-        
+
         {/* Voiceflow embedded chat (hidden but available) */}
         <div id="voiceflow-embedded-chat" className="hidden">
           {/* Voiceflow will be injected here if needed */}
