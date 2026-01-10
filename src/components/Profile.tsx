@@ -4,7 +4,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { User, Mail, Phone, LogOut } from 'lucide-react';
+import { User, Mail, Phone, LogOut, Package } from 'lucide-react';
 
 const Profile: React.FC = () => {
   const { t, language } = useLanguage();
@@ -39,7 +39,14 @@ const Profile: React.FC = () => {
             className="w-full gap-2" 
             onClick={() => navigate('/edit-profile')}
           >
-            {language === 'hi' ? 'प्रोफ़ाइल संपादित करें' : 'Edit Profile'}
+            <User className="w-4 h-4" />{language === 'hi' ? 'प्रोफ़ाइल संपादित करें' : 'Edit Profile'}
+          </Button>
+          <Button 
+            variant="outline" 
+            className="w-full gap-2" 
+            onClick={() => navigate('/order-tracking')}
+          >
+            <Package className="w-4 h-4" />{language === 'hi' ? 'ऑर्डर ट्रैक करें' : 'Track Orders'}
           </Button>
           <Button variant="destructive" className="w-full gap-2" onClick={() => { logout(); navigate('/'); }}>
             <LogOut className="w-4 h-4" />{t.logout}
