@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 
 // Mapping icon names to actual icon components
-const iconMap: Record<string, React.FC<any>> = {
+const iconMap: Record<string, React.FC<{ className?: string }>> = {
   soap: Hand,
   droplets: Droplets,
   salad: Utensils,

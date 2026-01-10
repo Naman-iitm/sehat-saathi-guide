@@ -83,11 +83,9 @@ function calculateDistance(lat1: number, lng1: number, lat2: number, lng2: numbe
 
 const SIMULATE_API_FAILURE = false;
 
-
-
 async function fetchNearbyHospitals(lat: number, lng: number): Promise<Hospital[]> {
   if (SIMULATE_API_FAILURE) {
-
+    throw new Error('Simulated API failure for testing');
   }
 
 

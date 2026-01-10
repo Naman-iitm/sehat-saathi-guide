@@ -50,7 +50,7 @@ describe('Reminder Storage', () => {
         { id: '1', title: 'Take medicine', time: '09:00', date: '2026-01-15' },
       ];
 
-      saveReminders(reminders as any);
+      saveReminders(reminders as unknown as Parameters<typeof saveReminders>[0]);
 
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
         'sehat-saathi-reminders',

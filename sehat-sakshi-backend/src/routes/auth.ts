@@ -1,6 +1,6 @@
 import { Router, Response } from 'express';
 import { User } from '../models/User';
-import { generateToken, protect, AuthRequest } from '../middleware/auth';
+import { generateToken, protect, AuthRequest, getUserId } from '../middleware/auth';
 
 const router = Router();
 
@@ -22,7 +22,7 @@ router.post('/register', async (req, res) => {
       user: { id: user._id, name: user.name, email: user.email, phone: user.phone },
       token,
     });
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -44,16 +44,16 @@ router.post('/login', async (req, res) => {
       user: { id: user._id, name: user.name, email: user.email, phone: user.phone, profilePic: user.profilePic },
       token,
     });
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: 'Server error' });
   }
 });
 
 // Get current user
-router.get('/me', protect, async (req: AuthRequest, res: Response) => {
+router.get('/me', protect, (req: AuthRequest, res: Response) => {
   res.json({
     user: {
-      id: (req.user! as any)._id,
+      id: getUserId(req),
       name: req.user!.name,
       email: req.user!.email,
       phone: req.user!.phone,
@@ -68,7 +68,7 @@ router.put('/profile', protect, async (req: AuthRequest, res: Response) => {
     const { name, phone, profilePic } = req.body;
     
     const user = await User.findByIdAndUpdate(
-      (req.user! as any)._id,
+      getUserId(req),
       { name, phone, profilePic },
       { new: true }
     );
@@ -76,7 +76,7 @@ router.put('/profile', protect, async (req: AuthRequest, res: Response) => {
     res.json({
       user: { id: user!._id, name: user!.name, email: user!.email, phone: user!.phone, profilePic: user!.profilePic },
     });
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: 'Server error' });
   }
 });

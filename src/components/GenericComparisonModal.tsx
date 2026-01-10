@@ -6,10 +6,19 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 
+interface ComparisonData {
+  brandEquivalent: string;
+  brandedPrice: number;
+  genericName: string;
+  genericPrice: number;
+  activeIngredients: string[];
+  note?: string;
+}
+
 interface Props {
   open: boolean;
   onClose: (open: boolean) => void;
-  data: any;
+  data: ComparisonData | null;
 }
 
 const GenericComparisonModal: React.FC<Props> = ({ open, onClose, data }) => {

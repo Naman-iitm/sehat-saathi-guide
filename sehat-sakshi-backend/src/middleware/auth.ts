@@ -2,10 +2,16 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { env } from '../config/env';
 import { User, IUser } from '../models/User';
+import { Types } from 'mongoose';
 
 export interface AuthRequest extends Request {
   user?: IUser;
 }
+
+// Helper to get user ID safely
+export const getUserId = (req: AuthRequest): Types.ObjectId => {
+  return req.user!._id as Types.ObjectId;
+};
 
 export const protect = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
