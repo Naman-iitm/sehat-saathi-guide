@@ -108,7 +108,11 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
+<<<<<<< HEAD
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+=======
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+>>>>>>> 29ff43302fe1806590ec66ae53d3cdefd0d2b5e8
         <LanguageProvider>
           <AuthProvider>
             <CartProvider>
