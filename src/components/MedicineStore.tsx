@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/dialog';
 
 import { toast } from 'sonner';
-import { Search, ShoppingCart, Star, Tag } from 'lucide-react';
+import { Search, ShoppingCart, Star, Tag, X, Clock } from 'lucide-react';
 
 const MedicineStore: React.FC = () => {
   const navigate = useNavigate();
@@ -30,6 +30,8 @@ const MedicineStore: React.FC = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
 
   const [selectedMedicine, setSelectedMedicine] =
     useState<(typeof medicines)[0] | null>(null);
@@ -37,6 +39,71 @@ const MedicineStore: React.FC = () => {
 
   const [compareOpen, setCompareOpen] = useState(false);
   const [compareData, setCompareData] = useState<any>(null);
+
+  // Load search history from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('medicine-search-history');
+    if (saved) {
+      try {
+        setSearchHistory(JSON.parse(saved));
+      } catch (e) {
+        console.error('Failed to load search history:', e);
+      }
+    }
+  }, []);
+
+  // Save search to history
+  const saveSearchToHistory = (query: string) => {
+    if (!query.trim() || query.length < 2) return;
+
+    const trimmedQuery = query.trim();
+    
+    // Remove duplicate if exists, add to front (most recent first)
+    const updated = [
+      trimmedQuery,
+      ...searchHistory.filter(item => item !== trimmedQuery)
+    ].slice(0, 5); // Keep only 5 most recent
+
+    setSearchHistory(updated);
+    localStorage.setItem('medicine-search-history', JSON.stringify(updated));
+  };
+
+  // Remove item from history
+  const removeFromHistory = (query: string) => {
+    const updated = searchHistory.filter(item => item !== query);
+    setSearchHistory(updated);
+    localStorage.setItem('medicine-search-history', JSON.stringify(updated));
+  };
+
+  // Clear all history
+  const clearHistory = () => {
+    setSearchHistory([]);
+    localStorage.removeItem('medicine-search-history');
+    toast.success(
+      language === 'hi'
+        ? 'खोज इतिहास साफ़ हो गया'
+        : 'Search history cleared'
+    );
+  };
+
+    // Handle search input change
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
+    // Don't save to history on every keystroke
+  };
+
+  // Handle Enter key press
+const handleSearchSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (e.key === 'Enter' && searchQuery.trim().length >= 2) {
+    saveSearchToHistory(searchQuery);
+    setShowHistory(false);
+  }
+};
+  // Apply search from history
+  const applyHistorySearch = (query: string) => {
+    setSearchQuery(query);
+    setShowHistory(false);
+  };
 
   const filteredMedicines = medicines.filter((medicine) => {
     const matchesSearch =
@@ -88,15 +155,63 @@ const MedicineStore: React.FC = () => {
         </p>
       </div>
 
-      {/* Search */}
+      {/* Search with History */}
       <div className="relative mb-6">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-        <Input
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder={t.search}
-          className="pl-10 h-12"
-        />
+      <Input
+        value={searchQuery}
+        onChange={(e) => handleSearchChange(e.target.value)}
+        onKeyDown={handleSearchSubmit}
+        onFocus={() => setShowHistory(true)}
+        onBlur={() => setTimeout(() => setShowHistory(false), 200)}
+        placeholder={t.search}
+        className="pl-10 h-12"
+      />
+
+        {/* Search History Dropdown */}
+        {showHistory && searchHistory.length > 0 && (
+          <div className="absolute z-10 w-full mt-2 bg-background border rounded-lg shadow-lg">
+            <div className="p-3 border-b flex items-center justify-between">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Clock className="w-4 h-4" />
+                <span>
+                  {language === 'hi' ? 'हाल की खोजें' : 'Recent Searches'}
+                </span>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={clearHistory}
+                className="h-6 text-xs"
+              >
+                {language === 'hi' ? 'सभी हटाएं' : 'Clear All'}
+              </Button>
+            </div>
+            
+            <div className="py-2">
+              {searchHistory.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between px-3 py-2 hover:bg-muted cursor-pointer group"
+                  onClick={() => applyHistorySearch(item)}
+                >
+                  <span className="text-sm">{item}</span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeFromHistory(item);
+                    }}
+                  >
+                    <X className="w-3 h-3" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Categories */}
