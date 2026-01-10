@@ -3,6 +3,10 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 export type Language = 'hi' | 'en' | 'bn' | 'mr' | 'bho' | 'mai';
 
 interface Translations {
+  invalidEmail: any;
+  newsletterTitle: ReactNode;
+  subscribeError: string & ReactNode;
+  subscribeSuccess: string & ReactNode;
   appName: string;
   home: string;
   symptomTracker: string;
@@ -79,6 +83,7 @@ interface Translations {
   followUs: string;
   rightsReserved: string;
   offers: string;
+  stayUpdated: string;
 }
 
 const translations: Record<Language, Translations> = {
@@ -159,6 +164,11 @@ const translations: Record<Language, Translations> = {
     followUs: 'हमें फॉलो करें',
     rightsReserved: 'सर्वाधिकार सुरक्षित',
     offers: 'ऑफर',
+    invalidEmail: 'अवैध ईमेल',
+    newsletterTitle: 'वृत्तपत्र शीर्षक',
+    subscribeError: 'सदस्यता त्रुटी',
+    subscribeSuccess: 'सदस्यता यशस्वी',
+    stayUpdated: 'आमच्या नवीनतम आरोग्य टिप्स आणि वैशिष्ट्यांसह अपडेट रहा.',
   },
   en: {
     appName: 'Sehat Saathi',
@@ -237,6 +247,12 @@ const translations: Record<Language, Translations> = {
     followUs: 'Follow Us',
     rightsReserved: 'All Rights Reserved',
     offers: 'Offers',
+    invalidEmail: undefined,
+    newsletterTitle: 'Newsletter',
+    subscribeError: 'Subscription Error',
+    subscribeSuccess: 'Subscription Success',
+    stayUpdated: 'Stay updated with our latest health tips and features.'
+    ,
   },
   bn: {
     appName: 'স্বাস্থ্য সাথী',
@@ -315,6 +331,12 @@ const translations: Record<Language, Translations> = {
     followUs: 'আমাদের অনুসরণ করুন',
     rightsReserved: 'সর্বস্বত্ব সংরক্ষিত',
     offers: 'অফার',
+    invalidEmail: undefined,
+    newsletterTitle: 'নিউজলেটার',
+    subscribeError: 'সাবস্ক্রিপশন ত্রুটি',
+    subscribeSuccess: 'সাবস্ক্রিপশন সফল',
+    stayUpdated: 'আমাদের সর্বশেষ স্বাস্থ্য টিপস এবং বৈশিষ্ট্য সম্পর্কে আপডেট থাকুন।'
+    ,
   },
   mr: {
     appName: 'स्वास्थ्य साथी',
@@ -392,7 +414,12 @@ const translations: Record<Language, Translations> = {
     contact: 'संपर्क करा',
     followUs: 'आम्हाला फॉलो करा',
     rightsReserved: 'सर्व हक्क राखीव',
-    offers: 'ऑफर',
+     offers: 'ऑफर',
+  invalidEmail: 'अवैध ईमेल',
+  newsletterTitle: 'न्यूजलेटर',
+  subscribeError: 'सदस्यता त्रुटी',
+  subscribeSuccess: 'सदस्यता यशस्वी',
+  stayUpdated: 'आमच्या नवीनतम आरोग्य टिप्स आणि वैशिष्ट्यांसह अपडेट रहा.',
   },
   bho: {
     appName: 'स्वास्थ्य साथी',
@@ -471,6 +498,11 @@ const translations: Record<Language, Translations> = {
     followUs: 'Follow Us',
     rightsReserved: 'All Rights Reserved',
     offers: 'ऑफर',
+    invalidEmail: undefined,
+    newsletterTitle: 'न्यूजलेटर',
+    subscribeError: 'सदस्यता त्रुटी',
+    subscribeSuccess: 'सदस्यता सफल',
+    stayUpdated: 'हमार नवीनतम स्वास्थ्य टिप्स आ फीचर्स से अपडेट रहअ।',
   },
   mai: {
     appName: 'स्वास्थ्य साथी',
@@ -548,7 +580,12 @@ const translations: Record<Language, Translations> = {
     contact: 'Contact Us',
     followUs: 'Follow Us',
     rightsReserved: 'All Rights Reserved',
-    offers: 'ऑफर',
+   offers: 'ऑफर',
+  invalidEmail: undefined,
+  newsletterTitle: 'न्यूजलेटर',
+  subscribeError: 'सदस्यता त्रुटी',
+  subscribeSuccess: 'सदस्यता सफल',
+  stayUpdated: 'हमर नवीनतम स्वास्थ्य टिप्स आ सुविधासँ अपडेट रहू।',
   },
 };
 
