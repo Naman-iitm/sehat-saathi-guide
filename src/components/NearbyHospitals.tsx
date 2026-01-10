@@ -3,9 +3,10 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import AsyncErrorFallback from "@/components/AsyncErrorFallback";
-import { MapPin, Navigation, Phone, Clock } from 'lucide-react';
+import { MapPin, Navigation, Phone, Clock, CalendarPlus } from 'lucide-react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import AppointmentBooking from './AppointmentBooking';
 
 interface Hospital {
   id: string;
@@ -164,6 +165,8 @@ const NearbyHospitals: React.FC = () => {
   const [hospitals, setHospitals] = useState<Hospital[]>(mockHospitals);
   const [isLoadingHospitals, setIsLoadingHospitals] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [selectedHospital, setSelectedHospital] = useState<Hospital | null>(null);
+  const [bookingOpen, setBookingOpen] = useState(false);
 
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -393,11 +396,32 @@ const NearbyHospitals: React.FC = () => {
                       {language === 'hi' ? 'कॉल करें' : 'Call'}
                     </Button>
                   </div>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="w-full gap-2 mt-2"
+                    onClick={() => {
+                      setSelectedHospital(hospital);
+                      setBookingOpen(true);
+                    }}
+                  >
+                    <CalendarPlus className="w-4 h-4" />
+                    {language === 'hi' ? 'अपॉइंटमेंट बुक करें' : 'Book Appointment'}
+                  </Button>
                 </CardContent>
               </Card>
             ))}
           </div>
         </>
+      )}
+
+      {/* Appointment Booking Dialog */}
+      {selectedHospital && (
+        <AppointmentBooking
+          hospital={selectedHospital}
+          open={bookingOpen}
+          onOpenChange={setBookingOpen}
+        />
       )}
     </div>
   );

@@ -95,6 +95,7 @@ export default function Reminders() {
     }
   };
 
+  /* Add Reminder */
   const addReminder = () => {
     if (!title.trim()) {
       toast.error(language === "hi" ? "कृपया नाम दर्ज करें" : "Please enter a name");
