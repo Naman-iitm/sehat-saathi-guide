@@ -2,6 +2,36 @@ import React from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { healthTips } from '@/data/healthTips';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Toilet,
+  Droplets,
+  Utensils,
+  Moon,
+  Home,
+  Wind,
+  User,
+  Bug,
+  Syringe,
+  Hand,
+  Carrot,
+  PersonStanding,
+} from 'lucide-react';
+
+// Mapping icon names to actual icon components
+const iconMap: Record<string, React.FC<any>> = {
+  soap: Hand,
+  droplets: Droplets,
+  salad: Utensils,
+  pot: Utensils,
+  plate: Carrot,
+  moon: Moon,
+  toilet: Toilet,
+  window: Wind,
+  walk: User,
+  activity: PersonStanding,
+  bug: Bug,
+  syringe: Syringe,
+};
 
 const HealthTips: React.FC = () => {
   const { t, language } = useLanguage();
@@ -27,7 +57,7 @@ const HealthTips: React.FC = () => {
           >
             <CardHeader className="bg-secondary pb-4">
               <CardTitle className="flex items-center gap-3 text-secondary-foreground">
-                <span className="text-4xl">{tip.icon}</span>
+                {iconMap[tip.icon] ? React.createElement(iconMap[tip.icon], { className: "w-10 h-10" }) : <span className="text-4xl">{tip.icon}</span>}
                 <span className="text-lg">
                   {language === 'hi' ? tip.titleHi : tip.title}
                 </span>

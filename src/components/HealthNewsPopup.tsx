@@ -22,7 +22,7 @@ const newsItems: NewsItem[] = [
     descriptionHi: 'सभी विटामिन पर 30% की छूट। सीमित समय के लिए!',
     descriptionEn: '30% OFF on all vitamins. Limited time offer!',
     icon: <Gift className="w-6 h-6" />,
-    color: 'bg-chart-4',
+    color: 'bg-primary',
     discount: '30% OFF',
   },
   {
@@ -41,7 +41,7 @@ const newsItems: NewsItem[] = [
     descriptionHi: 'PHC में मुफ्त स्वास्थ्य जांच शिविर। इस रविवार!',
     descriptionEn: 'Free health checkup camp at PHC. This Sunday!',
     icon: <Stethoscope className="w-6 h-6" />,
-    color: 'bg-chart-2',
+    color: 'bg-primary',
   },
 ];
 

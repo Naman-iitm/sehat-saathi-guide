@@ -5,11 +5,43 @@ import { useCart } from '@/contexts/CartContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart, Plus, Minus, Trash2, ArrowRight } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { toast } from 'sonner';
+
 
 const Cart: React.FC = () => {
+  const { isAuthenticated } = useAuth(); // 🔒 AUTH CHECK
+
   const { t, language } = useLanguage();
   const { items, updateQuantity, removeFromCart, total, itemCount } = useCart();
   const navigate = useNavigate();
+
+  const handleCheckout = () => {
+    if (!isAuthenticated) {
+      toast.error(
+        language === 'hi'
+          ? 'ऑर्डर करने के लिए कृपया लॉगिन करें'
+          : 'Please login to place an order'
+      );
+      navigate('/auth');
+      return;
+    }
+    navigate('/checkout');
+  };
+
+  const requireAuth = () => {
+    if (!isAuthenticated) {
+      toast.error(
+        language === 'hi'
+          ? 'कार्ट संशोधित करने के लिए कृपया लॉगिन करें'
+          : 'Please login to modify your cart'
+      );
+      navigate('/auth');
+      return false;
+    }
+    return true;
+  };
+
 
   if (items.length === 0) {
     return (
@@ -63,7 +95,11 @@ const Cart: React.FC = () => {
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => removeFromCart(item.id)}
+                      onClick={() => {
+                        if (!requireAuth()) return;
+                        removeFromCart(item.id);
+                      }}
+
                       className="text-destructive hover:text-destructive hover:bg-destructive/10"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -72,7 +108,12 @@ const Cart: React.FC = () => {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        disabled={!isAuthenticated}
+                        onClick={() => {
+                          if (!requireAuth()) return;
+                          updateQuantity(item.id, item.quantity - 1);
+                        }}
+
                       >
                         <Minus className="w-4 h-4" />
                       </Button>
@@ -82,7 +123,12 @@ const Cart: React.FC = () => {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        disabled={!isAuthenticated} // block visual
+                        onClick={() => {
+                          if (!requireAuth()) return;
+                          updateQuantity(item.id, item.quantity + 1);
+                        }}
+
                       >
                         <Plus className="w-4 h-4" />
                       </Button>
@@ -124,13 +170,21 @@ const Cart: React.FC = () => {
                 </div>
               </div>
               <Button
-                onClick={() => navigate('/checkout')}
+                onClick={handleCheckout} //auth change
                 className="w-full gap-2"
                 size="lg"
+                disabled={!isAuthenticated}
               >
                 {t.checkout}
                 <ArrowRight className="w-4 h-4" />
               </Button>
+              {!isAuthenticated && (
+                <p className="text-sm text-muted-foreground text-center mt-2">
+                  {language === 'hi'
+                    ? 'चेकआउट के लिए कृपया लॉगिन करें'
+                    : 'Please login to proceed to checkout'}
+                </p>
+              )}
             </CardContent>
           </Card>
         </div>

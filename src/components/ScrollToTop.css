@@ -1,0 +1,47 @@
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.scroll-to-top-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #3b82f6; /* Tailwind blue-500 */
+  color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.scroll-to-top-button:hover {
+  background-color: #2563eb; /* Tailwind blue-600 */
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.scroll-to-top-button:active {
+  transform: translateY(0);
+}
+
+/* For mobile responsiveness */
+@media (max-width: 768px) {
+  .scroll-to-top {
+    bottom: 15px;
+    right: 15px;
+  }
+  
+  .scroll-to-top-button {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+}

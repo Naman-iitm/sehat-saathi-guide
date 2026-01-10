@@ -78,6 +78,7 @@ interface Translations {
   contact: string;
   followUs: string;
   rightsReserved: string;
+  offers: string;
 }
 
 const translations: Record<Language, Translations> = {
@@ -157,9 +158,10 @@ const translations: Record<Language, Translations> = {
     contact: 'संपर्क करें',
     followUs: 'हमें फॉलो करें',
     rightsReserved: 'सर्वाधिकार सुरक्षित',
+    offers: 'ऑफर',
   },
   en: {
-    appName: 'Swasthya Saathi',
+    appName: 'Sehat Saathi',
     home: 'Home',
     symptomTracker: 'Symptom Tracker',
     healthTips: 'Health Tips',
@@ -231,9 +233,10 @@ const translations: Record<Language, Translations> = {
     support: 'Support',
     helpCenter: 'Help Center',
     feedback: 'Feedback',
-    contact: 'Contact Us',
+    contact: 'Contact',
     followUs: 'Follow Us',
     rightsReserved: 'All Rights Reserved',
+    offers: 'Offers',
   },
   bn: {
     appName: 'স্বাস্থ্য সাথী',
@@ -311,6 +314,7 @@ const translations: Record<Language, Translations> = {
     contact: 'যোগাযোগ',
     followUs: 'আমাদের অনুসরণ করুন',
     rightsReserved: 'সর্বস্বত্ব সংরক্ষিত',
+    offers: 'অফার',
   },
   mr: {
     appName: 'स्वास्थ्य साथी',
@@ -388,6 +392,7 @@ const translations: Record<Language, Translations> = {
     contact: 'संपर्क करा',
     followUs: 'आम्हाला फॉलो करा',
     rightsReserved: 'सर्व हक्क राखीव',
+    offers: 'ऑफर',
   },
   bho: {
     appName: 'स्वास्थ्य साथी',
@@ -422,7 +427,7 @@ const translations: Record<Language, Translations> = {
     send: 'भेजीं',
     welcomeMessage: 'नमस्ते! हम रउआ के स्वास्थ्य सहायक बानी। का तकलीफ बा?',
     healthTipsTitle: 'स्वास्थ्य सुझाव',
-    governmentSchemes: 'सरकारी योजना',
+    governmentSchemes: 'সরকারি योजना',
     freeHealthcare: 'मुफ्त स्वास्थ्य सेवा',
     schemes: 'योजना',
     eligibility: 'पात्रता',
@@ -465,6 +470,7 @@ const translations: Record<Language, Translations> = {
     contact: 'Contact Us',
     followUs: 'Follow Us',
     rightsReserved: 'All Rights Reserved',
+    offers: 'ऑफर',
   },
   mai: {
     appName: 'स्वास्थ्य साथी',
@@ -496,7 +502,7 @@ const translations: Record<Language, Translations> = {
     proceedToPayment: 'भुगतान करू',
     orderPlaced: 'ऑर्डर भ गेल',
     askHealth: 'अपन स्वास्थ्य समस्या बताउ...',
-    send: 'पठाउ',
+    send: 'পठाउ',
     welcomeMessage: 'नमस्ते! हम अहाँक स्वास्थ्य सहायक छी। की तकलीफ अछि?',
     healthTipsTitle: 'स्वास्थ्य सुझाव',
     governmentSchemes: 'सरकारी योजना',
@@ -542,6 +548,7 @@ const translations: Record<Language, Translations> = {
     contact: 'Contact Us',
     followUs: 'Follow Us',
     rightsReserved: 'All Rights Reserved',
+    offers: 'ऑफर',
   },
 };
 

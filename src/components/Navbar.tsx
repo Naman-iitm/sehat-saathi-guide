@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { useTheme } from '@/components/theme-provider';
+
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -18,37 +20,45 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import {
-  Home,
   Heart,
-  Lightbulb,
-  Store,
-  MessageCircle,
-  Building,
-  MapPin,
   User,
   ShoppingCart,
   Menu,
   Globe,
   LogOut,
   ChevronDown,
-  Activity,
+  Zap,
+  Moon,
+  Sun,
 } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const { t, language, setLanguage, languageNames, availableLanguages } = useLanguage();
   const { user, isAuthenticated, logout } = useAuth();
   const { itemCount } = useCart();
+  const currentLanguageName =
+  languageNames[language] || language.toUpperCase();
+
+  const { theme, setTheme } = useTheme();
+  const isDark = theme === "dark";
   const location = useLocation();
-  const [isOpen, setIsOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [selectedPincode, setSelectedPincode] = useState('Select Pincode');
 
   const navItems = [
-    { path: '/', label: t.home, icon: Home },
-    { path: '/symptoms', label: t.symptomTracker, icon: Activity },
-    { path: '/tips', label: t.healthTips, icon: Lightbulb },
-    { path: '/store', label: t.medicineStore, icon: Store },
-    { path: '/assistant', label: t.aiAssistant, icon: MessageCircle },
-    { path: '/schemes', label: t.sarkariYojana, icon: Building },
-    { path: '/nearby', label: t.nearbyHospitals, icon: MapPin },
+    { path: "/", label: t.home || 'Home', icon: "🏠" },
+    { path: "/symptoms", label: t.symptomTracker, icon: "🩺" },
+    { path: "/tips", label: t.healthTips, icon: "🌿" },
+    { path: "/store", label: t.medicineStore, icon: "💊" },
+    { path: "/assistant", label: t.aiAssistant, icon: "🤖" },
+  ];
+
+  const moreItems = [
+    { path: '/schemes', label: t.sarkariYojana, icon: '🏛️' },
+    { path: '/nearby', label: t.nearbyHospitals, icon: '🏥' },
+    { path: "/medical-history", label: "Medical History", icon: "🧾" },
+    { path: '/reminders', label: 'Reminders', icon: '⏰' },
+
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -112,15 +122,72 @@ const Navbar: React.FC = () => {
             </DropdownMenu>
           </div>
 
-          {/* Right Side */}
-          <div className="flex items-center gap-2">
-            {/* Language Selector */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2 border-2">
-                  <span className="text-lg">{languageFlags[language]}</span>
-                  <Globe className="w-4 h-4" />
-                  <span className="hidden sm:inline">{languageNames[language]}</span>
+              {/* Express Delivery Section */}
+              <div className="hidden md:flex items-center gap-2 bg-secondary/50 px-4 py-1.5 rounded-full border border-border mt-1">
+                <Zap className="w-4 h-4 text-amber-500 fill-amber-500" />
+                <div className="flex flex-col -gap-1">
+                  <span className="text-[10px] text-muted-foreground leading-tight uppercase font-bold tracking-wider">Express Delivery to</span>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="sm" className="gap-1 text-primary font-bold p-0 h-auto hover:bg-transparent text-xs justify-start">
+                        {selectedPincode}
+                        <ChevronDown className="w-3 h-3" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start">
+                      <DropdownMenuItem onClick={() => setSelectedPincode('110001')}>110001 - New Delhi</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setSelectedPincode('400001')}>400001 - Mumbai</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setSelectedPincode('560001')}>560001 - Bangalore</DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side Actions */}
+            <div className="flex items-center gap-3">
+              {/* Profile / Login */}
+              {isAuthenticated ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="gap-2 text-foreground h-10">
+                      <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-primary">
+                        <User className="w-4 h-4" />
+                      </div>
+                      <span className="hidden sm:inline font-medium text-xs">Hi, {user?.name?.split(' ')[0]}</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem asChild>
+                      <Link to="/profile" className="flex items-center gap-2 py-2">
+                        <User className="w-4 h-4" />
+                        {t.myProfile}
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={logout} className="flex items-center gap-2 py-2 text-destructive">
+                      <LogOut className="w-4 h-4" />
+                      {t.logout}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link to="/auth">
+                  <Button variant="ghost" size="sm" className="gap-2 text-foreground h-10 px-3">
+                    <User className="w-5 h-5" />
+                    <span className="hidden sm:inline font-medium">{t.login}</span>
+                  </Button>
+                </Link>
+              )}
+
+              {/* Cart */}
+              <Link to="/cart">
+                <Button variant="ghost" size="icon" className="relative h-10 w-10 p-0 text-foreground">
+                  <ShoppingCart className="w-5 h-5" />
+                  {itemCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-primary-foreground text-[10px] rounded-full flex items-center justify-center font-bold">
+                      {itemCount}
+                    </span>
+                  )}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="border-2 border-border">
@@ -147,10 +214,8 @@ const Navbar: React.FC = () => {
                   </span>
                 )}
               </Button>
-            </Link>
 
-            {/* Profile / Login */}
-            {isAuthenticated ? (
+              {/* Language Selector */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="sm" className="gap-2 border-2">
@@ -183,13 +248,15 @@ const Navbar: React.FC = () => {
                   {t.login}
                 </Button>
               </Link>
-            )}
+            ))}
 
-            {/* Mobile Menu */}
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild className="lg:hidden">
-                <Button variant="outline" size="sm" className="border-2">
-                  <Menu className="w-5 h-5" />
+            {/* More Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="gap-1 text-muted-foreground hover:text-primary font-semibold h-12 p-0 flex items-center">
+                  <span>⋯</span>
+                  <span className="text-sm">{language === 'hi' ? 'और' : 'More'}</span>
+                  <ChevronDown className="w-4 h-4" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-80 border-l-2 border-border">
@@ -217,10 +284,10 @@ const Navbar: React.FC = () => {
                         {item.label}
                       </Button>
                     </Link>
-                  ))}
-                </div>
-              </SheetContent>
-            </Sheet>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>

@@ -34,6 +34,13 @@ const Profile: React.FC = () => {
             <Phone className="w-5 h-5 text-primary" />
             <div><p className="text-sm text-muted-foreground">{t.phone}</p><p className="font-medium">{user?.phone}</p></div>
           </div>
+          <Button 
+            variant="outline" 
+            className="w-full gap-2" 
+            onClick={() => navigate('/edit-profile')}
+          >
+            {language === 'hi' ? 'प्रोफ़ाइल संपादित करें' : 'Edit Profile'}
+          </Button>
           <Button variant="destructive" className="w-full gap-2" onClick={() => { logout(); navigate('/'); }}>
             <LogOut className="w-4 h-4" />{t.logout}
           </Button>
