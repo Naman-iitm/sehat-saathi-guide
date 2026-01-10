@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Heart,
   Facebook,
@@ -9,17 +9,31 @@ import {
   Mail,
   Phone,
   MapPin,
-} from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
+  Send,
+} from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import toast, { Toaster } from "react-hot-toast";
 
 const Footer: React.FC = () => {
   const { t } = useLanguage();
+  const [email, setEmail] = useState("");
+
+  const handleSubscribe = () => {
+    if (!email || !email.includes("@")) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    toast.success("Successfully subscribed to our newsletter!", {});
+    setEmail("");
+  };
 
   return (
     <footer className="bg-card border-t border-border mt-auto">
+      <Toaster position="top-right" reverseOrder={false} />
+
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-          
           {/* Brand */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2">
@@ -47,15 +61,50 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="font-semibold text-lg mb-4">{t.quickLinks}</h3>
             <ul className="space-y-3 text-sm">
-              <li><Link className="text-muted-foreground hover:text-primary" to="/">{t.home}</Link></li>
-              <li><Link className="text-muted-foreground hover:text-primary" to="/symptoms">{t.symptomTracker}</Link></li>
-              <li><Link className="text-muted-foreground hover:text-primary" to="/tips">{t.healthTips}</Link></li>
-              <li><Link className="text-muted-foreground hover:text-primary" to="/store">{t.medicineStore}</Link></li>
-              <li><Link className="text-muted-foreground hover:text-primary" to="/schemes">{t.sarkariYojana}</Link></li>
+              <li>
+                <Link
+                  className="text-muted-foreground hover:text-primary"
+                  to="/"
+                >
+                  {t.home}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="text-muted-foreground hover:text-primary"
+                  to="/symptoms"
+                >
+                  {t.symptomTracker}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="text-muted-foreground hover:text-primary"
+                  to="/tips"
+                >
+                  {t.healthTips}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="text-muted-foreground hover:text-primary"
+                  to="/store"
+                >
+                  {t.medicineStore}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="text-muted-foreground hover:text-primary"
+                  to="/schemes"
+                >
+                  {t.sarkariYojana}
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Support */}
+          {/* Support + Legal (Merged) */}
           <div>
             <h3 className="font-semibold text-lg mb-4">{t.support}</h3>
             <ul className="space-y-3 text-sm text-muted-foreground">
@@ -68,23 +117,57 @@ const Footer: React.FC = () => {
                 support@swasthya.com
               </li>
             </ul>
+
+            {/* Legal under Support */}
+            <div className="mt-6">
+              <h4 className="font-semibold text-base mb-3">{t.legal}</h4>
+              <ul className="space-y-2 text-sm">
+                <li>
+                  <Link
+                    to="/privacy-policy"
+                    className="text-muted-foreground hover:text-primary"
+                  >
+                    {t.privacyPolicy}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/terms-and-conditions"
+                    className="text-muted-foreground hover:text-primary"
+                  >
+                    {t.termsConditions}
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
 
-          {/* Legal */}
-          <div>
-            <h3 className="font-semibold text-lg mb-4">{t.legal}</h3>
-            <ul className="space-y-3 text-sm">
-              <li>
-                <Link to="/privacy-policy" className="text-muted-foreground hover:text-primary">
-                  {t.privacyPolicy}
-                </Link>
-              </li>
-              <li>
-                <Link to="/terms-and-conditions" className="text-muted-foreground hover:text-primary">
-                  {t.termsConditions}
-                </Link>
-              </li>
-            </ul>
+          {/* Newsletter (Replaced Legal Column) */}
+          <div className="space-y-4">
+            <h3 className="font-semibold text-lg">Newsletter</h3>
+            <p className="text-sm text-muted-foreground">
+              Subscribe to get health tips & updates directly in your inbox.
+            </p>
+
+            <div className="flex items-center gap-2">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="w-full px-3 py-2 text-sm rounded-md border border-border bg-background focus:outline-none focus:ring-1 focus:ring-primary"
+              />
+              <button
+                onClick={handleSubscribe}
+                className="p-2 rounded-md bg-primary text-primary-foreground hover:opacity-90"
+              >
+                <Send className="w-4 h-4" />
+              </button>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              By subscribing you agree to our Privacy Policy and consent to
+              receive health updates.
+            </p>
           </div>
 
           {/* Our Location */}
@@ -104,7 +187,9 @@ const Footer: React.FC = () => {
             </div>
 
             <div className="text-sm text-muted-foreground">
-              <p className="font-medium text-foreground">Inspired by SAATHI Initiative</p>
+              <p className="font-medium text-foreground">
+                Inspired by SAATHI Initiative
+              </p>
               <p>Indian Institute of Technology Madras</p>
               <p>Chennai, Tamil Nadu – 600036</p>
               <p>India</p>
