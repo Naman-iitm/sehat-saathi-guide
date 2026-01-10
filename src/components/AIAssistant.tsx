@@ -14,11 +14,14 @@ interface ChatMessage {
   timestamp: Date;
 }
 
-interface ChatHistoryItem {
+interface ChatSession {
   id: string;
   title: string;
+  messages: ChatMessage[];
   timestamp: Date;
 }
+
+const STORAGE_KEY = 'sehat-saathi-chat-history';
 
 const AIAssistant: React.FC = () => {
   const { t, language } = useLanguage();
@@ -36,27 +39,33 @@ const AIAssistant: React.FC = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [chatHistories, setChatHistories] = useState<ChatHistoryItem[]>([]);
+  const [chatSessions, setChatSessions] = useState<ChatSession[]>([]);
   const [activeChatId, setActiveChatId] = useState<string | null>(null);
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Load chat history from localStorage on mount
   useEffect(() => {
-    const savedHistory = localStorage.getItem('voiceflow-chat-history');
+    const savedHistory = localStorage.getItem(STORAGE_KEY);
     if (savedHistory) {
       try {
-        const parsedHistory = JSON.parse(savedHistory).map((item: any) => ({
+        const parsedHistory = JSON.parse(savedHistory).map((item: ChatSession) => ({
           ...item,
-          timestamp: new Date(item.timestamp)
+          timestamp: new Date(item.timestamp),
+          messages: item.messages?.map(m => ({ ...m, timestamp: new Date(m.timestamp) })) || []
         }));
-        setChatHistories(parsedHistory);
-      } catch (e) {
-        console.error('Error loading chat history:', e);
+        setChatSessions(parsedHistory);
+        
+        if (parsedHistory.length > 0) {
+          setActiveChatId(parsedHistory[0].id);
+          setMessages(parsedHistory[0].messages.length > 0 ? parsedHistory[0].messages : [
+            { id: '1', role: 'assistant', content: t.welcomeMessage, timestamp: new Date() }
+          ]);
+        }
+      } catch {
+        createNewChat();
       }
-    }
-
-    if (chatHistories.length === 0) {
+    } else {
       createNewChat();
     }
   }, []);
@@ -68,48 +77,34 @@ const AIAssistant: React.FC = () => {
     }
   }, [messages]);
 
-  // Save chat history to localStorage whenever it changes
+  // Save chat sessions to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem('voiceflow-chat-history', JSON.stringify(chatHistories));
-  }, [chatHistories]);
+    if (chatSessions.length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(chatSessions));
+    }
+  }, [chatSessions]);
 
-  // Load Voiceflow embedded chat
+  // Update current session's messages when messages change
   useEffect(() => {
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.onload = function() {
-      // @ts-ignore
-      window.voiceflow.chat.load({
-        verify: { projectID: '695a5f1cf022b12146863e82' },
-        url: 'https://general-runtime.voiceflow.com',
-        versionID: 'production',
-        voice: {
-          url: "https://runtime-api.voiceflow.com"
-        },
-        render: {
-          mode: 'embedded',
-          target: document.getElementById('voiceflow-embedded-chat')
-        },
-        config: {
-          history: {
-            enabled: true,
-            persist: true
-          }
-        }
-      });
-    };
-    script.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
-    
-    const scriptParentElement = document.getElementsByTagName('head')[0];
-    scriptParentElement.appendChild(script);
-    
-    return () => {
-      scriptParentElement.removeChild(script);
-      
-      const vfElements = document.querySelectorAll('[id*="voiceflow"], [class*="voiceflow"]');
-      vfElements.forEach(el => el.remove());
-    };
-  }, []);
+    if (activeChatId && messages.length > 1) {
+      setChatSessions(prev => prev.map(session => 
+        session.id === activeChatId 
+          ? { ...session, messages, title: getSessionTitle(messages) }
+          : session
+      ));
+    }
+  }, [messages, activeChatId]);
+
+  const getSessionTitle = (msgs: ChatMessage[]): string => {
+    const firstUserMsg = msgs.find(m => m.role === 'user');
+    if (firstUserMsg) {
+      return firstUserMsg.content.length > 25 
+        ? firstUserMsg.content.substring(0, 25) + '...' 
+        : firstUserMsg.content;
+    }
+    const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return language === 'hi' ? `नई चैट ${timeString}` : `New Chat ${timeString}`;
+  };
 
   const getAIResponse = (userMessage: string): string => {
     const lowerMessage = userMessage.toLowerCase();
@@ -170,8 +165,7 @@ const AIAssistant: React.FC = () => {
       };
 
       setMessages((prev) => [...prev, aiResponse]);
-    } catch (err) {
-      console.error('AI Assistant error:', err);
+    } catch {
       setError('Unable to fetch AI response. Please try again.');
     } finally {
       setLoading(false);
@@ -196,6 +190,13 @@ const AIAssistant: React.FC = () => {
     sendMessageAsync(input);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
   const handleRetry = () => {
     if (messages.length > 0) {
       const lastUserMessage = [...messages].reverse().find(m => m.role === 'user');
@@ -206,44 +207,50 @@ const AIAssistant: React.FC = () => {
     }
   };
 
-  const updateChatTitle = (chatId: string, title: string) => {
-    setChatHistories(prev => 
-      prev.map(chat => 
-        chat.id === chatId 
-          ? { ...chat, title: title.length > 30 ? title.substring(0, 30) + '...' : title }
-          : chat
-      )
-    );
-  };
-
   const switchToChat = (chatId: string) => {
-    setActiveChatId(chatId);
-    console.log(`Switched to chat: ${chatId}`);
+    const session = chatSessions.find(s => s.id === chatId);
+    if (session) {
+      setActiveChatId(chatId);
+      setMessages(session.messages.length > 0 ? session.messages : [
+        { id: '1', role: 'assistant', content: t.welcomeMessage, timestamp: new Date() }
+      ]);
+    }
   };
 
   const createNewChat = () => {
     const now = new Date();
     const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const newChat: ChatHistoryItem = {
+    const welcomeMessage: ChatMessage = {
+      id: '1',
+      role: 'assistant',
+      content: t.welcomeMessage,
+      timestamp: now,
+    };
+    
+    const newSession: ChatSession = {
       id: Date.now().toString(),
       title: language === 'hi' ? `नई चैट ${timeString}` : `New Chat ${timeString}`,
+      messages: [welcomeMessage],
       timestamp: now
     };
     
-    setChatHistories(prev => [newChat, ...prev]);
-    setActiveChatId(newChat.id);
+    setChatSessions(prev => [newSession, ...prev]);
+    setActiveChatId(newSession.id);
+    setMessages([welcomeMessage]);
   };
 
   const deleteChat = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     
-    setChatHistories(prev => prev.filter(chat => chat.id !== id));
+    const remaining = chatSessions.filter(chat => chat.id !== id);
+    setChatSessions(remaining);
     
-    if (activeChatId === id && chatHistories.length > 1) {
-      setActiveChatId(chatHistories[0].id);
-    } else if (chatHistories.length <= 1) {
-      setActiveChatId(null);
-      createNewChat();
+    if (activeChatId === id) {
+      if (remaining.length > 0) {
+        switchToChat(remaining[0].id);
+      } else {
+        createNewChat();
+      }
     }
   };
 
@@ -270,7 +277,7 @@ const AIAssistant: React.FC = () => {
           </h3>
           
           <div className="space-y-1">
-            {chatHistories.map((chat) => (
+            {chatSessions.map((chat) => (
               <Card 
                 key={chat.id}
                 className={`cursor-pointer transition-colors ${activeChatId === chat.id ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}
@@ -303,7 +310,7 @@ const AIAssistant: React.FC = () => {
         <div className="text-center mb-6">
           <h1 className="text-2xl font-bold text-foreground mb-2">{t.aiAssistant}</h1>
           <p className="text-muted-foreground">
-            {language === 'hi' ? 'हमारे वॉयस फ्लो हैल्थ एआई सहायक के साथ बात करें' : 'Talk with our Health AI assistant'}
+            {language === 'hi' ? 'हमारे हैल्थ एआई सहायक के साथ बात करें' : 'Talk with our Health AI assistant'}
           </p>
         </div>
         
@@ -339,7 +346,7 @@ const AIAssistant: React.FC = () => {
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                onKeyDown={handleKeyDown}
                 placeholder={t.askHealth}
                 disabled={loading}
               />
@@ -349,11 +356,6 @@ const AIAssistant: React.FC = () => {
             </div>
           </CardContent>
         </Card>
-        
-        {/* Voiceflow embedded chat (hidden but available) */}
-        <div id="voiceflow-embedded-chat" className="hidden">
-          {/* Voiceflow will be injected here if needed */}
-        </div>
       </div>
     </div>
   );

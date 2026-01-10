@@ -57,6 +57,7 @@ const Navbar: React.FC = () => {
     { path: '/schemes', label: t.sarkariYojana, icon: '🏛️' },
     { path: '/nearby', label: t.nearbyHospitals, icon: '🏥' },
     { path: "/medical-history", label: "Medical History", icon: "🧾" },
+    { path: '/reminders', label: 'Reminders', icon: '⏰' },
 
   ];
 

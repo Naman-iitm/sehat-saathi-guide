@@ -125,7 +125,7 @@ const App = () => {
                       <Route path="/tips" element={<HealthTips />} />
                       <Route path="/store" element={<MedicineStore />} />
                       <Route path="/medical-history" element={<MedicalHistoryPage />} />
-                  
+                      <Route path="/reminders" element={<Reminders />} />
                       <Route path="/assistant" element={<AIAssistant />} />
                       <Route path="/schemes" element={<SarkariYojana />} />
                       <Route path="/nearby" element={<NearbyHospitals />} />
