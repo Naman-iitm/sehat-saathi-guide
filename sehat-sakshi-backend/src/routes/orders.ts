@@ -1,15 +1,15 @@
 import { Router, Response } from 'express';
 import { Order } from '../models/Order';
-import { protect, AuthRequest } from '../middleware/auth';
+import { protect, AuthRequest, getUserId } from '../middleware/auth';
 
 const router = Router();
 
 // Get user orders
 router.get('/', protect, async (req: AuthRequest, res: Response) => {
   try {
-    const orders = await Order.find({ userId: (req.user as any)._id }).sort({ createdAt: -1 });
+    const orders = await Order.find({ userId: getUserId(req) }).sort({ createdAt: -1 });
     res.json(orders);
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -20,7 +20,7 @@ router.post('/', protect, async (req: AuthRequest, res: Response) => {
     const { items, total, shippingAddress } = req.body;
 
     const order = await Order.create({
-      userId: (req.user as any)._id,
+      userId: getUserId(req),
       items,
       total,
       shippingAddress,
@@ -28,7 +28,7 @@ router.post('/', protect, async (req: AuthRequest, res: Response) => {
     });
 
     res.status(201).json(order);
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -36,13 +36,13 @@ router.post('/', protect, async (req: AuthRequest, res: Response) => {
 // Get single order
 router.get('/:id', protect, async (req: AuthRequest, res: Response) => {
   try {
-    const order = await Order.findOne({ _id: req.params.id, userId: (req.user as any)._id });
+    const order = await Order.findOne({ _id: req.params.id, userId: getUserId(req) });
     if (!order) {
       res.status(404).json({ message: 'Order not found' });
       return;
     }
     res.json(order);
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -51,7 +51,7 @@ router.get('/:id', protect, async (req: AuthRequest, res: Response) => {
 router.put('/:id/cancel', protect, async (req: AuthRequest, res: Response) => {
   try {
     const order = await Order.findOneAndUpdate(
-      { _id: req.params.id, userId: (req.user as any)._id, status: { $in: ['pending', 'confirmed'] } },
+      { _id: req.params.id, userId: getUserId(req), status: { $in: ['pending', 'confirmed'] } },
       { status: 'cancelled' },
       { new: true }
     );
@@ -62,7 +62,7 @@ router.put('/:id/cancel', protect, async (req: AuthRequest, res: Response) => {
     }
     
     res.json(order);
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: 'Server error' });
   }
 });

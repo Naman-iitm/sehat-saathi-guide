@@ -1,15 +1,15 @@
 import { Router, Response } from 'express';
 import { Reminder } from '../models/Reminder';
-import { protect, AuthRequest } from '../middleware/auth';
+import { protect, AuthRequest, getUserId } from '../middleware/auth';
 
 const router = Router();
 
 // Get all reminders
 router.get('/', protect, async (req: AuthRequest, res: Response) => {
   try {
-    const reminders = await Reminder.find({ userId: (req.user as any)._id }).sort({ date: 1, time: 1 });
+    const reminders = await Reminder.find({ userId: getUserId(req) }).sort({ date: 1, time: 1 });
     res.json(reminders);
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -20,7 +20,7 @@ router.post('/', protect, async (req: AuthRequest, res: Response) => {
     const { title, type, date, time, recurrence, dosage, enabled } = req.body;
 
     const reminder = await Reminder.create({
-      userId: (req.user as any)._id,
+      userId: getUserId(req),
       title,
       type,
       date,
@@ -31,7 +31,7 @@ router.post('/', protect, async (req: AuthRequest, res: Response) => {
     });
 
     res.status(201).json(reminder);
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -40,12 +40,12 @@ router.post('/', protect, async (req: AuthRequest, res: Response) => {
 router.put('/:id', protect, async (req: AuthRequest, res: Response) => {
   try {
     const reminder = await Reminder.findOneAndUpdate(
-      { _id: req.params.id, userId: (req.user as any)._id },
+      { _id: req.params.id, userId: getUserId(req) },
       req.body,
       { new: true }
     );
     res.json(reminder);
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -53,9 +53,9 @@ router.put('/:id', protect, async (req: AuthRequest, res: Response) => {
 // Delete reminder
 router.delete('/:id', protect, async (req: AuthRequest, res: Response) => {
   try {
-    await Reminder.findOneAndDelete({ _id: req.params.id, userId: (req.user as any)._id });
+    await Reminder.findOneAndDelete({ _id: req.params.id, userId: getUserId(req) });
     res.json({ message: 'Deleted' });
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: 'Server error' });
   }
 });

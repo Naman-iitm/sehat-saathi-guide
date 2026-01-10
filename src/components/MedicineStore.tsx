@@ -35,8 +35,17 @@ const MedicineStore: React.FC = () => {
     useState<(typeof medicines)[0] | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  interface ComparisonData {
+    brandEquivalent: string;
+    brandedPrice: number;
+    genericName: string;
+    genericPrice: number;
+    activeIngredients: string[];
+    note?: string;
+  }
+
   const [compareOpen, setCompareOpen] = useState(false);
-  const [compareData, setCompareData] = useState<any>(null);
+  const [compareData, setCompareData] = useState<ComparisonData | null>(null);
 
   const filteredMedicines = medicines.filter((medicine) => {
     const matchesSearch =
