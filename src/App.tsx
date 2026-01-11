@@ -18,6 +18,7 @@ import HealthTips from '@/components/HealthTips';
 import MedicineStore from '@/components/MedicineStore';
 import AIAssistant from '@/components/AIAssistant';
 import MedicalHistoryPage from '@/pages/MedicalHistory';
+import OrderTracking from '@/pages/OrderTracking';
 
 import SarkariYojana from '@/components/SarkariYojana';
 import NearbyHospitals from '@/components/NearbyHospitals';
@@ -108,7 +109,11 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
+<<<<<<< HEAD
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+=======
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+>>>>>>> 29ff43302fe1806590ec66ae53d3cdefd0d2b5e8
         <LanguageProvider>
           <AuthProvider>
             <CartProvider>
