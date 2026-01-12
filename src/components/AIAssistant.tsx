@@ -388,8 +388,7 @@ const AIAssistant: React.FC = () => {
 
           <ScrollArea
             ref={scrollAreaRef}
-            className="flex-1 p-4 overflow-auto"
-            style={{ maxHeight: '500px' }}
+            className="flex-1 p-4 overflow-auto min-h-0"
           >
             <div className="space-y-4">
               {messages.map((message) => (
