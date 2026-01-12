@@ -72,3 +72,6 @@ export interface Offer {
   seasonalTag?: string;
   seasonalTagHi?: string;
 }
+
+
+

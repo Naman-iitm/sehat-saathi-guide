@@ -21,6 +21,7 @@ interface ChatHistoryItem {
 }
 
 const AIAssistant: React.FC = () => {
+
   const { t, language } = useLanguage();
 
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -43,17 +44,23 @@ const AIAssistant: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Load chat history from localStorage on mount
+
   useEffect(() => {
+
     const savedHistory = localStorage.getItem('voiceflow-chat-history');
+
     if (savedHistory) {
       try {
         const parsedHistory = JSON.parse(savedHistory).map((item: any) => ({
           ...item,
           timestamp: new Date(item.timestamp)
         }));
+
         setChatHistories(parsedHistory);
       } catch (e) {
+
         console.error('Error loading chat history:', e);
+
       }
     }
 
@@ -63,9 +70,13 @@ const AIAssistant: React.FC = () => {
   }, []);
 
   // Smooth scroll to bottom when messages change
+
   useEffect(() => {
+
     const scrollToBottom = () => {
+
       if (messagesEndRef.current && scrollAreaRef.current) {
+
         const scrollContainer = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
         if (scrollContainer) {
           scrollContainer.scrollTo({
@@ -77,16 +88,19 @@ const AIAssistant: React.FC = () => {
     };
 
     // Use a small delay to ensure DOM is updated
+
     const timeoutId = setTimeout(scrollToBottom, 100);
     return () => clearTimeout(timeoutId);
   }, [messages, isTyping]);
 
   // Save chat history to localStorage whenever it changes
+
   useEffect(() => {
     localStorage.setItem('voiceflow-chat-history', JSON.stringify(chatHistories));
   }, [chatHistories]);
 
   // Load Voiceflow embedded chat
+
   useEffect(() => {
     const script = document.createElement('script');
     script.type = 'text/javascript';
@@ -127,37 +141,43 @@ const AIAssistant: React.FC = () => {
   const getAIResponse = (userMessage: string): string => {
     const lowerMessage = userMessage.toLowerCase();
 
-    if (lowerMessage.includes('बुखार') || lowerMessage.includes('fever')) {
+    if (lowerMessage.includes('बुखार') || lowerMessage.includes('fever')) 
+      {
       return language === 'hi'
         ? 'बुखार कितने दिनों से है? और क्या कोई और तकलीफ भी है जैसे सर्दी, खांसी, या शरीर में दर्द?'
         : 'How many days have you had fever? Do you have any other problems like cold, cough, or body pain?';
     }
 
-    if (lowerMessage.includes('पेट') || lowerMessage.includes('stomach') || lowerMessage.includes('दर्द')) {
+    if (lowerMessage.includes('पेट') || lowerMessage.includes('stomach') || lowerMessage.includes('दर्द')) 
+      {
       return language === 'hi'
         ? 'पेट में दर्द कहां है? क्या खाने के बाद बढ़ता है? उल्टी या दस्त हो रहे हैं क्या?'
         : 'Where is the stomach pain? Does it increase after eating? Do you have vomiting or loose motions?';
     }
 
-    if (lowerMessage.includes('सर्दी') || lowerMessage.includes('cold') || lowerMessage.includes('खांसी') || lowerMessage.includes('cough')) {
+    if (lowerMessage.includes('सर्दी') || lowerMessage.includes('cold') || lowerMessage.includes('खांसी') || lowerMessage.includes('cough')) 
+      {
       return language === 'hi'
         ? 'खांसी में बलगम आता है क्या? सांस लेने में दिक्कत तो नहीं? कितने दिनों से है?'
         : 'Do you have phlegm with cough? Any difficulty breathing? How many days have you had this?';
     }
 
-    if (lowerMessage.includes('सिर') || lowerMessage.includes('head') || lowerMessage.includes('headache')) {
+    if (lowerMessage.includes('सिर') || lowerMessage.includes('head') || lowerMessage.includes('headache')) 
+      {
       return language === 'hi'
         ? 'सिर में दर्द कब से है? क्या रोशनी से दिक्कत होती है? उल्टी जैसा लगता है क्या?'
         : 'How long have you had headache? Does light bother you? Do you feel like vomiting?';
     }
 
-    if (lowerMessage.includes('चक्कर') || lowerMessage.includes('dizzy')) {
+    if (lowerMessage.includes('चक्कर') || lowerMessage.includes('dizzy')) 
+      {
       return language === 'hi'
         ? 'चक्कर कब आते हैं - खड़े होने पर या हमेशा? खाना ठीक से खा रहे हैं? पानी कम तो नहीं पी रहे?'
         : 'When do you feel dizzy - when standing or always? Are you eating properly? Drinking enough water?';
     }
 
-    if (lowerMessage.includes('गंभीर') || lowerMessage.includes('serious')) {
+    if (lowerMessage.includes('गंभीर') || lowerMessage.includes('serious')) 
+      {
       return language === 'hi'
         ? '⚠️ आपकी स्थिति गंभीर लग रही है। कृपया तुरंत डॉक्टर को दिखाएं।'
         : '⚠️ Your condition seems serious. Please consult a doctor immediately.';
@@ -209,14 +229,16 @@ const AIAssistant: React.FC = () => {
     sendMessageAsync(input);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => 
+    {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault(); // Prevent default form submission
       handleSend();
     }
   };
 
-  const handleRetry = () => {
+  const handleRetry = () => 
+    {
     if (messages.length > 0) {
       const lastUserMessage = [...messages].reverse().find(m => m.role === 'user');
       if (lastUserMessage) {
@@ -226,7 +248,8 @@ const AIAssistant: React.FC = () => {
     }
   };
 
-  const updateChatTitle = (chatId: string, title: string) => {
+  const updateChatTitle = (chatId: string, title: string) => 
+    {
     setChatHistories(prev =>
       prev.map(chat =>
         chat.id === chatId
@@ -236,7 +259,8 @@ const AIAssistant: React.FC = () => {
     );
   };
 
-  const switchToChat = (chatId: string) => {
+  const switchToChat = (chatId: string) => 
+    {
     setActiveChatId(chatId);
     console.log(`Switched to chat: ${chatId}`);
   };
@@ -267,15 +291,19 @@ const AIAssistant: React.FC = () => {
 
     setChatHistories(prev => prev.filter(chat => chat.id !== id));
 
-    if (activeChatId === id && chatHistories.length > 1) {
+    if (activeChatId === id && chatHistories.length > 1) 
+      {
       setActiveChatId(chatHistories[0].id);
-    } else if (chatHistories.length <= 1) {
+    } 
+    else if (chatHistories.length <= 1) 
+      {
       setActiveChatId(null);
       createNewChat();
     }
   };
 
-  if (error) {
+  if (error) 
+    {
     return (
       <div className="container mx-auto px-4 py-8">
         <AsyncErrorFallback message={error} onRetry={handleRetry} />
@@ -285,16 +313,22 @@ const AIAssistant: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 h-[calc(100vh-80px)] flex">
-      {/* Sidebar */}
+      {
+      /* Sidebar */
+      }
       <div className="w-60 bg-secondary rounded-lg p-4 h-full mr-4 flex flex-col">
         <Button onClick={createNewChat} className="w-full mb-4 gap-2">
           <Plus className="w-4 h-4" />
-          {language === 'hi' ? 'नई चैट' : 'New Chat'}
+          {
+          language === 'hi' ? 'नई चैट' : 'New Chat'
+          }
         </Button>
 
         <div className="flex-1 overflow-y-auto">
           <h3 className="text-sm font-semibold text-muted-foreground mb-2 px-2">
-            {language === 'hi' ? 'चैट इतिहास' : 'Chat History'}
+            {
+            language === 'hi' ? 'चैट इतिहास' : 'Chat History'
+            }
           </h3>
 
           <div className="space-y-1">
@@ -308,7 +342,9 @@ const AIAssistant: React.FC = () => {
                   <div className="flex items-center gap-2 overflow-hidden">
                     <MessageCircle className="w-4 h-4 flex-shrink-0" />
                     <span className="truncate text-sm">
-                      {chat.title}
+                      {
+                      chat.title
+                      }
                     </span>
                   </div>
                   <Button
@@ -321,15 +357,21 @@ const AIAssistant: React.FC = () => {
                   </Button>
                 </CardContent>
               </Card>
-            ))}
+            )
+            )
+        }
           </div>
         </div>
       </div>
 
-      {/* Main Chat Area */}
+      {
+      /* Main Chat Area */
+      }
       <div className="flex-1 flex flex-col max-w-3xl mx-auto w-full">
         <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold text-foreground mb-2">{t.aiAssistant}</h1>
+          <h1 className="text-2xl font-bold text-foreground mb-2">
+            {t.aiAssistant}
+            </h1>
           <p className="text-muted-foreground">
             {language === 'hi' ? 'हमारे वॉयस फ्लो हैल्थ एआई सहायक के साथ बात करें' : 'Talk with our Health AI assistant'}
           </p>
@@ -358,17 +400,22 @@ const AIAssistant: React.FC = () => {
                   <div className="max-w-[80%] p-3 rounded-lg bg-secondary">
                     <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
                     <p className="text-xs text-muted-foreground mt-1">
-                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      {
+                      message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                      }
                     </p>
                   </div>
                 </div>
-              ))}
+              )
+              )
+              }
 
               {isTyping && (
                 <div className="flex gap-3">
                   <div className="w-8 h-8 rounded-full flex items-center justify-center bg-primary text-primary-foreground">
                     <Bot className="w-4 h-4" />
                   </div>
+
                   <div className="max-w-[80%] p-3 rounded-lg bg-secondary">
                     <div className="flex gap-1">
                       <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
@@ -387,9 +434,15 @@ const AIAssistant: React.FC = () => {
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder={t.askHealth}
-                disabled={loading}
+                onKeyPress={
+                  handleKeyPress
+                }
+                placeholder={
+                  t.askHealth
+                }
+                disabled={
+                  loading}
+                  
               />
               <Button onClick={handleSend} disabled={loading || !input.trim()}>
                 <Send className="w-4 h-4" />

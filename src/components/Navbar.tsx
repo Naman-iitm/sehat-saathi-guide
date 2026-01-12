@@ -301,7 +301,7 @@ const Navbar: React.FC = () => {
                     variant="ghost"
                     className={`gap-2 rounded-full px-4 h-9 ${active ? 'bg-secondary text-primary hover:bg-secondary/80' : 'text-muted-foreground hover:text-foreground'}`}
                   >
-                    {isStrIcon ? <span>{item.icon}</span> : <item.icon className={`w-4 h-4 ${active ? 'fill-current' : ''}`} />}
+                    {isStrIcon ? <span>{item.icon}</span> : <Icon className={`w-4 h-4 ${active ? 'fill-current' : ''}`} />}
                     {item.label}
                   </Button>
                 </Link>
