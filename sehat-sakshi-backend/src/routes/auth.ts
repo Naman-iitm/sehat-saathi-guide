@@ -38,6 +38,14 @@ router.post('/register',
     const user = await User.create({ name, email, phone, password });
     const token = generateToken(user._id as string);
 
+    // Log successful registration
+    logAuthEvent('REGISTER', user._id.toString(), true, req, { email, name });
+    logger.info(`New user registered: ${email}`, {
+      requestId: req.id,
+      userId: user._id,
+      email,
+    });
+
     res.status(201).json({
       success: true,
       data: {
@@ -73,6 +81,14 @@ router.post('/login',
     }
 
     const token = generateToken(user._id as string);
+
+    // Log successful login
+    logAuthEvent('LOGIN', user._id.toString(), true, req, { email });
+    logger.info(`User logged in: ${email}`, {
+      requestId: req.id,
+      userId: user._id,
+      email,
+    });
 
     res.json({
       success: true,

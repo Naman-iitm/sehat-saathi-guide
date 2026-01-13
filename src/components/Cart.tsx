@@ -7,13 +7,14 @@ import { Button } from '@/components/ui/button';
 import { ShoppingCart, Plus, Minus, Trash2, ArrowRight } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
+import CouponInput from '@/components/CouponInput';
 
 
 const Cart: React.FC = () => {
   const { isAuthenticated } = useAuth(); // 🔒 AUTH CHECK
 
   const { t, language } = useLanguage();
-  const { items, updateQuantity, removeFromCart, total, itemCount } = useCart();
+  const { items, updateQuantity, removeFromCart, total, itemCount, appliedCoupon, discount, finalTotal } = useCart();
   const navigate = useNavigate();
 
   const handleCheckout = () => {
@@ -163,10 +164,24 @@ const Cart: React.FC = () => {
                   {language === 'hi' ? 'मुफ्त' : 'FREE'}
                 </span>
               </div>
+
+              {/* Coupon Input Section */}
+              <div className="border-t-2 border-border pt-4">
+                <CouponInput />
+              </div>
+
+              {/* Discount Row */}
+              {appliedCoupon && (
+                <div className="flex justify-between text-emerald-600 font-medium">
+                  <span>{language === 'hi' ? 'कूपन छूट' : 'Coupon Discount'}</span>
+                  <span>-₹{discount}</span>
+                </div>
+              )}
+
               <div className="border-t-2 border-border pt-4">
                 <div className="flex justify-between font-bold text-lg text-foreground">
                   <span>{t.total}</span>
-                  <span>₹{total}</span>
+                  <span>₹{finalTotal}</span>
                 </div>
               </div>
               <Button

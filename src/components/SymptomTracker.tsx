@@ -71,7 +71,7 @@ const SymptomTracker: React.FC = () => {
     setTriageResult(result);
   }, [symptoms]);
 
-  
+
 
   const handleAdd = () => {
     const trimmed = newSymptom.trim();
@@ -120,102 +120,107 @@ const SymptomTracker: React.FC = () => {
   };
 
   const handleExportCSV = () => {
-  const result = exportToCSV(symptoms);
-  if (result) {
-    toast.success(
-      language === "hi"
-        ? "CSV डाउनलोड हो गया!"
-        : "CSV downloaded successfully!"
-    );
-  } else {
-    toast.error(
-      language === "hi"
-        ? "कोई लक्षण निर्यात करने के लिए नहीं"
-        : "No symptoms to export"
-    );
-  }
-};
+    const result = exportToCSV(symptoms);
+    if (result) {
+      toast.success(
+        language === "hi"
+          ? "CSV डाउनलोड हो गया!"
+          : "CSV downloaded successfully!"
+      );
+    } else {
+      toast.error(
+        language === "hi"
+          ? "कोई लक्षण निर्यात करने के लिए नहीं"
+          : "No symptoms to export"
+      );
+    }
+  };
 
-const handleExportPDF = () => {
-  const result = exportToPDF(symptoms, language);
-  if (result) {
-    toast.success(
-      language === "hi"
-        ? "PDF डाउनलोड हो गया!"
-        : "PDF downloaded successfully!"
-    );
-  } else {
-    toast.error(
-      language === "hi"
-        ? "कोई लक्षण निर्यात करने के लिए नहीं"
-        : "No symptoms to export"
-    );
-  }
-};
+  const handleExportPDF = () => {
+    const result = exportToPDF(symptoms, language);
+    if (result) {
+      toast.success(
+        language === "hi"
+          ? "PDF डाउनलोड हो गया!"
+          : "PDF downloaded successfully!"
+      );
+    } else {
+      toast.error(
+        language === "hi"
+          ? "कोई लक्षण निर्यात करने के लिए नहीं"
+          : "No symptoms to export"
+      );
+    }
+  };
 
   const styles = triageResult
     ? severityStyles[triageResult.severity]
     : null;
 
   const triageText = {
-  low: {
-    en: {
-      label: "Severity",
-      action: "Recommended Action",
+    low: {
+      en: {
+        label: "Severity",
+        action: "Recommended Action",
+      },
+      hi: {
+        label: "गंभीरता",
+        action: "अनुशंसित कार्रवाई",
+      },
     },
-    hi: {
-      label: "गंभीरता",
-      action: "अनुशंसित कार्रवाई",
+    medium: {
+      en: {
+        label: "Severity",
+        action: "Recommended Action",
+      },
+      hi: {
+        label: "गंभीरता",
+        action: "अनुशंसित कार्रवाई",
+      },
     },
-  },
-  medium: {
-    en: {
-      label: "Severity",
-      action: "Recommended Action",
+    high: {
+      en: {
+        label: "Severity",
+        action: "Recommended Action",
+      },
+      hi: {
+        label: "गंभीरता",
+        action: "अनुशंसित कार्रवाई",
+      },
     },
-    hi: {
-      label: "गंभीरता",
-      action: "अनुशंसित कार्रवाई",
-    },
-  },
-  high: {
-    en: {
-      label: "Severity",
-      action: "Recommended Action",
-    },
-    hi: {
-      label: "गंभीरता",
-      action: "अनुशंसित कार्रवाई",
-    },
-  },
-};
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-6">
-      
+
 
       {/* TRIAGE RESULT */}
       {triageResult && styles && (
-        <Card className={`border-2 ${styles.border} ${styles.bg}`}>
+        <Card
+          className={`border-2 ${styles.border} ${styles.bg}`}
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
           <CardHeader>
-            <CardTitle className={styles.text}>
-  {language === "hi" ? "गंभीरता" : "Severity:"}:
-  {" "}
-  {triageResult.severity.toUpperCase()}
-</CardTitle>
+            <CardTitle className={styles.text} id="triage-severity">
+              {language === "hi" ? "गंभीरता" : "Severity:"}:
+              {" "}
+              {triageResult.severity.toUpperCase()}
+            </CardTitle>
           </CardHeader>
 
           <CardContent>
-            <p className={`mb-2 ${styles.text}`}>
+            <p className={`mb-2 ${styles.text}`} aria-labelledby="triage-severity">
               {triageResult.message}
             </p>
 
-            <p className="font-medium mt-2">
-  {language === "hi" ? "अनुशंसित कार्रवाई" : "Recommended Action:"}:
-</p>
-            <p>{triageResult.recommendedAction}</p>
+            <p className="font-medium mt-2" id="triage-action">
+              {language === "hi" ? "अनुशंसित कार्रवाई" : "Recommended Action:"}:
+            </p>
+            <p aria-labelledby="triage-action">{triageResult.recommendedAction}</p>
 
-            <p className="mt-4 text-sm text-gray-600">
+            <p className="mt-4 text-sm text-gray-600" role="note">
               ⚠️ This tool provides informational guidance only and is not a medical diagnosis.
             </p>
           </CardContent>
@@ -225,8 +230,8 @@ const handleExportPDF = () => {
       {/* ADD SYMPTOM */}
       <Card>
         <CardHeader className="bg-secondary">
-          <CardTitle className="flex items-center gap-3">
-            <Plus /> {t.addSymptom}
+          <CardTitle className="flex items-center gap-3" id="add-symptom-title">
+            <Plus aria-hidden="true" /> {t.addSymptom}
           </CardTitle>
         </CardHeader>
 
@@ -240,19 +245,32 @@ const handleExportPDF = () => {
               }}
               onKeyPress={handleKeyPress}
               placeholder={t.symptomName}
-              className={`flex-1 border-2 ${
-                error ? "border-destructive" : "border-input"
-              }`}
+              className={`flex-1 border-2 ${error ? "border-destructive" : "border-input"
+                }`}
+              aria-label={t.symptomName}
+              aria-invalid={error ? "true" : "false"}
+              aria-describedby={error ? "symptom-error" : undefined}
+              id="symptom-name-input"
             />
             <VoiceInput
               onTranscript={(text) => {
                 setNewSymptom(text);
                 if (error) setError("");
               }}
+              aria-label={language === "hi" ? "आवाज से लक्षण का नाम दर्ज करें" : "Voice input for symptom name"}
             />
           </div>
 
-          {error && <p className="text-destructive text-sm">{error}</p>}
+          {error && (
+            <p
+              className="text-destructive text-sm"
+              id="symptom-error"
+              role="alert"
+              aria-live="assertive"
+            >
+              {error}
+            </p>
+          )}
 
           <div className="flex gap-2">
             <Textarea
@@ -260,71 +278,100 @@ const handleExportPDF = () => {
               onChange={(e) => setNewDescription(e.target.value)}
               placeholder={t.symptomDescription}
               className="flex-1"
+              aria-label={t.symptomDescription}
+              id="symptom-description-input"
             />
             <VoiceInput
               onTranscript={(text) => setNewDescription(prev => prev ? `${prev} ${text}` : text)}
               className="self-start mt-2"
+              aria-label={language === "hi" ? "आवाज से विवरण दर्ज करें" : "Voice input for symptom description"}
             />
           </div>
 
-          <Button onClick={handleAdd} className="w-full gap-2">
-            <Plus /> {t.addSymptom}
+          <Button
+            onClick={handleAdd}
+            className="w-full gap-2"
+            aria-label={t.addSymptom}
+          >
+            <Plus aria-hidden="true" /> {t.addSymptom}
           </Button>
         </CardContent>
       </Card>
 
       {/* SYMPTOM LIST */}
       <div className="flex justify-between items-center">
-  <h2 className="text-xl font-bold">
-    {language === "hi" ? "आपके लक्षण" : "Your Symptoms"}
-  </h2>
-  
-  {symptoms.length > 0 && (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm">
-          <Download className="mr-2 h-4 w-4" />
-          {language === "hi" ? "निर्यात करें" : "Export Data"}
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem onClick={handleExportCSV}>
-          📊 {language === "hi" ? "CSV के रूप में" : "Download as CSV"}
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleExportPDF}>
-          📄 {language === "hi" ? "PDF के रूप में" : "Download as PDF"}
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )}
-</div>
+        <h2 className="text-xl font-bold" id="symptoms-list-heading">
+          {language === "hi" ? "आपके लक्षण" : "Your Symptoms"}
+        </h2>
+
+        {symptoms.length > 0 && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                aria-label={language === "hi" ? "लक्षण डेटा निर्यात करें" : "Export symptoms data"}
+              >
+                <Download className="mr-2 h-4 w-4" aria-hidden="true" />
+                {language === "hi" ? "निर्यात करें" : "Export Data"}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem
+                onClick={handleExportCSV}
+                aria-label={language === "hi" ? "CSV फ़ाइल के रूप में डाउनलोड करें" : "Download as CSV file"}
+              >
+                <span aria-hidden="true">📊</span> {language === "hi" ? "CSV के रूप में" : "Download as CSV"}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={handleExportPDF}
+                aria-label={language === "hi" ? "PDF फ़ाइल के रूप में डाउनलोड करें" : "Download as PDF file"}
+              >
+                <span aria-hidden="true">📄</span> {language === "hi" ? "PDF के रूप में" : "Download as PDF"}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+      </div>
 
       {symptoms.length === 0 ? (
-        <Card className="border-dashed border-2">
+        <Card className="border-dashed border-2" role="status">
           <CardContent className="text-center py-10">
-            <FileText className="mx-auto mb-4" />
-            {t.noSymptoms}
+            <FileText className="mx-auto mb-4" aria-hidden="true" />
+            <p>{t.noSymptoms}</p>
           </CardContent>
         </Card>
       ) : (
-        <div className="space-y-4">
-          {symptoms.map((s) => (
-            <Card key={s.id}>
+        <div
+          className="space-y-4"
+          role="list"
+          aria-labelledby="symptoms-list-heading"
+          aria-live="polite"
+        >
+          {symptoms.map((s, index) => (
+            <Card key={s.id} role="listitem">
               <CardContent className="flex justify-between items-start p-4">
                 <div>
-                  <h3 className="font-semibold">{s.name}</h3>
+                  <h3 className="font-semibold" id={`symptom-name-${s.id}`}>
+                    {s.name}
+                  </h3>
                   {s.description && (
-                    <p className="text-sm text-muted-foreground">
+                    <p
+                      className="text-sm text-muted-foreground"
+                      aria-label={language === "hi" ? "विवरण" : "Description"}
+                    >
                       {s.description}
                     </p>
                   )}
 
                   <div className="flex gap-4 text-sm text-muted-foreground mt-2">
                     <span className="flex items-center gap-1">
-                      <Calendar size={14} /> {s.date}
+                      <Calendar size={14} aria-hidden="true" />
+                      <time dateTime={s.date}>{s.date}</time>
                     </span>
                     <span className="flex items-center gap-1">
-                      <Clock size={14} /> {s.time}
+                      <Clock size={14} aria-hidden="true" />
+                      <time dateTime={s.time}>{s.time}</time>
                     </span>
                   </div>
                 </div>
@@ -333,8 +380,13 @@ const handleExportPDF = () => {
                   size="sm"
                   onClick={() => handleDelete(s.id)}
                   className="border border-destructive text-destructive hover:bg-destructive hover:text-white"
+                  aria-label={`${language === "hi" ? "हटाएं" : "Delete"} ${s.name}`}
+                  title={`${language === "hi" ? "हटाएं" : "Delete"} ${s.name}`}
                 >
-                  <Trash2 size={16} />
+                  <Trash2 size={16} aria-hidden="true" />
+                  <span className="sr-only">
+                    {language === "hi" ? `${s.name} लक्षण हटाएं` : `Delete symptom ${s.name}`}
+                  </span>
                 </Button>
               </CardContent>
             </Card>

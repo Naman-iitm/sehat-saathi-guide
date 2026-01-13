@@ -43,6 +43,7 @@ router.post('/',
   validateBody(createSymptomLogSchema),
   asyncHandler(async (req: AuthRequest, res: Response) => {
     const { symptoms, severity, notes, triageResult } = req.body;
+    const userId = (req.user as any)._id;
 
     try {
       const log = await SymptomLog.create({
