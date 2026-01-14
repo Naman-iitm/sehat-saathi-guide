@@ -15,6 +15,17 @@ import {
   Hand,
   Carrot,
   PersonStanding,
+  //added new icons---
+   GlassWater,
+  Apple,
+  Ban,
+  Brush,
+  Shield,
+  Smartphone,
+  AlertTriangle,
+  HeartPulse,
+  Smile,
+  
 } from 'lucide-react';
 
 // Mapping icon names to actual icon components
@@ -26,11 +37,21 @@ const iconMap: Record<string, React.FC<any>> = {
   plate: Carrot,
   moon: Moon,
   toilet: Toilet,
-  window: Wind,
+  window: Home,  //home ventilated
   walk: User,
-  activity: PersonStanding,
+  activity: PersonStanding,  // Exercise / Deep breathing
   bug: Bug,
   syringe: Syringe,
+  "glass-water": Droplets,      // Drink enough water
+  apple: Apple,                 // Wash fruits & vegetables
+  ban: Ban,                     // Avoid junk food
+  broom: Brush,                 // Keep surroundings clean
+  mask: Shield,                 // Cover mouth while coughing
+  smartphone: Smartphone,       // Reduce screen time
+  "alert-triangle": AlertTriangle, // Avoid smoking & alcohol
+  "heart-pulse": HeartPulse,    // Regular health checkups
+  wind: Wind,                   // Ensure good ventilation
+  smile: Smile,                 // Manage stress
 };
 
 const HealthTips: React.FC = () => {
