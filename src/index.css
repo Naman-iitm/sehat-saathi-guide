@@ -36,7 +36,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 82 100% 90%;    /* #F0FFDF edited*/
+    --background: 82 100% 90%;    /*  edited*/
     --foreground: 150 30% 15%;
 
     --card: 0 0% 100%;
@@ -45,16 +45,16 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 150 30% 15%;
 
-    --primary: 97 52% 44%;          /* #A8DF8E edited */
+    --primary: 97 52% 44%;          /* edited */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 82 100% 75%;       /* #F0FFDF edited*/
+    --secondary: 82 100% 75%;       /* edited*/
     --secondary-foreground: 142 72% 25%;
 
     --muted: 140 20% 86%;
     --muted-foreground: 150 15% 40%;
 
-    --accent: 349 100% 72%;         /* #FFAAB8  edited*/
+    --accent: 349 100% 72%;         /*   edited*/
     --accent-foreground: 150 30% 15%;
 
     --destructive: 0 84% 60%;
