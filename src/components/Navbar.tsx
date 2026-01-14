@@ -154,7 +154,7 @@ const Navbar: React.FC = () => {
                 variant="ghost"
                 size="icon"
                 onClick={toggleTheme}
-                className="hidden sm:flex"
+                className="flex" /*"hidden sm:flex" to flex done.#248*/
                 aria-label="Toggle theme"
               >
                 {isDark ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5" />}
