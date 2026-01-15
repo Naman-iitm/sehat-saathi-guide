@@ -1,0 +1,31 @@
+{
+    "name": "Sehat Saathi",
+    "short_name": "Sehat Saathi",
+    "description": "Your Multilingual Healthcare Companion - Empowering communities through accessible healthcare information",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#16a34a",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/health-care.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/health-care.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": [
+        "health",
+        "medical",
+        "lifestyle"
+    ],
+    "lang": "en",
+    "dir": "ltr"
+}

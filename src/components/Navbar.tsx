@@ -1,10 +1,10 @@
-﻿import React, { useState } from 'react';
+
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
-import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/components/theme-provider';
-
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -26,39 +26,48 @@ import {
   Menu,
   Globe,
   LogOut,
+  Building,
   ChevronDown,
   Zap,
   Moon,
   Sun,
+  MapPin,
+  Activity,
+  Lightbulb,
+  Store,
+  MessageCircle,
+  Home,
+  FileText
 } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const { t, language, setLanguage, languageNames, availableLanguages } = useLanguage();
   const { user, isAuthenticated, logout } = useAuth();
   const { itemCount } = useCart();
-  const currentLanguageName =
-  languageNames[language] || language.toUpperCase();
-
   const { theme, setTheme } = useTheme();
-  const isDark = theme === "dark";
   const location = useLocation();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [selectedPincode, setSelectedPincode] = useState('Select Pincode');
+  const [pincodeOpen, setPincodeOpen] = useState(false);
+
+  // Determine dark mode state for toggle logic
+  const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+  const toggleTheme = () => {
+    setTheme(isDark ? 'light' : 'dark');
+  };
 
   const navItems = [
-    { path: "/", label: t.home || 'Home', icon: "🏠" },
-    { path: "/symptoms", label: t.symptomTracker, icon: "🩺" },
-    { path: "/tips", label: t.healthTips, icon: "🌿" },
-    { path: "/store", label: t.medicineStore, icon: "💊" },
-    { path: "/assistant", label: t.aiAssistant, icon: "🤖" },
-  ];
-
-  const moreItems = [
-    { path: '/schemes', label: t.sarkariYojana, icon: '🏛️' },
-    { path: '/nearby', label: t.nearbyHospitals, icon: '🏥' },
-    { path: "/medical-history", label: "Medical History", icon: "🧾" },
+    { path: '/', label: t.home, icon: Home },
+    ...(isAuthenticated ? [{ path: '/dashboard', label: 'Dashboard', icon: Activity }] : []),
+    { path: '/symptoms', label: t.symptomTracker, icon: Activity },
+    { path: '/tips', label: t.healthTips, icon: Lightbulb },
+    { path: '/store', label: t.medicineStore, icon: Store },
+    { path: '/assistant', label: t.aiAssistant, icon: MessageCircle },
+    { path: '/schemes', label: t.schemes, icon: Building },
+    { path: '/nearby', label: t.nearbyHospitals, icon: MapPin },
     { path: '/reminders', label: 'Reminders', icon: '⏰' },
-
+    { path: '/medical-history', label: 'Medical History', icon: FileText },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -73,102 +82,57 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-background border-b border-border shadow-sm dark:shadow-gray-800 transition-colors duration-300">
+    <nav className="sticky top-0 z-50 w-full bg-background shadow-sm dark:shadow-gray-800 transition-colors duration-300 border-b border-border">
       {/* Top Header Row */}
-      <div className="border-b border-border bg-background">
+      <div className="border-b border-border/50">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            {/* Logo Section + Express Delivery */}
-            <div className="flex items-center gap-4">
-              <Link to="/" className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-md">
-                  <Heart className="w-6 h-6 text-primary-foreground" />
+            {/* Logo + Express Delivery */}
+            <div className="flex items-center gap-3">
+              <Link to="/" className="flex items-center gap-2 sm:gap-3">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-xl flex items-center justify-center shadow-md">
+                  <Heart className="w-5 h-5 sm:w-7 sm:h-7 text-primary-foreground" fill="currentColor" />
                 </div>
-                <span className="font-bold text-xl text-primary hidden sm:block tracking-tight">
-                  {language === 'en' ? 'Sehat Saathi' : t.appName}
+                <span className="font-semibold text-base sm:text-xl text-foreground whitespace-nowrap hidden min-[370px]:block">
+                  {language === 'en' ? 'Swasthya Saathi' : t.appName}
                 </span>
               </Link>
 
-              {/* Express Delivery Section */}
-              <div className="hidden md:flex items-center gap-2 bg-secondary/50 px-4 py-1.5 rounded-full border border-border mt-1">
-                <Zap className="w-4 h-4 text-amber-500 fill-amber-500" />
-                <div className="flex flex-col -gap-1">
-                  <span className="text-[10px] text-muted-foreground leading-tight uppercase font-bold tracking-wider">Express Delivery to</span>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm" className="gap-1 text-primary font-bold p-0 h-auto hover:bg-transparent text-xs justify-start">
-                        {selectedPincode}
-                        <ChevronDown className="w-3 h-3" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
-                      <DropdownMenuItem onClick={() => setSelectedPincode('110001')}>110001 - New Delhi</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setSelectedPincode('400001')}>400001 - Mumbai</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setSelectedPincode('560001')}>560001 - Bangalore</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
+              {/* Express Delivery (Desktop/Tablet) */}
+              <div className="hidden md:flex items-center gap-1 sm:gap-2 bg-secondary/50 px-2 py-1 sm:px-4 sm:py-2 rounded-lg border border-border text-xs sm:text-sm whitespace-nowrap ml-4">
+                <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-amber-500" />
+                <span className="hidden sm:inline text-muted-foreground">Express delivery to</span>
+                <DropdownMenu open={pincodeOpen} onOpenChange={setPincodeOpen}>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="gap-1 p-0 h-auto hover:bg-transparent font-medium"
+                    >
+                      {selectedPincode}
+                      <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start">
+                    <DropdownMenuItem onClick={() => setSelectedPincode('110001')}>110001 - New Delhi</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setSelectedPincode('400001')}>400001 - Mumbai</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setSelectedPincode('560001')}>560001 - Bangalore</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setSelectedPincode('700001')}>700001 - Kolkata</DropdownMenuItem>
+                    <DropdownMenuItem>Detect my location</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
 
             {/* Right Side Actions */}
-            <div className="flex items-center gap-3">
-              {/* Profile / Login */}
-              {isAuthenticated ? (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="gap-2 text-foreground h-10">
-                      <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-primary">
-                        <User className="w-4 h-4" />
-                      </div>
-                      <span className="hidden sm:inline font-medium text-xs">Hi, {user?.name?.split(' ')[0]}</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuItem asChild>
-                      <Link to="/profile" className="flex items-center gap-2 py-2">
-                        <User className="w-4 h-4" />
-                        {t.myProfile}
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={logout} className="flex items-center gap-2 py-2 text-destructive">
-                      <LogOut className="w-4 h-4" />
-                      {t.logout}
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <Link to="/auth">
-                  <Button variant="ghost" size="sm" className="gap-2 text-foreground h-10 px-3">
-                    <User className="w-5 h-5" />
-                    <span className="hidden sm:inline font-medium">{t.login}</span>
-                  </Button>
-                </Link>
-              )}
-
-              {/* Cart */}
-              <Link to="/cart">
-                <Button variant="ghost" size="icon" className="relative h-10 w-10 p-0 text-foreground">
-                  <ShoppingCart className="w-5 h-5" />
-                  {itemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-primary-foreground text-[10px] rounded-full flex items-center justify-center font-bold">
-                      {itemCount}
-                    </span>
-                  )}
-                </Button>
-              </Link>
-
-              {/* Dark Mode Toggle */}
-              <Button variant="ghost" size="icon" onClick={() => setTheme(isDark ? "light" : "dark")} className="h-10 w-10">
-                {isDark ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5" />}
-              </Button>
+            <div className="flex items-center gap-2 sm:gap-4">
 
               {/* Language Selector */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="gap-1 text-foreground h-10 px-2">
+                  <Button variant="ghost" size="sm" className="gap-1 px-2">
                     <Globe className="w-4 h-4" />
-                    <span className="hidden md:inline text-xs font-medium">{currentLanguageName}</span>
+                    <span className="hidden lg:inline">{languageNames[language]}</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -176,63 +140,144 @@ const Navbar: React.FC = () => {
                     <DropdownMenuItem
                       key={lang}
                       onClick={() => setLanguage(lang)}
-                      className={`gap-3 py-2 ${language === lang ? 'bg-secondary' : ''}`}
+                      className={`gap-3 py-2 cursor-pointer ${language === lang ? 'bg-secondary' : ''}`}
                     >
-                      <span className="text-xl">{languageFlags[lang]}</span>
+                      <span className="text-lg">{languageFlags[lang]}</span>
                       <span>{languageNames[lang]}</span>
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              {/* Mobile Menu */}
-              <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="lg:hidden h-10 w-10">
+              {/* Dark Mode */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleTheme}
+                className="flex" /*"hidden sm:flex" to flex done.#248*/
+                aria-label="Toggle theme"
+              >
+                {isDark ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5" />}
+              </Button>
+
+
+              {/* Cart */}
+              <Link to="/cart">
+                <Button variant="ghost" size="icon" className="relative">
+                  <ShoppingCart className="w-5 h-5" />
+                  {itemCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-destructive text-destructive-foreground text-[10px] rounded-full flex items-center justify-center font-bold animate-in zoom-in">
+                      {itemCount}
+                    </span>
+                  )}
+                </Button>
+              </Link>
+
+              {/* Profile/Login */}
+              {isAuthenticated ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="gap-2 hidden sm:flex">
+                      <div className="w-7 h-7 rounded-full bg-secondary flex items-center justify-center">
+                        <User className="w-4 h-4" />
+                      </div>
+                      <span className="max-w-[100px] truncate">{user?.name?.split(' ')[0]}</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem asChild>
+                      <Link to="/profile" className="cursor-pointer gap-2">
+                        <User className="w-4 h-4" /> {t.myProfile}
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/dashboard" className="cursor-pointer gap-2">
+                        <Activity className="w-4 h-4" /> Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={logout} className="text-destructive cursor-pointer gap-2">
+                      <LogOut className="w-4 h-4" /> {t.logout}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link to="/auth">
+                  <Button size="sm" className="hidden sm:flex">Log In</Button>
+                </Link>
+              )}
+
+              {/* Mobile Menu Trigger */}
+              <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                <SheetTrigger asChild className="lg:hidden">
+                  <Button variant="ghost" size="icon">
                     <Menu className="w-6 h-6" />
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="w-[300px]">
-                  <SheetHeader className="border-b pb-4">
-                    <SheetTitle className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                  <SheetHeader className="border-b pb-4 mb-4 text-left">
+                    <SheetTitle className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
                         <Heart className="w-4 h-4 text-primary-foreground" />
                       </div>
-                      <span className="text-xl font-bold text-primary">
-                        {language === 'en' ? 'Sehat Saathi' : t.appName}
+                      <span className="text-lg font-bold">
+                        {language === 'en' ? 'Swasthya Saathi' : t.appName}
                       </span>
                     </SheetTitle>
                   </SheetHeader>
-                  <div className="flex flex-col gap-2 mt-6">
-                    {navItems.map((item) => (
-                      <Link key={item.path} to={item.path} onClick={() => setMobileOpen(false)}>
-                        <Button
-                          variant={isActive(item.path) ? 'secondary' : 'ghost'}
-                          className="w-full justify-start gap-4 h-12 text-base font-medium"
-                        >
-                          <span className="text-xl">{item.icon}</span>
-                          {item.label}
-                        </Button>
+                  <div className="flex flex-col gap-1 overflow-y-auto max-h-[calc(100vh-8rem)]">
+                    {isAuthenticated && (
+                      <div className="flex items-center gap-3 p-3 mb-2 bg-secondary/50 rounded-lg">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                          <User className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <p className="font-medium">{user?.name}</p>
+                          <p className="text-xs text-muted-foreground">{user?.email}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {navItems.map((item) => {
+                      const Icon = typeof item.icon === 'string' ? Activity : item.icon;
+                      const isStrIcon = typeof item.icon === 'string';
+
+                      return (
+                        <Link key={item.path} to={item.path} onClick={() => setIsOpen(false)}>
+                          <Button
+                            variant={isActive(item.path) ? 'secondary' : 'ghost'}
+                            className={`w-full justify-start gap-4 h-11 ${isActive(item.path) ? 'font-semibold' : ''}`}
+                          >
+                          {isStrIcon ? (
+                              <span className="text-lg">{item.icon as string}</span>
+                          ) : (
+                              <Icon className="w-5 h-5" />
+                          )}
+                            {item.label}
+                          </Button>
+                        </Link>
+                      );
+                    })}
+
+                    <div className="my-2 border-t border-border"></div>
+
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start gap-4"
+                      onClick={toggleTheme}
+                    >
+                      {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                      {isDark ? 'Light Mode' : 'Dark Mode'}
+                    </Button>
+
+                    {!isAuthenticated ? (
+                      <Link to="/auth" onClick={() => setIsOpen(false)} className="mt-4">
+                        <Button className="w-full">Log In / Sign Up</Button>
                       </Link>
-                    ))}
-                    <div className="my-2 border-t border-border" />
-                    {moreItems.map((item) => (
-                      <Link key={item.path} to={item.path} onClick={() => setMobileOpen(false)}>
-                        <Button
-                          variant={isActive(item.path) ? 'secondary' : 'ghost'}
-                          className="w-full justify-start gap-4 h-12 text-base font-medium"
-                        >
-                          <span className="text-xl">{item.icon}</span>
-                          {item.label}
-                        </Button>
-                      </Link>
-                    ))}
-                    {!isAuthenticated && (
-                      <Link to="/auth" onClick={() => setMobileOpen(false)}>
-                        <Button className="w-full mt-4 h-12 text-base font-bold bg-primary hover:bg-primary/90">
-                          {t.login} / Sign Up
-                        </Button>
-                      </Link>
+                    ) : (
+                      <Button variant="destructive" className="w-full justify-start gap-4 text-destructive hover:text-destructive hover:bg-destructive/10 mt-2" onClick={() => { logout(); setIsOpen(false); }}>
+                        <LogOut className="w-5 h-5" />
+                        {t.logout}
+                      </Button>
                     )}
                   </div>
                 </SheetContent>
@@ -242,46 +287,33 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Bottom Navigation Row (Desktop) */}
-      <div className="hidden lg:block bg-background/95 backdrop-blur-sm">
+      {/* Desktop Navigation (Bottom Row) */}
+      <div className="hidden lg:block bg-background/50 backdrop-blur-sm">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center gap-8 h-12">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`flex items-center gap-2 text-sm font-semibold transition-all duration-200 hover:text-primary relative group h-12 ${
-                  isActive(item.path) ? 'text-primary' : 'text-muted-foreground'
-                }`}
-              >
-                <span className="text-lg opacity-80 group-hover:opacity-100 transition-opacity">{item.icon}</span>
-                {item.label}
-                {isActive(item.path) && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-t-full" />
-                )}
-              </Link>
-            ))}
+          <div className="flex items-center gap-1 h-12 overflow-x-auto no-scrollbar">
+            {navItems.map((item) => {
+              const active = isActive(item.path);
+              const Icon = typeof item.icon === 'string' ? Activity : item.icon;
+              const isStrIcon = typeof item.icon === 'string';
 
-            {/* More Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-1 text-muted-foreground hover:text-primary font-semibold h-12 p-0 flex items-center">
-                  <span>⋯</span>
-                  <span className="text-sm">{language === 'hi' ? 'और' : 'More'}</span>
-                  <ChevronDown className="w-4 h-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="center" className="w-48">
-                {moreItems.map((item) => (
-                  <DropdownMenuItem key={item.path} asChild>
-                    <Link to={item.path} className="flex items-center gap-3 py-3 cursor-pointer">
-                      <span className="text-lg">{item.icon}</span>
-                      <span className="font-medium">{item.label}</span>
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                >
+                  <Button
+                    variant="ghost"
+                    className={`gap-2 rounded-full px-4 h-9 ${active ? 'bg-secondary text-primary hover:bg-secondary/80' : 'text-muted-foreground hover:text-foreground'}`}
+                  >
+                  {isStrIcon
+                    ? <span>{item.icon as string}</span>
+                    : <Icon className={`w-4 h-4 ${active ? 'fill-current' : ''}`} />
+                  }
+                    {item.label}
+                  </Button>
+                </Link>
+              )
+            })}
           </div>
         </div>
       </div>

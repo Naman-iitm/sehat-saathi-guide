@@ -72,3 +72,25 @@ export interface Offer {
   seasonalTag?: string;
   seasonalTagHi?: string;
 }
+
+export interface Coupon {
+  code: string;
+  description: string;
+  descriptionHi: string;
+  discountType: 'percentage' | 'flat';
+  discountValue: number;
+  minOrderAmount: number;
+  maxDiscount?: number;
+  validFrom: Date;
+  validUntil: Date;
+  isFirstTimeUser: boolean;
+  isActive: boolean;
+}
+
+export interface AppliedCoupon {
+  code: string;
+  discount: number;
+  description: string;
+  descriptionHi: string;
+}
+
