@@ -7,6 +7,7 @@ export interface IUser extends Document {
   phone: string;
   password: string;
   profilePic?: string;
+  reputationPoints: number;
   createdAt: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
@@ -17,6 +18,7 @@ const userSchema = new Schema<IUser>({
   phone: { type: String, required: true },
   password: { type: String, required: true, select: false },
   profilePic: { type: String },
+  reputationPoints: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now },
 });
 

@@ -14,6 +14,7 @@ import analyticsRoutes from "./routes/analytics";
 import notificationRoutes from "./routes/notifications";
 import appointmentRoutes from "./routes/appointments";
 import metricsRoutes from "./routes/metrics";
+import forumRoutes from "./routes/forum";
 
 const app = express();
 
@@ -76,6 +77,7 @@ app.use("/api/analytics", analyticsRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/metrics", metricsRoutes);
+app.use("/api/forum", forumRoutes);
 
 // Error handling
 app.use(notFoundHandler);
