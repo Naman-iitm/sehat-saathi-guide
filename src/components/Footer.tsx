@@ -1,10 +1,23 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Facebook, Instagram, Linkedin, Mail, Phone, Send,X } from 'lucide-react';
+
+import {
+  Heart,
+  Facebook,
+  Instagram,
+  Linkedin,
+  Mail,
+  Phone,
+  Send,
+  X,
+  CheckCircle,
+  XCircle,
+} from 'lucide-react';
+
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, XCircle } from 'lucide-react';
 
 
 const validateEmail = (email: string) => {
@@ -200,9 +213,21 @@ const Footer: React.FC = () => {
 
 
 
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" >
+              
+{/* About Section */}
+      {/* About Sehat Saathi Section */}
+ <div className="space-y-6 max-w-sm mb-12">
+  <h3 className="font-semibold text-lg text-foreground">
+     {t.aboutSehatSaathiTitle}
+   </h3>
 
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+   <p className="text-muted-foreground text-sm leading-relaxed">
+    {t.aboutSehatSaathiDesc}
+    <br />
+     {t.aboutSehatSaathiMission}
+  </p>
+ </div>
                     {/* Brand */}
                     <div className="space-y-4">
                         <Link to="/" className="flex items-center gap-2">
@@ -211,6 +236,9 @@ const Footer: React.FC = () => {
                             </div>
                             <span className="font-bold text-xl text-foreground">{t.appName}</span>
                         </Link>
+
+                     
+
                         <p className="text-muted-foreground text-sm leading-relaxed">
                             {t.welcomeMessage}
                         </p>
@@ -234,6 +262,7 @@ const Footer: React.FC = () => {
                                 <Linkedin className="w-5 h-5" />
                             </a>
                         </div>
+
                     </div>
 
                     {/* Quick Links */}
@@ -329,3 +358,5 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
+
+

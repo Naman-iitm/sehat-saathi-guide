@@ -84,6 +84,11 @@ export const translations: Record<Language, Translations> = {
         subscribeSuccess: '✅ You have successfully subscribed!',
         subscribeError: '❌ Please enter a valid email.',
         invalidEmail: '❌ Invalid email format.',
+        aboutSehatSaathiTitle: 'About Sehat Saathi',
+aboutSehatSaathiDesc:
+  'Sehat Saathi is a digital healthcare companion designed to help users track symptoms, access reliable health tips, explore government health schemes, and manage their well-being easily.',
+aboutSehatSaathiMission:
+  'Our mission is to make healthcare guidance accessible to everyone.',
     },
     hi: {
         appName: 'सेहत साथी',
@@ -168,6 +173,12 @@ export const translations: Record<Language, Translations> = {
         subscribeSuccess: '✅ आपने सफलतापूर्वक सदस्यता ली है!',
         subscribeError: '❌ कृपया मान्य ईमेल दर्ज करें।',
         invalidEmail: '❌ अमान्य ईमेल प्रारूप।',
+        aboutSehatSaathiTitle: 'सेहत साथी के बारे में',
+aboutSehatSaathiDesc:
+  'सेहत साथी एक डिजिटल स्वास्थ्य साथी है, जो लोगों को अपने रोगों के संकेतों पर नज़र रखने, भरोसेमंद स्वास्थ्य सुझाव पाने, सरकारी स्वास्थ्य योजनाओं की जानकारी लेने और अपनी सेहत को आसानी से संभालने में मदद करता है |'
+aboutSehatSaathiMission:
+  'हमारा उद्देश्य सभी लोगों तक स्वास्थ्य से जुड़ा मार्गदर्शन आसानी से पहुँचाना है।',
+
     },
     bn: {
         appName: 'সেহাত সাথী',
@@ -252,6 +263,12 @@ export const translations: Record<Language, Translations> = {
         subscribeSuccess: '✅ আপনি সফলভাবে সাবস্ক্রাইব করেছেন!',
         subscribeError: '❌ অনুগ্রহ করে একটি বৈধ ইমেল লিখুন।',
         invalidEmail: '❌ অবৈধ ইমেল ফরম্যাট।',
+        aboutSehatSaathiTitle: 'সেহাত সাথী সম্পর্কে',
+aboutSehatSaathiDesc:
+  'সেহাত সাথী একটি ডিজিটাল স্বাস্থ্য সহকারী যা ব্যবহারকারীদের লক্ষণ ট্র্যাক করতে, নির্ভরযোগ্য স্বাস্থ্য টিপস পেতে, সরকারি স্বাস্থ্য প্রকল্প সম্পর্কে জানতে এবং সহজে তাদের সুস্থতা পরিচালনা করতে সাহায্য করে।',
+aboutSehatSaathiMission:
+  'আমাদের লক্ষ্য হলো সবার জন্য স্বাস্থ্য নির্দেশনা সহজলভ্য করা।',
+
     },
     mr: {
         appName: 'सेहत साथी',
@@ -336,6 +353,11 @@ export const translations: Record<Language, Translations> = {
         subscribeSuccess: '✅ तुम्ही यशस्वीरित्या सदस्यता घेतली आहे!',
         subscribeError: '❌ कृपया वैध ईमेल प्रविष्ट करा।',
         invalidEmail: '❌ अवैध ईमेल स्वरूप।',
+        aboutSehatSaathiTitle: 'सेहत साथी बद्दल',
+aboutSehatSaathiDesc:
+  'सेहत साथी हा एक डिजिटल आरोग्य सहाय्यक आहे, जो लोकांना आजाराची लक्षणे नोंदवण्यास, खात्रीशीर आरोग्य सल्ला मिळवण्यास, सरकारी आरोग्य योजनांची माहिती घेण्यास आणि स्वतःचे आरोग्य सहजपणे सांभाळण्यास मदत करतो.',
+aboutSehatSaathiMission:
+  'सर्वांसाठी आरोग्यविषयक मार्गदर्शन सहज उपलब्ध करून देणे हे आमचे उद्दिष्ट आहे',
     },
     bho: {
         appName: 'सेहत साथी',
@@ -420,6 +442,11 @@ export const translations: Record<Language, Translations> = {
         subscribeSuccess: '✅ रउआ सफलतापूर्वक सदस्यता ले लिहलीं!',
         subscribeError: '❌ कृपया मान्य ईमेल दर्ज करीं।',
         invalidEmail: '❌ अमान्य ईमेल प्रारूप।',
+        aboutSehatSaathiTitle: 'सेहत साथी के बारे में',
+aboutSehatSaathiDesc:
+  'सेहत साथी एगो डिजिटल सेहत साथी बा जे लोगन के लक्षण ट्रैक करे में, भरोसेमंद सेहत सलाह पाए में, सरकारी सेहत योजना समझे में आ अपन सेहत सही से संभाले में मदद करेला।',
+aboutSehatSaathiMission:
+  'हमनी के मकसद सबके खातिर सेहत मार्गदर्शन सुलभ बनावल बा।',
     },
     mai: {
         appName: 'सेहत साथी',
@@ -504,5 +531,11 @@ export const translations: Record<Language, Translations> = {
         subscribeSuccess: '✅ अहाँ सफलतापूर्वक सदस्यता ले लेलहुँ!',
         subscribeError: '❌ कृपया मान्य ईमेल दर्ज करू।',
         invalidEmail: '❌ अमान्य ईमेल प्रारूप।',
+        aboutSehatSaathiTitle: 'सेहत साथी के बारे में',
+aboutSehatSaathiDesc:
+  'सेहत साथी एक डिजिटल स्वास्थ्य सहायक अछि जे उपयोगकर्ता के लक्षण ट्रैक करबा में, भरोसेमंद स्वास्थ्य सुझाव पाबा में, सरकारी स्वास्थ्य योजना बुझबा में आ अपन स्वास्थ्य आसानी सँ प्रबंधित करबा में मदद करैत अछि।',
+aboutSehatSaathiMission:
+  'सभके लेल स्वास्थ्य मार्गदर्शन सुलभ बनेनाइ हमर उद्देश्य अछि।',
+
     },
 };

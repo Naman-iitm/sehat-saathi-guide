@@ -83,7 +83,14 @@ interface Translations {
   followUs: string;
   rightsReserved: string;
   offers: string;
+
   stayUpdated: string;
+  
+  // About section
+aboutSehatSaathiTitle: string;
+aboutSehatSaathiDesc: string;
+aboutSehatSaathiMission: string;
+
 }
 
 const translations: Record<Language, Translations> = {
@@ -164,11 +171,21 @@ const translations: Record<Language, Translations> = {
     followUs: 'हमें फॉलो करें',
     rightsReserved: 'सर्वाधिकार सुरक्षित',
     offers: 'ऑफर',
+
+aboutSehatSaathiTitle: "सेहत साथी के बारे में",
+aboutSehatSaathiDesc:
+"सेहत साथी एक डिजिटल स्वास्थ्य साथी है, जो लोगों को अपने रोगों के संकेतों पर नज़र रखने, भरोसेमंद स्वास्थ्य सुझाव पाने, सरकारी स्वास्थ्य योजनाओं की जानकारी लेने और अपनी सेहत को आसानी से संभालने में मदद करता है।",
+aboutSehatSaathiMission:
+"हमारा उद्देश्य सभी लोगों तक स्वास्थ्य से जुड़ा मार्गदर्शन आसानी से पहुँचाना है।",
+
+
+
     invalidEmail: 'अवैध ईमेल',
     newsletterTitle: 'वृत्तपत्र शीर्षक',
     subscribeError: 'सदस्यता त्रुटी',
     subscribeSuccess: 'सदस्यता यशस्वी',
     stayUpdated: 'आमच्या नवीनतम आरोग्य टिप्स आणि वैशिष्ट्यांसह अपडेट रहा.',
+
   },
   en: {
     appName: 'Sehat Saathi',
@@ -247,12 +264,21 @@ const translations: Record<Language, Translations> = {
     followUs: 'Follow Us',
     rightsReserved: 'All Rights Reserved',
     offers: 'Offers',
+
+aboutSehatSaathiTitle: "About Sehat Saathi",
+aboutSehatSaathiDesc:
+"Sehat Saathi is a digital healthcare companion designed to help users track symptoms, access reliable health tips, explore government health schemes, and manage their well-being easily.",
+aboutSehatSaathiMission:
+"Our mission is to make healthcare guidance accessible to everyone.",
+
+
     invalidEmail: undefined,
     newsletterTitle: 'Newsletter',
     subscribeError: 'Subscription Error',
     subscribeSuccess: 'Subscription Success',
     stayUpdated: 'Stay updated with our latest health tips and features.'
     ,
+
   },
   bn: {
     appName: 'স্বাস্থ্য সাথী',
@@ -331,6 +357,15 @@ const translations: Record<Language, Translations> = {
     followUs: 'আমাদের অনুসরণ করুন',
     rightsReserved: 'সর্বস্বত্ব সংরক্ষিত',
     offers: 'অফার',
+
+aboutSehatSaathiTitle: "সেহাত সাথী সম্পর্কে",
+aboutSehatSaathiDesc:
+"সেহাত সাথী একটি ডিজিটাল স্বাস্থ্যসেবা সহকারী যা ব্যবহারকারীদের উপসর্গ ট্র্যাক করতে, নির্ভরযোগ্য স্বাস্থ্য পরামর্শ পেতে, সরকারি স্বাস্থ্য প্রকল্প সম্পর্কে জানতে এবং সহজে নিজের সুস্থতা পরিচালনা করতে সাহায্য করে।",
+aboutSehatSaathiMission:
+"আমাদের লক্ষ্য সবার জন্য স্বাস্থ্য সংক্রান্ত নির্দেশনা সহজলভ্য করা।",
+
+
+
     invalidEmail: undefined,
     newsletterTitle: 'নিউজলেটার',
     subscribeError: 'সাবস্ক্রিপশন ত্রুটি',
@@ -414,7 +449,16 @@ const translations: Record<Language, Translations> = {
     contact: 'संपर्क करा',
     followUs: 'आम्हाला फॉलो करा',
     rightsReserved: 'सर्व हक्क राखीव',
-     offers: 'ऑफर',
+
+    offers: 'ऑफर',
+aboutSehatSaathiTitle: "सेहत साथी विषयी",
+aboutSehatSaathiDesc:
+"सेहत साथी हा एक डिजिटल आरोग्य सहाय्यक आहे, जो लोकांना आजाराची लक्षणे नोंदवण्यास, खात्रीशीर आरोग्य सल्ला मिळवण्यास, सरकारी आरोग्य योजनांची माहिती घेण्यास आणि स्वतःचे आरोग्य सहजपणे सांभाळण्यास मदत करतो..",
+aboutSehatSaathiMission:
+"सर्वांसाठी आरोग्यविषयक मार्गदर्शन सहज उपलब्ध करून देणे हे आमचे उद्दिष्ट आहे.",
+
+
+     
   invalidEmail: 'अवैध ईमेल',
   newsletterTitle: 'न्यूजलेटर',
   subscribeError: 'सदस्यता त्रुटी',
@@ -497,12 +541,21 @@ const translations: Record<Language, Translations> = {
     contact: 'Contact Us',
     followUs: 'Follow Us',
     rightsReserved: 'All Rights Reserved',
-    offers: 'ऑफर',
+    
+
+   aboutSehatSaathiTitle: "सेहत साथी के बारे में",
+aboutSehatSaathiDesc:
+"सेहत साथी एक डिजिटल स्वास्थ्य साथी बा, जे लोगन के लक्षण ट्रैक करे, भरोसेमंद स्वास्थ्य सुझाव देवे, सरकारी स्वास्थ्य योजना समझे आ आपन सेहत आसानी से संभाले में मदद करे ला।",
+aboutSehatSaathiMission:
+"हमार मकसद बा सभे लोग खातिर स्वास्थ्य मार्गदर्शन आसान बनावल जाए।",
+
+
     invalidEmail: undefined,
     newsletterTitle: 'न्यूजलेटर',
     subscribeError: 'सदस्यता त्रुटी',
     subscribeSuccess: 'सदस्यता सफल',
     stayUpdated: 'हमार नवीनतम स्वास्थ्य टिप्स आ फीचर्स से अपडेट रहअ।',
+
   },
   mai: {
     appName: 'स्वास्थ्य साथी',
@@ -580,12 +633,22 @@ const translations: Record<Language, Translations> = {
     contact: 'Contact Us',
     followUs: 'Follow Us',
     rightsReserved: 'All Rights Reserved',
+
+    
+aboutSehatSaathiTitle: "सेहत साथी के बारे में",
+aboutSehatSaathiDesc:
+"सेहत साथी एक डिजिटल स्वास्थ्य सहायक अछि जे उपयोगकर्ता केँ लक्षण ट्रैक करबा, भरोसेमंद स्वास्थ्य सुझाव पाबा, सरकारी स्वास्थ्य योजना जानबा आ अपन सेहत आसानी सँ प्रबंध करबा में मदद करैत अछि।",
+aboutSehatSaathiMission:
+"हमर लक्ष्य अछि जे सभकेँ स्वास्थ्य मार्गदर्शन सहज रूपेँ उपलब्ध हो।",
+
    offers: 'ऑफर',
   invalidEmail: undefined,
   newsletterTitle: 'न्यूजलेटर',
   subscribeError: 'सदस्यता त्रुटी',
   subscribeSuccess: 'सदस्यता सफल',
+   
   stayUpdated: 'हमर नवीनतम स्वास्थ्य टिप्स आ सुविधासँ अपडेट रहू।',
+
   },
 };
 
