@@ -4,6 +4,7 @@ import { env } from "./config/env";
 import { connectDB } from "./config/database";
 import logger from "./config/logger";
 import { initSocket } from "./config/socket";
+import { reminderWorker } from "./services/reminderWorker";
 
 const startServer = async () => {
   try {
@@ -22,7 +23,11 @@ const startServer = async () => {
 
     // Initialize Socket.io
     initSocket(httpServer);
-    logger.info("Socket.io initialized for WebRTC signaling");
+    logger.info("Socket.io initialized for WebRTC signaling and notifications");
+
+    // Start reminder worker
+    reminderWorker.start();
+    logger.info("Reminder worker started");
 
     // Start server
     httpServer.listen(env.PORT, () => {
@@ -35,6 +40,7 @@ const startServer = async () => {
     // Graceful shutdown
     const gracefullyShutdown = () => {
       logger.info('Shutting down gracefully...');
+      reminderWorker.stop();
       httpServer.close(() => {
         logger.info('HTTP server closed');
         process.exit(0);

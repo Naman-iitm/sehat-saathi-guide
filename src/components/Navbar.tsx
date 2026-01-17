@@ -39,6 +39,7 @@ import {
   Home,
   FileText
 } from 'lucide-react';
+import NotificationBell from '@/components/notifications/NotificationBell';
 
 const Navbar: React.FC = () => {
   const { t, language, setLanguage, languageNames, availableLanguages } = useLanguage();
@@ -160,6 +161,9 @@ const Navbar: React.FC = () => {
                 {isDark ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5" />}
               </Button>
 
+
+              {/* Notifications */}
+              {isAuthenticated && <NotificationBell />}
 
               {/* Cart */}
               <Link to="/cart">

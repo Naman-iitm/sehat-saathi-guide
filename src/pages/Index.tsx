@@ -1,3 +1,4 @@
+import PreventiveHealthTips from "@/components/PreventiveHealthTips";
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -91,12 +92,6 @@ const Index: React.FC = () => {
       navigate(`/store?search=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
-
-  const stats = [
-    { icon: Users, value: '10K+', labelHi: 'उपयोगकर्ता', labelEn: 'Users' },
-    { icon: Shield, value: '100%', labelHi: 'सुरक्षित', labelEn: 'Secure' },
-    { icon: Clock, value: '24/7', labelHi: 'उपलब्ध', labelEn: 'Available' },
-  ];
 
   const features = [
     {
@@ -249,33 +244,12 @@ const Index: React.FC = () => {
               >
                 {language === 'hi' ? 'खोजें' : 'Search'}
               </Button>
-
-              {showSuggestions && suggestions.length > 0 && (
-                <div className="absolute z-50 bg-card border rounded-md mt-2 w-full">
-                  {suggestions.map((s, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      className="w-full text-left px-4 py-2 hover:bg-muted"
-                      onClick={() => {
-                        setSearchQuery(s);
-                        setShowSuggestions(false);
-                        navigate(
-                          `/store?search=${encodeURIComponent(s)}`
-                        );
-                      }}
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
-              )}
             </form>
           </CardContent>
         </Card>
       </section>
 
-      {/* HEALTH TIP */}
+      {/* TODAY'S HEALTH TIP */}
       <section className="container mx-auto px-4 py-8">
         <h2 className="text-xl font-semibold text-center mb-4">
           {language === 'hi'
@@ -285,6 +259,11 @@ const Index: React.FC = () => {
         <div className="max-w-xl mx-auto">
           <GeminiHealthTip />
         </div>
+      </section>
+
+      {/* ✅ PREVENTIVE HEALTH TIPS (ISSUE #282) */}
+      <section className="container mx-auto px-4 py-12">
+        <PreventiveHealthTips />
       </section>
 
       {/* EMERGENCY */}
