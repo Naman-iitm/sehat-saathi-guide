@@ -84,6 +84,7 @@ export const translations: Record<Language, Translations> = {
         subscribeSuccess: '✅ You have successfully subscribed!',
         subscribeError: '❌ Please enter a valid email.',
         invalidEmail: '❌ Invalid email format.',
+        stayUpdated: 'Stay updated with our latest health tips and features.',
     },
     hi: {
         appName: 'सेहत साथी',
@@ -168,6 +169,7 @@ export const translations: Record<Language, Translations> = {
         subscribeSuccess: '✅ आपने सफलतापूर्वक सदस्यता ली है!',
         subscribeError: '❌ कृपया मान्य ईमेल दर्ज करें।',
         invalidEmail: '❌ अमान्य ईमेल प्रारूप।',
+        stayUpdated: 'हमारे नवीनतम स्वास्थ्य टिप्स और सुविधाओं के साथ अपडेट रहें।',
     },
     bn: {
         appName: 'সেহাত সাথী',
@@ -252,6 +254,7 @@ export const translations: Record<Language, Translations> = {
         subscribeSuccess: '✅ আপনি সফলভাবে সাবস্ক্রাইব করেছেন!',
         subscribeError: '❌ অনুগ্রহ করে একটি বৈধ ইমেল লিখুন।',
         invalidEmail: '❌ অবৈধ ইমেল ফরম্যাট।',
+        stayUpdated: 'আমাদের সর্বশেষ স্বাস্থ্য টিপস এবং বৈশিষ্ট্যগুলির সাথে আপডেট থাকুন।',
     },
     mr: {
         appName: 'सेहत साथी',
@@ -336,6 +339,7 @@ export const translations: Record<Language, Translations> = {
         subscribeSuccess: '✅ तुम्ही यशस्वीरित्या सदस्यता घेतली आहे!',
         subscribeError: '❌ कृपया वैध ईमेल प्रविष्ट करा।',
         invalidEmail: '❌ अवैध ईमेल स्वरूप।',
+        stayUpdated: 'आमच्या नवीनतम आरोग्य टिप्स आणि वैशिष्ट्यांसह अद्ययावत रहा।',
     },
     bho: {
         appName: 'सेहत साथी',
@@ -420,6 +424,7 @@ export const translations: Record<Language, Translations> = {
         subscribeSuccess: '✅ रउआ सफलतापूर्वक सदस्यता ले लिहलीं!',
         subscribeError: '❌ कृपया मान्य ईमेल दर्ज करीं।',
         invalidEmail: '❌ अमान्य ईमेल प्रारूप।',
+        stayUpdated: 'हमनी के नवीनतम सेहत सुझाव अउर सुविधा सभ के साथ अपडेट रहीं।',
     },
     mai: {
         appName: 'सेहत साथी',
@@ -504,5 +509,6 @@ export const translations: Record<Language, Translations> = {
         subscribeSuccess: '✅ अहाँ सफलतापूर्वक सदस्यता ले लेलहुँ!',
         subscribeError: '❌ कृपया मान्य ईमेल दर्ज करू।',
         invalidEmail: '❌ अमान्य ईमेल प्रारूप।',
+        stayUpdated: 'हमर नवीनतम स्वास्थ्य टिप्स आ सुविधासँ अपडेट रहू।'
     },
 };

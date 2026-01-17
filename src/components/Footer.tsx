@@ -137,10 +137,10 @@ const Footer: React.FC = () => {
 
     <div className="relative p-8 sm:p-10">
       <div className="text-center mb-6">
-        <h3 className="font-bold text-2xl sm:text-3xl text-foreground mb-2">
+        <h3 className="font-bold text-2xl sm:text-3xl text-gray-900 mb-2">
           {t.newsletterTitle}
         </h3>
-        <p className="text-muted-foreground text-sm max-w-xl mx-auto">
+        <p className="text-gray-800 text-sm max-w-xl mx-auto font-medium">
           {t.stayUpdated || 'Stay updated with our latest health tips and features.'}
         </p>
       </div>

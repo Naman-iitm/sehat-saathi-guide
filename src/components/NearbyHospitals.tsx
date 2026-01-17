@@ -117,6 +117,25 @@ const NearbyHospitals: React.FC = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
 
+  const handleRetry = () => {
+    setError(null);
+    setIsLoadingLocation(true);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+          setUserLocation(loc);
+          setIsLoadingLocation(false);
+          loadHospitals(loc);
+        },
+        () => {
+          setIsLoadingLocation(false);
+          setError('Unable to access location');
+        }
+      );
+    }
+  };
+
   const loadHospitals = async (loc: { lat: number; lng: number }) => {
     setIsLoadingHospitals(true);
     try {
@@ -196,42 +215,105 @@ const NearbyHospitals: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold mb-2">{t.nearbyHospitals}</h1>
-      <p className="text-muted-foreground mb-4">
-        {language === 'hi' ? 'आपके पास के अस्पताल' : 'Hospitals near you'}
-      </p>
-
-      <Card className="mb-6">
-        <div className="h-64" ref={mapRef} />
-      </Card>
-
-      {isLoadingHospitals && <p className="text-sm">Loading hospitals...</p>}
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {hospitals.map((h) => (
-          <Card key={h.id}>
-            <CardHeader>
-              <CardTitle>{h.name}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2 text-sm">
-              <div className="flex gap-2"><MapPin className="w-4 h-4" />{h.address}</div>
-              <div className="flex gap-2"><Phone className="w-4 h-4" />{h.phone}</div>
-              <div className="flex gap-2"><Clock className="w-4 h-4" />{h.hours}</div>
-
-              <Button size="sm" variant="outline" className="w-full" onClick={() => openInMaps(h)}>
-                <Navigation className="w-4 h-4 mr-2" /> Directions
-              </Button>
-              <Button size="sm" className="w-full" onClick={() => { setSelectedHospital(h); setBookingOpen(true); }}>
-                <CalendarPlus className="w-4 h-4 mr-2" /> Book Appointment
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
+    <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
+      <div className="mb-6 sm:mb-8 text-center">
+        <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
+          {t.nearbyHospitals}
+        </h1>
+        <p className="text-xs sm:text-sm md:text-base text-muted-foreground px-2">
+          {language === 'hi'
+            ? 'आपके पास के अस्पताल और क्लिनिक'
+            : 'Hospitals and clinics near you'}
+        </p>
       </div>
 
-      {selectedHospital && (
-        <AppointmentBooking hospital={selectedHospital} open={bookingOpen} onOpenChange={setBookingOpen} />
+      {error ? (
+        <AsyncErrorFallback message={error} onRetry={handleRetry} />
+      ) : (
+        <>
+          <Card className="mb-6 sm:mb-8 border-2 border-border overflow-hidden">
+            <div className="relative h-48 sm:h-64 md:h-96">
+              {isLoadingLocation ? (
+                <div className="h-full bg-muted flex items-center justify-center">
+                  <div className="text-center">
+                    <MapPin className="w-16 h-16 mx-auto text-primary mb-4 animate-pulse" />
+                    <p className="text-muted-foreground">
+                      {language === 'hi' ? 'स्थान खोज रहे हैं...' : 'Finding your location...'}
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div ref={mapRef} className="h-64 w-full z-0" />
+              )}
+            </div>
+            {userLocation && (
+              <div className="p-3 bg-secondary/50 text-center text-sm text-muted-foreground">
+                📍 {language === 'hi' ? 'आपका स्थान' : 'Your location'}: {userLocation.lat.toFixed(4)}, {userLocation.lng.toFixed(4)}
+              </div>
+            )}
+          </Card>
+
+          {isLoadingHospitals && (
+            <div className="text-center mb-4 text-xs sm:text-sm text-muted-foreground">
+              {language === 'hi' ? 'नजदीकी अस्पताल खोज रहे हैं...' : 'Finding nearby hospitals...'}
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+            {hospitals.map((hospital) => (
+              <Card
+                key={hospital.id}
+                className="border-2 border-border shadow-sm hover:shadow-lg transition-all"
+              >
+                <CardHeader className="pb-3">
+                  <CardTitle className="flex items-start justify-between">
+                    <div>
+                      <span className="text-lg text-foreground">{hospital.name}</span>
+                      <span className="block text-sm font-normal text-primary mt-1">
+                        {hospital.type}
+                      </span>
+                    </div>
+                    <span className="text-sm bg-secondary text-secondary-foreground px-2 py-1 rounded">
+                      {hospital.distance}
+                    </span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>{hospital.address}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Phone className="w-4 h-4 flex-shrink-0" />
+                    <span>{hospital.phone}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Clock className="w-4 h-4 flex-shrink-0" />
+                    <span>{hospital.hours}</span>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <Button size="sm" variant="outline" className="w-full gap-2" onClick={() => openInMaps(hospital)}>
+                      <Navigation className="w-4 h-4" />
+                      {language === 'hi' ? 'रास्ता देखें' : 'Get Directions'}
+                    </Button>
+                    <Button size="sm" className="w-full gap-2" onClick={() => {
+                      setSelectedHospital(hospital);
+                      setBookingOpen(true);
+                    }}>
+                      <CalendarPlus className="w-4 h-4" />
+                      {language === 'hi' ? 'अपॉइंटमेंट बुक करें' : 'Book Appointment'}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {selectedHospital && (
+            <AppointmentBooking hospital={selectedHospital} open={bookingOpen} onOpenChange={setBookingOpen} />
+          )}
+        </>
       )}
     </div>
   );
