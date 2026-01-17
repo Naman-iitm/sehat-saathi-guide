@@ -1,9 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Lora:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom homepage font (expects files in /public/fonts/) */
+/* ===================== */
+/* Custom Fonts */
+/* ===================== */
 @font-face {
   font-family: 'Neue Montreal';
   src: url('/fonts/NeueMontreal-Regular.woff2') format('woff2'),
@@ -13,16 +16,21 @@
   font-display: swap;
 }
 
-/* Hero-specific font utility */
 .hero-font {
   font-family: 'Neue Montreal', var(--font-sans);
 }
 
-/* Glass / hero styles */
+/* ===================== */
+/* Hero Effects */
+/* ===================== */
 .hero-glass {
   backdrop-filter: blur(10px) saturate(1.05);
-  background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-  border: 1px solid rgba(255,255,255,0.07);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.03)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .hero-glow {
@@ -30,13 +38,12 @@
   opacity: 0.6;
 }
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
+/* ===================== */
+/* Design Tokens (HSL ONLY) */
+/* ===================== */
 @layer base {
   :root {
-    --background: 140 20% 98%;
+    --background: 82 100% 94%;
     --foreground: 150 30% 15%;
 
     --card: 0 0% 100%;
@@ -45,16 +52,16 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 150 30% 15%;
 
-    --primary: 142 72% 29%;
+    --primary: 97 52% 71%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 142 40% 92%;
+    --secondary: 82 100% 94%;
     --secondary-foreground: 142 72% 25%;
 
     --muted: 140 20% 94%;
     --muted-foreground: 150 15% 40%;
 
-    --accent: 85 60% 50%;
+    --accent: 349 100% 83%;
     --accent-foreground: 150 30% 15%;
 
     --destructive: 0 84% 60%;
@@ -81,8 +88,6 @@ All colors MUST be HSL.
     --chart-4: 45 90% 55%;
     --chart-5: 0 75% 55%;
 
-    --sidebar: 142 40% 97%;
-
     --success: 142 72% 35%;
     --success-foreground: 0 0% 100%;
     --warning: 45 90% 55%;
@@ -93,18 +98,6 @@ All colors MUST be HSL.
     --font-sans: 'Noto Sans', 'Poppins', ui-sans-serif, system-ui, sans-serif;
     --font-serif: 'Lora', ui-serif, Georgia, serif;
     --font-mono: 'Space Mono', ui-monospace, monospace;
-
-    --shadow-2xs: 0 1px 2px 0 hsl(150 30% 15% / 0.05);
-    --shadow-xs: 0 1px 3px 0 hsl(150 30% 15% / 0.1);
-    --shadow-sm: 0 2px 6px 0 hsl(150 30% 15% / 0.1);
-    --shadow: 0 4px 12px 0 hsl(150 30% 15% / 0.1);
-    --shadow-md: 0 8px 20px 0 hsl(150 30% 15% / 0.12);
-    --shadow-lg: 0 12px 30px 0 hsl(150 30% 15% / 0.15);
-    --shadow-xl: 0 20px 40px 0 hsl(150 30% 15% / 0.18);
-    --shadow-2xl: 0 30px 60px 0 hsl(150 30% 15% / 0.2);
-
-    --tracking-normal: 0em;
-    --spacing: 0.25rem;
   }
 
   .dark {
@@ -135,86 +128,31 @@ All colors MUST be HSL.
     --border: 150 20% 22%;
     --input: 150 20% 22%;
     --ring: 142 60% 45%;
-
-    --sidebar-background: 150 25% 10%;
-    --sidebar-foreground: 140 20% 95%;
-    --sidebar-primary: 142 60% 45%;
-    --sidebar-primary-foreground: 150 30% 8%;
-    --sidebar-accent: 150 20% 18%;
-    --sidebar-accent-foreground: 142 60% 70%;
-    --sidebar-border: 150 20% 22%;
-    --sidebar-ring: 142 60% 45%;
-
-    --chart-1: 142 60% 50%;
-    --chart-2: 85 50% 55%;
-    --chart-3: 180 45% 50%;
-    --chart-4: 45 85% 60%;
-    --chart-5: 0 70% 60%;
-
-    --sidebar: 150 25% 10%;
-
-    --success: 142 60% 45%;
-    --success-foreground: 0 0% 100%;
-    --warning: 45 85% 55%;
-    --warning-foreground: 150 30% 10%;
-    --info: 200 75% 55%;
-    --info-foreground: 0 0% 100%;
-
-    --shadow-2xs: 0 1px 2px 0 hsl(0 0% 0% / 0.2);
-    --shadow-xs: 0 1px 3px 0 hsl(0 0% 0% / 0.25);
-    --shadow-sm: 0 2px 6px 0 hsl(0 0% 0% / 0.25);
-    --shadow: 0 4px 12px 0 hsl(0 0% 0% / 0.25);
-    --shadow-md: 0 8px 20px 0 hsl(0 0% 0% / 0.3);
-    --shadow-lg: 0 12px 30px 0 hsl(0 0% 0% / 0.35);
-    --shadow-xl: 0 20px 40px 0 hsl(0 0% 0% / 0.4);
-    --shadow-2xl: 0 30px 60px 0 hsl(0 0% 0% / 0.45);
   }
 }
 
+/* ===================== */
+/* Utilities & Animations */
+/* ===================== */
 @layer utilities {
-  .animate-pulse-slow {
-    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-  
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
-  }
-  
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-  }
-
-  @keyframes fade-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes scale-in {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
-  }
-
   .animate-fade-in {
     animation: fade-in 0.3s ease-out;
   }
 
-  .animate-scale-in {
-    animation: scale-in 0.2s ease-out;
-  }
-  
-  .animate-spin-slow {
-    animation: spin 3s linear infinite;
-  }
-
-  @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-50% - 12px)); }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
-  .animate-marquee {
-    animation: marquee 30s linear infinite;
-    width: max-content;
+  .glass {
+    backdrop-filter: blur(10px);
+    background: hsl(var(--background) / 0.8);
   }
 
   .reveal {
@@ -227,40 +165,36 @@ All colors MUST be HSL.
     opacity: 1;
     transform: translateY(0);
   }
-  
-  .glass {
-    backdrop-filter: blur(10px);
-    background: hsl(var(--background) / 0.8);
-  }
 }
 
+/* ===================== */
+/* Global Base */
+/* ===================== */
 @layer base {
   * {
     @apply border-border;
   }
 
   body {
-    @apply bg-background text-foreground transition-colors duration-300;
+    @apply text-foreground transition-colors duration-300;
+    min-height: 200vh;
+    background: linear-gradient(
+      to bottom,
+      #A8DF8E 0%,
+      #A8DF8E 35%,
+      #F0FFDF 35%,
+      #F0FFDF 60%,
+      #FFE0E6 60%,
+      #FFE0E6 80%,
+      #FFAAB8 80%,
+      #FFAAB8 100%
+    );
+    background-attachment: fixed;
   }
 }
 
-/* Sparkle animation for toast */
-@keyframes sparkle {
-  0%, 100% {
-    box-shadow: 
-      0 0 5px rgba(34, 197, 94, 0.5),
-      0 0 10px rgba(34, 197, 94, 0.3),
-      0 0 15px rgba(34, 197, 94, 0.2);
-  }
-  50% {
-    box-shadow: 
-      0 0 10px rgba(34, 197, 94, 0.8),
-      0 0 20px rgba(34, 197, 94, 0.6),
-      0 0 30px rgba(34, 197, 94, 0.4);
-  }
-}
-
-.toast-sparkle {
-  animation: sparkle 2s ease-in-out infinite;
-  border: 2px solid rgba(34, 197, 94, 0.5) !important;
+html,
+body {
+  margin: 0;
+  min-height: 100%;
 }

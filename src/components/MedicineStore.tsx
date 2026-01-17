@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/dialog';
 
 import { toast } from 'sonner';
-import { Search, ShoppingCart, Star, Tag } from 'lucide-react';
+import { Search, ShoppingCart, Star, Tag, X, Clock, Package } from 'lucide-react';
 
 const MedicineStore: React.FC = () => {
   const navigate = useNavigate();
@@ -30,6 +30,8 @@ const MedicineStore: React.FC = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
 
   const [selectedMedicine, setSelectedMedicine] =
     useState<(typeof medicines)[0] | null>(null);
@@ -37,6 +39,72 @@ const MedicineStore: React.FC = () => {
 
   const [compareOpen, setCompareOpen] = useState(false);
   const [compareData, setCompareData] = useState<any>(null);
+
+
+  // Load search history from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('medicine-search-history');
+    if (saved) {
+      try {
+        setSearchHistory(JSON.parse(saved));
+      } catch (e) {
+        console.error('Failed to load search history:', e);
+      }
+    }
+  }, []);
+
+  // Save search to history
+  const saveSearchToHistory = (query: string) => {
+    if (!query.trim() || query.length < 2) return;
+
+    const trimmedQuery = query.trim();
+    
+    // Remove duplicate if exists, add to front (most recent first)
+    const updated = [
+      trimmedQuery,
+      ...searchHistory.filter(item => item !== trimmedQuery)
+    ].slice(0, 5); // Keep only 5 most recent
+
+    setSearchHistory(updated);
+    localStorage.setItem('medicine-search-history', JSON.stringify(updated));
+  };
+
+  // Remove item from history
+  const removeFromHistory = (query: string) => {
+    const updated = searchHistory.filter(item => item !== query);
+    setSearchHistory(updated);
+    localStorage.setItem('medicine-search-history', JSON.stringify(updated));
+  };
+
+  // Clear all history
+  const clearHistory = () => {
+    setSearchHistory([]);
+    localStorage.removeItem('medicine-search-history');
+    toast.success(
+      language === 'hi'
+        ? 'खोज इतिहास साफ़ हो गया'
+        : 'Search history cleared'
+    );
+  };
+
+  // Handle search input change
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
+  };
+
+  // Handle Enter key press
+  const handleSearchSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && searchQuery.trim().length >= 2) {
+      saveSearchToHistory(searchQuery);
+      setShowHistory(false);
+    }
+  };
+
+  // Apply search from history
+  const applyHistorySearch = (query: string) => {
+    setSearchQuery(query);
+    setShowHistory(false);
+  };
 
   const filteredMedicines = medicines.filter((medicine) => {
     const matchesSearch =
@@ -77,30 +145,96 @@ const MedicineStore: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">{t.medicineStore}</h1>
-        <p className="text-muted-foreground">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2">{t.medicineStore}</h1>
+        <p className="text-sm sm:text-base text-muted-foreground">
           {language === 'hi'
             ? 'सस्ती और अच्छी गुणवत्ता की दवाइयां'
             : 'Affordable quality medicines'}
         </p>
       </div>
 
-      {/* Search */}
-      <div className="relative mb-6">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+      {/* Search with History */}
+      <div className="relative mb-4 sm:mb-6">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 sm:w-5 h-4 sm:h-5 text-muted-foreground" />
         <Input
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => handleSearchChange(e.target.value)}
+          onKeyDown={handleSearchSubmit}
+          onFocus={() => setShowHistory(true)}
+          onBlur={() => setTimeout(() => setShowHistory(false), 200)}
           placeholder={t.search}
-          className="pl-10 h-12"
+          className="pl-10 h-10 sm:h-12 text-sm sm:text-base search-input-focus transition-all"
         />
+
+        {/* Search History Dropdown */}
+        {showHistory && searchHistory.length > 0 && (
+          <div className="absolute z-10 w-full mt-2 bg-background border rounded-lg shadow-lg search-dropdown">
+            <div className="p-3 border-b flex items-center justify-between">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Clock className="w-4 h-4" />
+                <span>
+                  {language === 'hi' ? 'हाल की खोजें' : 'Recent Searches'}
+                </span>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={clearHistory}
+                className="h-6 text-xs hover:text-destructive transition-colors"
+              >
+                {language === 'hi' ? 'सभी हटाएं' : 'Clear All'}
+              </Button>
+            </div>
+            
+            <div className="py-2">
+              {searchHistory.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between px-3 py-2 cursor-pointer group search-history-item"
+                  onClick={() => applyHistorySearch(item)}
+                >
+                  <span className="text-sm">{item}</span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeFromHistory(item);
+                    }}
+                  >
+                    <X className="w-3 h-3" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
+      {/* Result Counter */}
+      {searchQuery && (
+        <div className="mb-4 flex items-center gap-2 result-counter">
+          <Badge variant="secondary" className="text-sm">
+            {language === 'hi'
+              ? `${filteredMedicines.length} दवाइयां मिलीं`
+              : `Found ${filteredMedicines.length} medicine${filteredMedicines.length !== 1 ? 's' : ''}`}
+          </Badge>
+          {filteredMedicines.length > 0 && (
+            <span className="text-xs text-muted-foreground">
+              {language === 'hi'
+                ? `"${searchQuery}" के लिए`
+                : `for "${searchQuery}"`}
+            </span>
+          )}
+        </div>
+      )}
+
       {/* Categories */}
-      <div className="flex flex-wrap gap-2 mb-8">
+      <div className="mb-4 sm:mb-6 flex gap-2 overflow-x-auto pb-2 -mx-3 px-3 sm:-mx-4 sm:px-4 scrollbar-hide">
         {categories.map((category) => (
           <Button
             key={category.id}
@@ -109,18 +243,43 @@ const MedicineStore: React.FC = () => {
               selectedCategory === category.id ? 'default' : 'outline'
             }
             onClick={() => setSelectedCategory(category.id)}
+            className="whitespace-nowrap text-xs sm:text-sm py-2 h-auto transition-all hover:scale-105"
           >
             {language === 'hi' ? category.nameHi : category.name}
           </Button>
         ))}
       </div>
 
+      {/* Empty State */}
+      {filteredMedicines.length === 0 && searchQuery && (
+        <div className="flex flex-col items-center justify-center py-16 empty-state">
+          <Package className="w-16 h-16 text-muted-foreground mb-4" />
+          <h3 className="text-xl font-semibold mb-2">
+            {language === 'hi' ? 'कोई दवाई नहीं मिली' : 'No medicines found'}
+          </h3>
+          <p className="text-muted-foreground text-center max-w-md mb-4">
+            {language === 'hi'
+              ? `"${searchQuery}" के लिए कोई परिणाम नहीं मिला। कृपया अलग खोजें या श्रेणी बदलें।`
+              : `No results found for "${searchQuery}". Try a different search term or category.`}
+          </p>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setSearchQuery('');
+              setSelectedCategory('all');
+            }}
+          >
+            {language === 'hi' ? 'सभी दवाइयां देखें' : 'View All Medicines'}
+          </Button>
+        </div>
+      )}
+
       {/* Products */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
         {filteredMedicines.map((medicine) => (
           <Card
             key={medicine.id}
-            className="cursor-pointer hover:shadow-lg"
+            className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"
             onClick={() => {
               setSelectedMedicine(medicine);
               setIsModalOpen(true);
@@ -145,13 +304,13 @@ const MedicineStore: React.FC = () => {
               )}
             </div>
 
-            <CardContent className="p-4">
-              <h3 className="font-semibold mb-1">
+            <CardContent className="p-2 sm:p-4">
+              <h3 className="font-semibold mb-1 text-xs sm:text-sm line-clamp-2">
                 {language === 'hi' ? medicine.nameHi : medicine.name}
               </h3>
 
               {genericComparison?.[medicine.name] && (
-                <Badge className="mb-2 bg-green-100 text-green-700">
+                <Badge className="mb-2 bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-100">
                   Cheaper Generic Available
                 </Badge>
               )}
@@ -182,6 +341,7 @@ const MedicineStore: React.FC = () => {
                       );
                       setCompareOpen(true);
                     }}
+                    className="transition-all hover:scale-105"
                   >
                     Compare
                   </Button>
@@ -192,6 +352,7 @@ const MedicineStore: React.FC = () => {
                       e.stopPropagation();
                       handleAddToCart(medicine);
                     }}
+                    className="transition-all hover:scale-105"
                   >
                     <ShoppingCart className="w-4 h-4" />
                   </Button>
@@ -211,15 +372,142 @@ const MedicineStore: React.FC = () => {
 
       {/* Medicine Detail Modal */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              {selectedMedicine &&
-                (language === 'hi'
-                  ? selectedMedicine.nameHi
-                  : selectedMedicine.name)}
-            </DialogTitle>
-          </DialogHeader>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          {selectedMedicine && (
+            <div>
+              <DialogHeader>
+                <DialogTitle className="text-2xl mb-4">
+                  {language === 'hi'
+                    ? selectedMedicine.nameHi
+                    : selectedMedicine.name}
+                </DialogTitle>
+              </DialogHeader>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Product Image */}
+                <div className="flex justify-center">
+                  <img
+                    src={selectedMedicine.image}
+                    alt={selectedMedicine.name}
+                    className="w-full h-64 object-contain rounded-lg"
+                  />
+                </div>
+                
+                {/* Product Details */}
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="font-semibold text-lg mb-2">
+                      {language === 'hi' ? 'विवरण' : 'Description'}
+                    </h3>
+                    <p className="text-muted-foreground">
+                      {language === 'hi'
+                        ? selectedMedicine.descriptionHi
+                        : selectedMedicine.description}
+                    </p>
+                  </div>
+                  
+                  <div className="flex items-center gap-2">
+                    <Star className="w-5 h-5 fill-current text-warning" />
+                    <span className="font-medium">{selectedMedicine.rating} Rating</span>
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="secondary">
+                      {language === 'hi' ? 'कैटेगरी' : 'Category'}: {language === 'hi' 
+                        ? categories.find(c => c.id === selectedMedicine.category)?.nameHi 
+                        : categories.find(c => c.id === selectedMedicine.category)?.name}
+                    </Badge>
+                    <Badge variant="outline">
+                      {selectedMedicine.inStock 
+                        ? (language === 'hi' ? 'स्टॉक में' : 'In Stock') 
+                        : (language === 'hi' ? 'स्टॉक में नहीं' : 'Out of Stock')}
+                    </Badge>
+                  </div>
+                  
+                  <div className="text-2xl font-bold text-primary">
+                    ₹{selectedMedicine.price}
+                    {selectedMedicine.originalPrice > selectedMedicine.price && (
+                      <span className="ml-2 text-sm text-muted-foreground line-through">
+                        ₹{selectedMedicine.originalPrice}
+                      </span>
+                    )}
+                  </div>
+                  
+                  {genericComparison?.[selectedMedicine.name] && (
+                    <Badge className="bg-green-500 text-white">
+                      {language === 'hi' 
+                        ? 'सस्ता जेनेरिक उपलब्ध' 
+                        : 'Cheaper Generic Available'}
+                    </Badge>
+                  )}
+                  
+                  {/* Expandable Medicine Details */}
+                  <div className="space-y-2 pt-2">
+                    <details className="group">
+                      <summary className="cursor-pointer font-semibold list-none flex justify-between items-center">
+                        {language === 'hi' ? 'उपयोग निर्देश' : 'Usage Instructions'}
+                        <span className="ml-2 group-open:rotate-180 transition-transform">▼</span>
+                      </summary>
+                      <div className="mt-2 text-sm text-muted-foreground">
+                        {language === 'hi' 
+                          ? `सामान्य रूप से डॉक्टर की सलाह पर लें। सामान्य खुराक: ${selectedMedicine.name.includes('Paracetamol') ? '500mg, 3 बार दिन में' : selectedMedicine.name.includes('ORS') ? 'एक बूंद दिन में 3 बार' : 'जैसा डॉक्टर निर्धारित करे'}`
+                          : `Generally take as per doctor's advice. Typical dosage: ${selectedMedicine.name.includes('Paracetamol') ? '500mg, 3 times a day' : selectedMedicine.name.includes('ORS') ? 'One sachet dissolved in water, 3 times a day' : 'As prescribed by doctor'}`}
+                      </div>
+                    </details>
+                    
+                    <details className="group">
+                      <summary className="cursor-pointer font-semibold list-none flex justify-between items-center">
+                        {language === 'hi' ? 'सावधानियां' : 'Precautions'}
+                        <span className="ml-2 group-open:rotate-180 transition-transform">▼</span>
+                      </summary>
+                      <div className="mt-2 text-sm text-muted-foreground">
+                        {language === 'hi' 
+                          ? 'खाली पेट लेने से बचें, यदि गर्भवती हों तो डॉक्टर से परामर्श करें।'
+                          : 'Avoid on empty stomach, consult doctor if pregnant.'}
+                      </div>
+                    </details>
+                    
+                    <details className="group">
+                      <summary className="cursor-pointer font-semibold list-none flex justify-between items-center">
+                        {language === 'hi' ? 'साइड इफेक्ट्स' : 'Side Effects'}
+                        <span className="ml-2 group-open:rotate-180 transition-transform">▼</span>
+                      </summary>
+                      <div className="mt-2 text-sm text-muted-foreground">
+                        {language === 'hi' 
+                          ? 'मतली, चक्कर, त्वचा पर लाल चकत्ते।'
+                          : 'Nausea, dizziness, skin rashes.'}
+                      </div>
+                    </details>
+                  </div>
+                  
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                    <Button 
+                      className="flex-1"
+                      onClick={() => {
+                        handleAddToCart(selectedMedicine);
+                        setIsModalOpen(false);
+                      }}
+                    >
+                      {language === 'hi' ? 'खरीदें' : 'Buy Now'}
+                    </Button>
+                    
+                    <Button 
+                      variant="outline"
+                      className="flex-1"
+                      disabled={!genericComparison?.[selectedMedicine.name]}
+                      onClick={() => {
+                        setCompareData(genericComparison?.[selectedMedicine.name]);
+                        setCompareOpen(true);
+                        setIsModalOpen(false);
+                      }}
+                    >
+                      {language === 'hi' ? 'तुलना करें' : 'Compare'}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </div>

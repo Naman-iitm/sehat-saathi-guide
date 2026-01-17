@@ -4,27 +4,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- TODO: Set the document title to the name of your application -->
-  <title> Naman Sehat Saathi App - Demo </title>
+  <title>Sehat Saathi - Your Healthcare Companion</title>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="public/health-care.png" />
+  <link rel="icon" type="image/png" href="/health-care.png" />
+  
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#16a34a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Sehat Saathi" />
+  <link rel="apple-touch-icon" href="/health-care.png" />
+  <link rel="manifest" href="/manifest.json" />
 
-  <meta name="description" content="Lovable Generated Project" />
-  <meta name="author" content="Lovable" />
+  <meta name="description" content="Your Multilingual Healthcare Companion - Empowering communities through accessible healthcare information" />
+  <meta name="author" content="Sehat Saathi Team" />
 
-  <!-- TODO: Update og:title to match your application name -->
-  <meta property="og:title" content="Lovable App" />
-  <meta property="og:description" content="Lovable Generated Project" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="Sehat Saathi - Your Healthcare Companion" />
+  <meta property="og:description" content="Your Multilingual Healthcare Companion - Empowering communities through accessible healthcare information" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  <meta property="og:image" content="/health-care.png" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@Lovable" />
-  <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  <meta name="twitter:site" content="@SehatSaathi" />
+  <meta name="twitter:image" content="/health-care.png" />
 
   <!-- Leaflet CSS for maps -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- WebRTC Polyfills -->
+  <script>
+    if (global === undefined) {
+      var global = window;
+    }
+  </script>
+  <script type="module">
+    import { Buffer } from 'buffer';
+    window.Buffer = Buffer;
+    window.process = { env: {} };
+  </script>
 </head>
 
 <body>
