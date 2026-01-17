@@ -9,6 +9,7 @@ import symptomsRoutes from "./routes/symptoms";
 import remindersRoutes from "./routes/reminders";
 import ordersRoutes from "./routes/orders";
 import analyticsRoutes from "./routes/analytics";
+import forumRoutes from "./routes/forum";
 
 const app = express();
 
@@ -71,5 +72,6 @@ app.use("/api/symptoms", symptomsRoutes);
 app.use("/api/reminders", remindersRoutes);
 app.use("/api/orders", ordersRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/forum", forumRoutes);
 
 export default app;
