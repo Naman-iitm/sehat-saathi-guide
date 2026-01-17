@@ -3,12 +3,17 @@ import cors from "cors";
 import helmet from "helmet";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler";
 import { generalLimiter } from "./middleware/rateLimiter";
+import { conditionalRequestLogger } from "./middleware/requestLogger";
+import { performanceMonitor } from "./middleware/performanceMonitor";
 import authRoutes from "./routes/auth";
 import medicalHistoryRoutes from "./routes/medicalHistory";
 import symptomsRoutes from "./routes/symptoms";
 import remindersRoutes from "./routes/reminders";
 import ordersRoutes from "./routes/orders";
 import analyticsRoutes from "./routes/analytics";
+import notificationRoutes from "./routes/notifications";
+import appointmentRoutes from "./routes/appointments";
+import metricsRoutes from "./routes/metrics";
 import forumRoutes from "./routes/forum";
 
 const app = express();
@@ -45,12 +50,9 @@ app.use(
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-// Request ID middleware
-app.use((req, _res, next) => {
-  req.id = req.headers["x-request-id"] as string ||
-    `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-  next();
-});
+// Logging & Performance middleware
+app.use(conditionalRequestLogger);
+app.use(performanceMonitor);
 
 // General rate limiting
 app.use(generalLimiter);
@@ -72,6 +74,13 @@ app.use("/api/symptoms", symptomsRoutes);
 app.use("/api/reminders", remindersRoutes);
 app.use("/api/orders", ordersRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/notifications", notificationRoutes);
+app.use("/api/appointments", appointmentRoutes);
+app.use("/api/metrics", metricsRoutes);
 app.use("/api/forum", forumRoutes);
+
+// Error handling
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 export default app;

@@ -4,6 +4,7 @@ import { env } from "./config/env";
 import { connectDB } from "./config/database";
 import logger from "./config/logger";
 import { initSocket } from "./config/socket";
+import { startReminderWorker } from "./services/reminderWorker";
 
 const startServer = async () => {
   try {
@@ -17,12 +18,16 @@ const startServer = async () => {
     await connectDB();
     logger.info("Database connected successfully");
 
-    // Create HTTP server
+    // Create HTTP server from Express app
     const httpServer = createServer(app);
 
     // Initialize Socket.io
     initSocket(httpServer);
-    logger.info("Socket.io initialized for WebRTC signaling");
+    logger.info("Socket.io initialized");
+
+    // Start background worker
+    startReminderWorker();
+    logger.info("Background reminder worker started");
 
     // Start server
     httpServer.listen(env.PORT, () => {
@@ -33,16 +38,16 @@ const startServer = async () => {
     });
 
     // Graceful shutdown
-    const gracefullyShutdown = () => {
-      logger.info('Shutting down gracefully...');
+    const shutdown = () => {
+      logger.info('Closure signal received: closing HTTP server');
       httpServer.close(() => {
         logger.info('HTTP server closed');
         process.exit(0);
       });
     };
 
-    process.on('SIGTERM', gracefullyShutdown);
-    process.on('SIGINT', gracefullyShutdown);
+    process.on('SIGTERM', shutdown);
+    process.on('SIGINT', shutdown);
 
   } catch (error) {
     logger.error("Failed to start server:", error);
@@ -52,19 +57,27 @@ const startServer = async () => {
 
 // Handle uncaught exceptions
 process.on('uncaughtException', (error) => {
-  logger.error('Uncaught Exception:', {
-    error: error.message,
-    stack: error.stack,
-  });
+  if (logger) {
+    logger.error('Uncaught Exception:', {
+      error: error.message,
+      stack: error.stack,
+    });
+  } else {
+    console.error('Uncaught Exception:', error);
+  }
   process.exit(1);
 });
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (reason, promise) => {
-  logger.error('Unhandled Rejection:', {
-    reason,
-    promise,
-  });
+  if (logger) {
+    logger.error('Unhandled Rejection at:', {
+      promise,
+      reason,
+    });
+  } else {
+    console.error('Unhandled Rejection:', reason);
+  }
   process.exit(1);
 });
 
