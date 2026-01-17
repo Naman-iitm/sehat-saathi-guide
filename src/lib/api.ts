@@ -26,7 +26,7 @@ const getToken = (): string | null => {
 const fetchWithAuth = async (endpoint: string, options: RequestInit = {}): Promise<Response> => {
   try {
     const token = getToken();
-    
+
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
       ...options.headers,
@@ -331,14 +331,15 @@ export const ordersAPI = {
 // Check if backend is available
 export const checkBackendHealth = async (): Promise<boolean> => {
   try {
+    const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
-    
+
     const res = await fetch(`${API_BASE_URL.replace('/api', '')}/health`, {
       method: 'GET',
       signal: controller.signal,
     });
-    
+
     clearTimeout(timeoutId);
     return res.ok;
   } catch (error) {
@@ -350,3 +351,95 @@ export const checkBackendHealth = async (): Promise<boolean> => {
     return false;
   }
 };
+
+// Appointments API
+export const appointmentsAPI = {
+  getDoctors: async (params?: { specialization?: string; search?: string }) => {
+    try {
+      const query = new URLSearchParams(params as any).toString();
+      const res = await fetchWithAuth(`/doctors${query ? '?' + query : ''}`);
+      return await parseJSONResponse(res);
+    } catch (error) {
+      console.error('Get doctors error:', error);
+      throw error;
+    }
+  },
+
+  getDoctorById: async (id: string) => {
+    try {
+      const res = await fetchWithAuth(`/doctors/${id}`);
+      return await parseJSONResponse(res);
+    } catch (error) {
+      console.error('Get doctor by ID error:', error);
+      throw error;
+    }
+  },
+
+  getAvailableSlots: async (doctorId: string, date: string) => {
+    try {
+      const res = await fetchWithAuth(`/doctors/${doctorId}/slots?date=${date}`);
+      return await parseJSONResponse(res);
+    } catch (error) {
+      console.error('Get available slots error:', error);
+      throw error;
+    }
+  },
+
+  book: async (data: { doctorId: string; date: string; startTime: string; symptoms: string; type: string }) => {
+    try {
+      const res = await fetchWithAuth('/appointments', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      });
+      return await parseJSONResponse(res);
+    } catch (error) {
+      console.error('Book appointment error:', error);
+      throw error;
+    }
+  },
+
+  getMyAppointments: async () => {
+    try {
+      const res = await fetchWithAuth('/appointments/my');
+      return await parseJSONResponse(res);
+    } catch (error) {
+      console.error('Get my appointments error:', error);
+      throw error;
+    }
+  },
+
+  cancel: async (id: string, reason?: string) => {
+    try {
+      const res = await fetchWithAuth(`/appointments/${id}/cancel`, {
+        method: 'PUT',
+        body: JSON.stringify({ reason }),
+      });
+      return await parseJSONResponse(res);
+    } catch (error) {
+      console.error('Cancel appointment error:', error);
+      throw error;
+    }
+  },
+
+  getVideoAccess: async (id: string) => {
+    try {
+      const res = await fetchWithAuth(`/appointments/${id}/video-access`);
+      return await parseJSONResponse(res);
+    } catch (error) {
+      console.error('Get video access error:', error);
+      throw error;
+    }
+  },
+};
+
+const api = {
+  auth: authAPI,
+  medicalHistory: medicalHistoryAPI,
+  symptoms: symptomsAPI,
+  reminders: remindersAPI,
+  orders: ordersAPI,
+  appointments: appointmentsAPI,
+  checkHealth: checkBackendHealth,
+};
+
+export default api;

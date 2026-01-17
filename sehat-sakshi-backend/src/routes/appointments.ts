@@ -239,4 +239,49 @@ router.put('/appointments/:id/cancel', protect, async (req: AuthRequest, res: Re
     }
 });
 
+/**
+ * @route   GET /api/appointments/:id/video-access
+ * @desc    Verify if user can join video for appointment
+ */
+router.get('/appointments/:id/video-access', protect, async (req: AuthRequest, res: Response) => {
+    try {
+        const userId = (req.user as any)._id;
+        const appointment = await Appointment.findById(req.params.id);
+
+        if (!appointment) {
+            return res.status(404).json({ message: 'Appointment not found' });
+        }
+
+        // Check if user is either the patient or the doctor
+        const patientId = appointment.patient.toString();
+        const doctor = await Doctor.findById(appointment.doctor);
+        if (!doctor) return res.status(404).json({ message: 'Doctor not found' });
+
+        const doctorUserId = doctor.user.toString();
+
+        if (userId.toString() !== patientId && userId.toString() !== doctorUserId) {
+            return res.status(403).json({ message: 'Not authorized to join this consultation' });
+        }
+
+        // Check if appointment is 'online'
+        if (appointment.type !== 'online') {
+            return res.status(400).json({ message: 'This is not an online appointment' });
+        }
+
+        // Check status
+        if (appointment.status !== 'confirmed') {
+            return res.status(400).json({ message: 'Appointment is not confirmed' });
+        }
+
+        res.json({
+            authorized: true,
+            role: userId.toString() === patientId ? 'patient' : 'doctor',
+            appointmentId: appointment._id
+        });
+
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 export default router;
