@@ -3,6 +3,7 @@ import { authAPI, checkBackendHealth } from '@/lib/api';
 
 interface User {
   id: string;
+  _id?: string; // Add optional mongo ID
   name: string;
   email: string;
   phone: string;
@@ -11,6 +12,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
+  token: string | null;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<boolean>;
   register: (name: string, email: string, phone: string, password: string) => Promise<boolean>;
@@ -82,7 +84,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const savedUsers = localStorage.getItem('registeredUsers');
       const users = savedUsers ? JSON.parse(savedUsers) : [];
       const foundUser = users.find((u: User) => u.email === email);
-      
+
       if (foundUser) {
         setUser(foundUser);
         return true;
@@ -164,6 +166,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     <AuthContext.Provider
       value={{
         user,
+        token: localStorage.getItem('auth_token'),
         isAuthenticated: !!user,
         login,
         register,

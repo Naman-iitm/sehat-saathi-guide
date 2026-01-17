@@ -161,6 +161,12 @@ const Navbar: React.FC = () => {
               </Button>
 
 
+              import NotificationBell from './notifications/NotificationBell';
+
+              // ...
+              {/* Notifications */}
+              {isAuthenticated && <NotificationBell />}
+
               {/* Cart */}
               <Link to="/cart">
                 <Button variant="ghost" size="icon" className="relative">
@@ -247,11 +253,11 @@ const Navbar: React.FC = () => {
                             variant={isActive(item.path) ? 'secondary' : 'ghost'}
                             className={`w-full justify-start gap-4 h-11 ${isActive(item.path) ? 'font-semibold' : ''}`}
                           >
-                          {isStrIcon ? (
+                            {isStrIcon ? (
                               <span className="text-lg">{item.icon as string}</span>
-                          ) : (
+                            ) : (
                               <Icon className="w-5 h-5" />
-                          )}
+                            )}
                             {item.label}
                           </Button>
                         </Link>
@@ -305,10 +311,10 @@ const Navbar: React.FC = () => {
                     variant="ghost"
                     className={`gap-2 rounded-full px-4 h-9 ${active ? 'bg-secondary text-primary hover:bg-secondary/80' : 'text-muted-foreground hover:text-foreground'}`}
                   >
-                  {isStrIcon
-                    ? <span>{item.icon as string}</span>
-                    : <Icon className={`w-4 h-4 ${active ? 'fill-current' : ''}`} />
-                  }
+                    {isStrIcon
+                      ? <span>{item.icon as string}</span>
+                      : <Icon className={`w-4 h-4 ${active ? 'fill-current' : ''}`} />
+                    }
                     {item.label}
                   </Button>
                 </Link>
