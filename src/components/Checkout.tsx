@@ -149,10 +149,10 @@ const Checkout: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-foreground mb-8">{t.checkout}</h1>
+    <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8\">
+      <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-6 sm:mb-8\">{t.checkout}</h1>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8\">
         <div className="lg:col-span-2">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Address Section */}

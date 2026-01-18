@@ -146,11 +146,11 @@ const MedicineStore: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">{t.medicineStore}</h1>
-        <p className="text-muted-foreground">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2">{t.medicineStore}</h1>
+        <p className="text-sm sm:text-base text-muted-foreground">
           {language === 'hi'
             ? 'सस्ती और अच्छी गुणवत्ता की दवाइयां'
             : 'Affordable quality medicines'}
@@ -158,8 +158,8 @@ const MedicineStore: React.FC = () => {
       </div>
 
       {/* Search with History */}
-      <div className="relative mb-6">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+      <div className="relative mb-4 sm:mb-6">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 sm:w-5 h-4 sm:h-5 text-muted-foreground" />
         <Input
           value={searchQuery}
           onChange={(e) => handleSearchChange(e.target.value)}
@@ -167,7 +167,7 @@ const MedicineStore: React.FC = () => {
           onFocus={() => setShowHistory(true)}
           onBlur={() => setTimeout(() => setShowHistory(false), 200)}
           placeholder={t.search}
-          className="pl-10 h-12 search-input-focus transition-all"
+          className="pl-10 h-10 sm:h-12 text-sm sm:text-base search-input-focus transition-all"
         />
 
         {/* Search History Dropdown */}
@@ -235,7 +235,7 @@ const MedicineStore: React.FC = () => {
       )}
 
       {/* Categories */}
-      <div className="flex flex-wrap gap-2 mb-8">
+      <div className="mb-4 sm:mb-6 flex gap-2 overflow-x-auto pb-2 -mx-3 px-3 sm:-mx-4 sm:px-4 scrollbar-hide">
         {categories.map((category) => (
           <Button
             key={category.id}
@@ -244,7 +244,7 @@ const MedicineStore: React.FC = () => {
               selectedCategory === category.id ? 'default' : 'outline'
             }
             onClick={() => setSelectedCategory(category.id)}
-            className="transition-all hover:scale-105"
+            className="whitespace-nowrap text-xs sm:text-sm py-2 h-auto transition-all hover:scale-105"
           >
             {language === 'hi' ? category.nameHi : category.name}
           </Button>
@@ -276,7 +276,7 @@ const MedicineStore: React.FC = () => {
       )}
 
       {/* Products */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
         {filteredMedicines.map((medicine) => (
           <Card
             key={medicine.id}
@@ -305,8 +305,8 @@ const MedicineStore: React.FC = () => {
               )}
             </div>
 
-            <CardContent className="p-4">
-              <h3 className="font-semibold mb-1">
+            <CardContent className="p-2 sm:p-4">
+              <h3 className="font-semibold mb-1 text-xs sm:text-sm line-clamp-2">
                 {language === 'hi' ? medicine.nameHi : medicine.name}
               </h3>
 

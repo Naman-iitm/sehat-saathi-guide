@@ -85,15 +85,15 @@ const Navbar: React.FC = () => {
     <nav className="sticky top-0 z-50 w-full bg-background shadow-sm dark:shadow-gray-800 transition-colors duration-300 border-b border-border" aria-label="Main navigation">
       {/* Top Header Row */}
       <div className="border-b border-border/50">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
+        <div className="container mx-auto px-3 sm:px-4">
+          <div className="flex items-center justify-between h-14 sm:h-16">
             {/* Logo + Express Delivery */}
-            <div className="flex items-center gap-3">
-              <Link to="/" className="flex items-center gap-2 sm:gap-3">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-xl flex items-center justify-center shadow-md">
-                  <Heart className="w-5 h-5 sm:w-7 sm:h-7 text-primary-foreground" fill="currentColor" />
+            <div className="flex items-center gap-2 sm:gap-3">
+              <Link to="/" className="flex items-center gap-1 sm:gap-2">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-primary rounded-lg sm:rounded-xl flex items-center justify-center shadow-md flex-shrink-0">
+                  <Heart className="w-4 h-4 sm:w-5 sm:h-5 md:w-7 md:h-7 text-primary-foreground" fill="currentColor" />
                 </div>
-                <span className="font-semibold text-base sm:text-xl text-foreground whitespace-nowrap hidden min-[370px]:block">
+                <span className="font-semibold text-xs sm:text-base md:text-xl text-foreground whitespace-nowrap hidden min-[400px]:block">
                   {language === 'en' ? 'Swasthya Saathi' : t.appName}
                 </span>
               </Link>

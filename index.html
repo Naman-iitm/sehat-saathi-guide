@@ -32,6 +32,17 @@
 
   <!-- Leaflet CSS for maps -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- WebRTC Polyfills -->
+  <script>
+    if (global === undefined) {
+      var global = window;
+    }
+  </script>
+  <script type="module">
+    import { Buffer } from 'buffer';
+    window.Buffer = Buffer;
+    window.process = { env: {} };
+  </script>
 </head>
 
 <body>
