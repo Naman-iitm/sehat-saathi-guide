@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Facebook, Instagram, Linkedin, Mail, Phone, Send,X } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { Heart, Facebook, Instagram, Linkedin, Mail, Phone, Send, X, CheckCircle, XCircle, AlertCircle, Sparkles } from 'lucide-react';import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, XCircle } from 'lucide-react';
-
 
 const validateEmail = (email: string) => {
-    // simple RFC-5322-ish email validation
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 };
 
@@ -19,6 +15,28 @@ const Footer: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [message, setMessage] = useState('');
     const [messageType, setMessageType] = useState<'success' | 'error' | ''>('');
+    const [emailValid, setEmailValid] = useState<boolean | null>(null);
+    const [showConfetti, setShowConfetti] = useState(false);
+    const [showUnsubscribe, setShowUnsubscribe] = useState(false);
+
+    // Real-time email validation
+    useEffect(() => {
+        if (email.length === 0) {
+            setEmailValid(null);
+        } else if (email.length > 3) {
+            setEmailValid(validateEmail(email));
+        }
+    }, [email]);
+
+    // Check if user is already subscribed
+    useEffect(() => {
+        if (email && validateEmail(email)) {
+            const subscribers: string[] = JSON.parse(localStorage.getItem('newsletterSubscribers') || '[]');
+            setShowUnsubscribe(subscribers.includes(email));
+        } else {
+            setShowUnsubscribe(false);
+        }
+    }, [email]);
 
     const handleNewsletterSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -26,8 +44,8 @@ const Footer: React.FC = () => {
         const invalidMsg = (t.invalidEmail as string) || 'Please enter a valid email address.';
 
         if (!email.trim()) {
-            toast({ variant: 'destructive', title: t.subscribeError, description: invalidMsg });
-            setMessage(invalidMsg);
+            toast({ variant: 'destructive', title: t.subscribeError, description: 'Email field cannot be empty.' });
+            setMessage('Email field cannot be empty.');
             setMessageType('error');
             return;
         }
@@ -42,7 +60,6 @@ const Footer: React.FC = () => {
         setIsSubmitting(true);
 
         try {
-            // simulate network request
             await new Promise((resolve) => setTimeout(resolve, 700));
 
             const subscribers: string[] = JSON.parse(localStorage.getItem('newsletterSubscribers') || '[]');
@@ -60,7 +77,11 @@ const Footer: React.FC = () => {
                 toast({ title: t.subscribeSuccess, description: "You'll receive our latest health tips and updates." });
                 setMessage(successMsg);
                 setMessageType('success');
+                setShowConfetti(true);
                 setEmail('');
+                
+                // Hide confetti after 3 seconds
+                setTimeout(() => setShowConfetti(false), 3000);
             }
         } catch (err) {
             const errMsg = 'Something went wrong. Please try again.';
@@ -69,12 +90,34 @@ const Footer: React.FC = () => {
             setMessageType('error');
         } finally {
             setIsSubmitting(false);
-            if (message) {
-                setTimeout(() => {
-                    setMessage('');
-                    setMessageType('');
-                }, 5000);
-            }
+            setTimeout(() => {
+                setMessage('');
+                setMessageType('');
+            }, 5000);
+        }
+    };
+
+    const handleUnsubscribe = async () => {
+        if (!email || !validateEmail(email)) return;
+
+        setIsSubmitting(true);
+
+        try {
+            await new Promise((resolve) => setTimeout(resolve, 500));
+
+            const subscribers: string[] = JSON.parse(localStorage.getItem('newsletterSubscribers') || '[]');
+            const updated = subscribers.filter(sub => sub !== email);
+            localStorage.setItem('newsletterSubscribers', JSON.stringify(updated));
+
+            toast({ title: 'Unsubscribed', description: 'You have been unsubscribed from our newsletter.' });
+            setMessage('Successfully unsubscribed from newsletter.');
+            setMessageType('success');
+            setEmail('');
+            setShowUnsubscribe(false);
+        } catch (err) {
+            toast({ variant: 'destructive', title: 'Error', description: 'Failed to unsubscribe. Please try again.' });
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -82,125 +125,143 @@ const Footer: React.FC = () => {
         <footer className="bg-card border-t border-border mt-auto">
             <div className="container mx-auto px-4 py-12">
                 {/* Newsletter Section */}
-                {/* <div className="mb-12 max-w-2xl mx-auto">
-                    <div className="bg-gradient-to-r from-primary/10 to-chart-2/10 rounded-2xl p-8 border border-primary/20">
-                        <div className="text-center mb-6">
-                            <h3 className="font-bold text-2xl mb-2 text-foreground">{t.newsletterTitle}</h3>
-                            <p className="text-muted-foreground text-sm">{t.stayUpdated || 'Stay updated with our latest health tips and features.'}</p>
+                <div className="mb-12 max-w-3xl mx-auto">
+    <div className="relative overflow-hidden rounded-2xl border border-green-500/20 bg-white shadow-lg">
+        
+        {/* Gradient accent */}
+        <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-emerald-500/10 pointer-events-none" />
+
+        {/* Confetti Animation */}
+        {showConfetti && (
+            <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
+                <div className="confetti-animation">
+                    {[...Array(20)].map((_, i) => (
+                        <Sparkles 
+                            key={i} 
+                            className="absolute text-green-500 animate-confetti"
+                            style={{
+                                left: `${Math.random() * 100}%`,
+                                top: '-20px',
+                                animationDelay: `${Math.random() * 0.5}s`,
+                                animationDuration: `${1 + Math.random()}s`
+                            }}
+                        />
+                    ))}
+                </div>
+            </div>
+        )}
+
+        <div className="relative p-8 sm:p-10">
+            <div className="text-center mb-6">
+                <h3 className="font-bold text-2xl sm:text-3xl text-gray-900 mb-2">
+                    {t.newsletterTitle}
+                </h3>
+                <p className="text-gray-800 text-sm max-w-xl mx-auto font-medium">
+                    {t.stayUpdated || 'Stay updated with our latest health tips and features.'}
+                </p>
+            </div>
+
+            <form
+                onSubmit={handleNewsletterSubmit}
+                className="flex flex-col sm:flex-row gap-4 items-stretch"
+            >
+                <div className="relative flex-1 w-full">
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder={t.email || 'Enter your email address'}
+                        className={`w-full px-4 py-3 pr-10 rounded-lg border bg-white text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 transition ${
+                            emailValid === null 
+                                ? 'border-gray-300 focus:ring-green-500 focus:border-green-500'
+                                : emailValid
+                                ? 'border-green-500 focus:ring-green-500 focus:border-green-500'
+                                : 'border-red-500 focus:ring-red-500 focus:border-red-500'
+                        }`}
+                        disabled={isSubmitting}
+                        aria-label="Email for newsletter"
+                        aria-invalid={emailValid === false}
+                        aria-describedby={emailValid === false ? "email-error" : undefined}
+                    />
+                    
+                    {/* Email Validation Indicator */}
+                    {email.length > 0 && (
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                            {emailValid === null ? (
+                                <AlertCircle className="w-5 h-5 text-gray-400" />
+                            ) : emailValid ? (
+                                <CheckCircle className="w-5 h-5 text-green-600" />
+                            ) : (
+                                <XCircle className="w-5 h-5 text-red-600" />
+                            )}
                         </div>
+                    )}
+                </div>
 
-                        <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3">
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder={t.email || 'Enter Email ID'}
-                                className="flex-1 px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                                disabled={isSubmitting}
-                                aria-label="Email for newsletter"
-                            />
+                {!showUnsubscribe ? (
+                    <Button
+                        type="submit"
+                        size="lg"
+                        disabled={isSubmitting || !emailValid}
+                        className="w-full sm:w-auto bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold px-6 transition"
+                        aria-label="Subscribe to newsletter"
+                    >
+                        <Send className={`w-4 h-4 mr-2 ${isSubmitting ? 'animate-spin' : ''}`} />
+                        {isSubmitting ? 'Subscribing...' : 'Subscribe'}
+                    </Button>
+                ) : (
+                    <Button
+                        type="button"
+                        size="lg"
+                        onClick={handleUnsubscribe}
+                        disabled={isSubmitting}
+                        variant="outline"
+                        className="w-full sm:w-auto border-red-500 text-red-600 hover:bg-red-50 font-semibold px-6 transition"
+                        aria-label="Unsubscribe from newsletter"
+                    >
+                        <X className={`w-4 h-4 mr-2 ${isSubmitting ? 'animate-spin' : ''}`} />
+                        {isSubmitting ? 'Processing...' : 'Unsubscribe'}
+                    </Button>
+                )}
+            </form>
 
-                            <Button
-                                type="submit"
-                                size="lg"
-                                disabled={isSubmitting}
-                                className="sm:w-auto w-full font-semibold"
-                                aria-label="Subscribe to receive health tips and updates"
-                                title="Subscribe to receive health tips and updates"
-                            >
-                                <Send className={`w-4 h-4 mr-2 ${isSubmitting ? 'animate-spin' : ''}`} />
-                                {isSubmitting ? 'Subscribing...' : 'Subscribe to Updates'}
-                            </Button>
-                        </form>
+            {/* Email format hint */}
+            {email.length > 0 && emailValid === false && (
+                <p id="email-error" className="mt-2 text-xs text-red-600 flex items-center gap-1">
+                    <AlertCircle className="w-3 h-3" />
+                    Please enter a valid email format (e.g., example@email.com)
+                </p>
+            )}
 
-                        {message && (
-                            <div
-                                role="status"
-                                aria-live="polite"
-                                className={`mt-3 px-3 py-2 text-sm rounded-md ${
-                                    messageType === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
-                                }`}
-                            >
-                                {message}
-                            </div>
-                        )}
-                    </div>
-                </div> */}
+            {/* Status Message */}
+            {message && (
+                <div
+                    role="status"
+                    aria-live="polite"
+                    className={`mt-4 flex items-center justify-center gap-2 text-sm font-medium rounded-md px-4 py-2 animate-fade-in ${
+                        messageType === 'success'
+                            ? 'bg-green-50 text-green-700 border border-green-200'
+                            : 'bg-red-50 text-red-700 border border-red-200'
+                    }`}
+                >
+                    {messageType === 'success' ? (
+                        <CheckCircle className="w-4 h-4 text-green-600" />
+                    ) : (
+                        <XCircle className="w-4 h-4 text-red-600" />
+                    )}
+                    <span>{message}</span>
+                </div>
+            )}
 
-
-
-<div className="mb-12 max-w-3xl mx-auto">
-  <div className="relative overflow-hidden rounded-2xl border border-green-500/20 bg-white shadow-lg">
-    
-    {/* Gradient accent */}
-    <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-emerald-500/10 pointer-events-none" />
-
-    <div className="relative p-8 sm:p-10">
-      <div className="text-center mb-6">
-        <h3 className="font-bold text-2xl sm:text-3xl text-gray-900 mb-2">
-          {t.newsletterTitle}
-        </h3>
-        <p className="text-gray-800 text-sm max-w-xl mx-auto font-medium">
-          {t.stayUpdated || 'Stay updated with our latest health tips and features.'}
-        </p>
-      </div>
-
-      <form
-        onSubmit={handleNewsletterSubmit}
-        className="flex flex-col sm:flex-row gap-4 items-center"
-      >
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder={t.email || 'Enter your email address'}
-          className="w-full flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-white text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
-          disabled={isSubmitting}
-          aria-label="Email for newsletter"
-        />
-
-        <Button
-          type="submit"
-          size="lg"
-          disabled={isSubmitting}
-          className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold px-6 transition"
-        >
-          <Send className={`w-4 h-4 mr-2 ${isSubmitting ? 'animate-spin' : ''}`} />
-          {isSubmitting ? 'Subscribing...' : 'Subscribe'}
-        </Button>
-      </form>
-
-      {message && (
-  <div
-    role="status"
-    aria-live="polite"
-    className={`mt-4 flex items-center justify-center gap-2 text-sm font-medium rounded-md px-4 py-2 ${
-      messageType === 'success'
-        ? 'bg-green-50 text-green-700 border border-green-200'
-        : 'bg-red-50 text-red-700 border border-red-200'
-    }`}
-  >
-    {messageType === 'success' ? (
-      <CheckCircle className="w-4 h-4 text-green-600" />
-    ) : (
-      <XCircle className="w-4 h-4 text-red-600" />
-    )}
-    <span>{message}</span>
-  </div>
-)}
-
+            {/* Subscriber count */}
+            {!message && (
+                <p className="mt-3 text-center text-xs text-gray-500">
+                    Join {JSON.parse(localStorage.getItem('newsletterSubscribers') || '[]').length} others already subscribed
+                </p>
+            )}
+        </div>
     </div>
-  </div>
 </div>
-
-
-
-
-
-
-
-
-
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {/* Brand */}
@@ -278,8 +339,8 @@ const Footer: React.FC = () => {
                                 </Link>
                             </li>
                             <li>
-                                <a
-                                    href="https://docs.google.com/forms/d/e/1FAIpQLSdcOXvJuxajDPVtOQEPl2g9xKYB81FO9_RfEsQpz7jajvghzA/viewform?usp=publish-editor"
+                                
+                                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdcOXvJuxajDPVtOQEPl2g9xKYB81FO9_RfEsQpz7jajvghzA/viewform?usp=publish-editor"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="text-muted-foreground hover:text-primary text-sm"
