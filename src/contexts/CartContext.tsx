@@ -151,7 +151,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setAppliedCoupon(null);
       }
     }
-  }, [total]);
+  }, [total, appliedCoupon]);
 
   return (
     <CartContext.Provider

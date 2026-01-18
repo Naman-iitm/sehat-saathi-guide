@@ -54,7 +54,7 @@ const Index: React.FC = () => {
 
 
 
-  const allSearchableItems = [
+  const allSearchableItems = React.useMemo(() => [
     ...medicines.map(m => language === 'hi' ? m.nameHi : m.name),
     ...governmentSchemes.map(s => language === 'hi' ? s.nameHi : s.name),
     'Primary Health Centre',
@@ -64,7 +64,7 @@ const Index: React.FC = () => {
     'St. Mary\'s Clinic',
     'Apollo Pharmacy',
     'MedPlus',
-  ];
+  ], [language]);
 
   useEffect(() => {
     if (searchQuery.trim().length > 1) {

@@ -7,7 +7,7 @@
 @font-face {
   font-family: 'Neue Montreal';
   src: url('/fonts/NeueMontreal-Regular.woff2') format('woff2'),
-       url('/fonts/NeueMontreal-Regular.woff') format('woff');
+    url('/fonts/NeueMontreal-Regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -21,8 +21,8 @@
 /* Glass / hero styles */
 .hero-glass {
   backdrop-filter: blur(10px) saturate(1.05);
-  background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-  border: 1px solid rgba(255,255,255,0.07);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+  border: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .hero-glow {
@@ -36,11 +36,8 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
- feature-branch
- 
-   --background: 82 100% 94%;
-   --foreground: 150 30% 15%;
-    main
+    --background: 82 100% 94%;
+    --foreground: 150 30% 15%;
 
     --card: 0 0% 100%;
     --card-foreground: 150 30% 15%;
@@ -48,30 +45,20 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 150 30% 15%;
 
- feature-branch
-    --primary: 100 55% 71%;   
-    --primary-foreground: 140 30% 15%;
-
-    --secondary: 90 80% 94%;   
-    --secondary-foreground: 140 30% 15%;
-
-    --primary: 97 52% 71%;          /* #A8DF8E */
+    --primary: 97 52% 71%;
+    /* #A8DF8E */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 82 100% 94%;       /* #F0FFDF */
+    --secondary: 82 100% 94%;
+    /* #F0FFDF */
     --secondary-foreground: 142 72% 25%;
- main
 
     --muted: 140 20% 94%;
     --muted-foreground: 150 15% 40%;
 
-feature-branch
-    --accent: 350 100% 83%;
-    --accent-foreground: 140 30% 15%;
-
-    --accent: 349 100% 83%;         /* #FFAAB8 */
+    --accent: 349 100% 83%;
+    /* #FFAAB8 */
     --accent-foreground: 150 30% 15%;
- main
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
@@ -191,24 +178,45 @@ feature-branch
   .animate-pulse-slow {
     animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
-  
+
   .animate-float {
     animation: float 3s ease-in-out infinite;
   }
-  
+
   @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
   }
 
   @keyframes fade-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @keyframes scale-in {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 
   .animate-fade-in {
@@ -218,14 +226,19 @@ feature-branch
   .animate-scale-in {
     animation: scale-in 0.2s ease-out;
   }
-  
+
   .animate-spin-slow {
     animation: spin 3s linear infinite;
   }
 
   @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-50% - 12px)); }
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(calc(-50% - 12px));
+    }
   }
 
   .animate-marquee {
@@ -243,10 +256,41 @@ feature-branch
     opacity: 1;
     transform: translateY(0);
   }
-  
+
   .glass {
     backdrop-filter: blur(10px);
     background: hsl(var(--background) / 0.8);
+  }
+
+  /* Screen reader only - hides content visually but keeps it accessible to screen readers */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Show sr-only content when focused (for skip links) */
+  .sr-only.focus\:not-sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: inherit;
+    margin: inherit;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+
+  /* Enhanced focus indicators for better keyboard navigation */
+  *:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
   }
 }
 
@@ -256,20 +300,23 @@ feature-branch
   }
 
   body {
-    @apply  text-foreground transition-colors duration-300;
+    @apply text-foreground transition-colors duration-300;
   }
 }
 
 /* Sparkle animation for toast */
 @keyframes sparkle {
-  0%, 100% {
-    box-shadow: 
+
+  0%,
+  100% {
+    box-shadow:
       0 0 5px rgba(34, 197, 94, 0.5),
       0 0 10px rgba(34, 197, 94, 0.3),
       0 0 15px rgba(34, 197, 94, 0.2);
   }
+
   50% {
-    box-shadow: 
+    box-shadow:
       0 0 10px rgba(34, 197, 94, 0.8),
       0 0 20px rgba(34, 197, 94, 0.6),
       0 0 30px rgba(34, 197, 94, 0.4);
@@ -287,6 +334,7 @@ feature-branch
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -319,6 +367,7 @@ feature-branch
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -335,9 +384,11 @@ feature-branch
     transform: scale(0.8);
     opacity: 0;
   }
+
   50% {
     transform: scale(1.05);
   }
+
   100% {
     transform: scale(1);
     opacity: 1;
@@ -350,9 +401,12 @@ feature-branch
 
 /* Loading Skeleton Pulse */
 @keyframes skeleton-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }
@@ -361,28 +415,23 @@ feature-branch
 .skeleton-loading {
   animation: skeleton-pulse 1.5s ease-in-out infinite;
 }
- feature-branch
 
-html, body {
+html,
+body {
   margin: 0;
   min-height: 100%;
 }
 
 body {
-  min-height: 200vh; 
-  background: linear-gradient(
-    to bottom,
-    #A8DF8E 0%,
-    #A8DF8E 35%,
-    #F0FFDF 35%,
-    #F0FFDF 60%,
-    #FFE0E6 60%,
-    #FFE0E6 80%,
-    #FFAAB8 80%,
-    #FFAAB8 100%
-  );
+  min-height: 200vh;
+  background: linear-gradient(to bottom,
+      #A8DF8E 0%,
+      #A8DF8E 35%,
+      #F0FFDF 35%,
+      #F0FFDF 60%,
+      #FFE0E6 60%,
+      #FFE0E6 80%,
+      #FFAAB8 80%,
+      #FFAAB8 100%);
   background-attachment: fixed;
 }
-
-=======
- main

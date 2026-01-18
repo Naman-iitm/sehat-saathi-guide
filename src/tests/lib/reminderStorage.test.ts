@@ -50,6 +50,7 @@ describe('Reminder Storage', () => {
         { id: '1', title: 'Take medicine', time: '09:00', date: '2026-01-15' },
       ];
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       saveReminders(reminders as any);
 
       expect(localStorageMock.setItem).toHaveBeenCalledWith(

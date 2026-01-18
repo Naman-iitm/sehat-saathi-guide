@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 
 // Mapping icon names to actual icon components
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const iconMap: Record<string, React.FC<any>> = {
   soap: Hand,
   droplets: Droplets,
@@ -43,16 +44,16 @@ const HealthTips: React.FC = () => {
           {t.healthTipsTitle}
         </h1>
         <p className="text-muted-foreground">
-          {language === 'hi' 
-            ? 'सरल और प्रभावी स्वास्थ्य सुझाव' 
+          {language === 'hi'
+            ? 'सरल और प्रभावी स्वास्थ्य सुझाव'
             : 'Simple and effective health tips'}
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {healthTips.map((tip) => (
-          <Card 
-            key={tip.id} 
+          <Card
+            key={tip.id}
             className="border-2 border-border shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
           >
             <CardHeader className="bg-secondary pb-4">

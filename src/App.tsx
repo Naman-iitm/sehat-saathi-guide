@@ -12,6 +12,7 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import LoadingScreen from '@/components/LoadingScreen';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SkipToContent from '@/components/SkipToContent';
 import Index from "./pages/Index";
 import SymptomTracker from '@/components/SymptomTracker';
 import HealthTips from '@/components/HealthTips';
@@ -117,29 +118,32 @@ const App = () => {
                 <Sonner />
                 <BrowserRouter>
                   <ScrollToTopOnRouteChange />
+                  <SkipToContent />
                   <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
                     <OfflineIndicator />
                     <Navbar />
-                    <Routes>
-                      <Route path="/" element={<Index />} />
-                      <Route path="/symptoms" element={<SymptomTracker />} />
-                      <Route path="/tips" element={<HealthTips />} />
-                      <Route path="/store" element={<MedicineStore />} />
-                      <Route path="/medical-history" element={<MedicalHistoryPage />} />
+                    <main id="main-content" tabIndex={-1} aria-label="Main content" className="focus:outline-none">
+                      <Routes>
+                        <Route path="/" element={<Index />} />
+                        <Route path="/symptoms" element={<SymptomTracker />} />
+                        <Route path="/tips" element={<HealthTips />} />
+                        <Route path="/store" element={<MedicineStore />} />
+                        <Route path="/medical-history" element={<MedicalHistoryPage />} />
 
-                      <Route path="/assistant" element={<AIAssistant />} />
-                      <Route path="/schemes" element={<SarkariYojana />} />
-                      <Route path="/nearby" element={<NearbyHospitals />} />
-                      <Route path="/cart" element={<Cart />} />
-                      <Route path="/checkout" element={<Checkout />} />
-                      <Route path="/auth" element={<Auth />} />
-                      <Route path="/profile" element={<Profile />} />
-                      <Route path="/edit-profile" element={<EditProfile />} />
-                      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                      <Route path="/terms-and-conditions" element={<TermsConditions />} />
-                      <Route path="/offers" element={<Offers />} />
-                      <Route path="*" element={<NotFound />} />
-                    </Routes>
+                        <Route path="/assistant" element={<AIAssistant />} />
+                        <Route path="/schemes" element={<SarkariYojana />} />
+                        <Route path="/nearby" element={<NearbyHospitals />} />
+                        <Route path="/cart" element={<Cart />} />
+                        <Route path="/checkout" element={<Checkout />} />
+                        <Route path="/auth" element={<Auth />} />
+                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/edit-profile" element={<EditProfile />} />
+                        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                        <Route path="/terms-and-conditions" element={<TermsConditions />} />
+                        <Route path="/offers" element={<Offers />} />
+                        <Route path="*" element={<NotFound />} />
+                      </Routes>
+                    </main>
                     <Footer />
                     {/* NEW: Add the floating scroll to top button */}
                     <ScrollToTopButton />

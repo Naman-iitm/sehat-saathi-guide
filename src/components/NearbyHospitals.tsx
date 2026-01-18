@@ -87,7 +87,7 @@ const SIMULATE_API_FAILURE = false;
 
 async function fetchNearbyHospitals(lat: number, lng: number): Promise<Hospital[]> {
   if (SIMULATE_API_FAILURE) {
-
+    // Simulate failure logic here
   }
 
 

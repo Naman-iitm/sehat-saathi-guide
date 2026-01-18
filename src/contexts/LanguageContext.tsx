@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 export type Language = 'hi' | 'en' | 'bn' | 'mr' | 'bho' | 'mai';
 
 interface Translations {
-  invalidEmail: any;
+  invalidEmail: string | undefined;
   newsletterTitle: ReactNode;
   subscribeError: string & ReactNode;
   subscribeSuccess: string & ReactNode;
@@ -414,12 +414,12 @@ const translations: Record<Language, Translations> = {
     contact: 'संपर्क करा',
     followUs: 'आम्हाला फॉलो करा',
     rightsReserved: 'सर्व हक्क राखीव',
-     offers: 'ऑफर',
-  invalidEmail: 'अवैध ईमेल',
-  newsletterTitle: 'न्यूजलेटर',
-  subscribeError: 'सदस्यता त्रुटी',
-  subscribeSuccess: 'सदस्यता यशस्वी',
-  stayUpdated: 'आमच्या नवीनतम आरोग्य टिप्स आणि वैशिष्ट्यांसह अपडेट रहा.',
+    offers: 'ऑफर',
+    invalidEmail: 'अवैध ईमेल',
+    newsletterTitle: 'न्यूजलेटर',
+    subscribeError: 'सदस्यता त्रुटी',
+    subscribeSuccess: 'सदस्यता यशस्वी',
+    stayUpdated: 'आमच्या नवीनतम आरोग्य टिप्स आणि वैशिष्ट्यांसह अपडेट रहा.',
   },
   bho: {
     appName: 'स्वास्थ्य साथी',
@@ -580,12 +580,12 @@ const translations: Record<Language, Translations> = {
     contact: 'Contact Us',
     followUs: 'Follow Us',
     rightsReserved: 'All Rights Reserved',
-   offers: 'ऑफर',
-  invalidEmail: undefined,
-  newsletterTitle: 'न्यूजलेटर',
-  subscribeError: 'सदस्यता त्रुटी',
-  subscribeSuccess: 'सदस्यता सफल',
-  stayUpdated: 'हमर नवीनतम स्वास्थ्य टिप्स आ सुविधासँ अपडेट रहू।',
+    offers: 'ऑफर',
+    invalidEmail: undefined,
+    newsletterTitle: 'न्यूजलेटर',
+    subscribeError: 'सदस्यता त्रुटी',
+    subscribeSuccess: 'सदस्यता सफल',
+    stayUpdated: 'हमर नवीनतम स्वास्थ्य टिप्स आ सुविधासँ अपडेट रहू।',
   },
 };
 
@@ -606,7 +606,7 @@ interface LanguageContextType {
   availableLanguages: Language[];
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+export const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState<Language>(() => {

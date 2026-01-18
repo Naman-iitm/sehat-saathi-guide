@@ -26,7 +26,7 @@ const getToken = (): string | null => {
 const fetchWithAuth = async (endpoint: string, options: RequestInit = {}): Promise<Response> => {
   try {
     const token = getToken();
-    
+
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
       ...options.headers,
@@ -72,7 +72,8 @@ const fetchWithAuth = async (endpoint: string, options: RequestInit = {}): Promi
 };
 
 // Helper function to safely parse JSON response
-const parseJSONResponse = async (response: Response): Promise<unknown> => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const parseJSONResponse = async (response: Response): Promise<any> => {
   try {
     const text = await response.text();
     if (!text) {
@@ -333,12 +334,12 @@ export const checkBackendHealth = async (): Promise<boolean> => {
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
-    
+
     const res = await fetch(`${API_BASE_URL.replace('/api', '')}/health`, {
       method: 'GET',
       signal: controller.signal,
     });
-    
+
     clearTimeout(timeoutId);
     return res.ok;
   } catch (error) {

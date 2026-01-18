@@ -1,23 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { AlertTriangle, RefreshCcw } from 'lucide-react';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { LanguageContext } from '../../contexts/LanguageContext';
 
 interface Props {
   onRetry: () => void;
 }
 
 const DefaultFallback: React.FC<Props> = ({ onRetry }) => {
+  const context = useContext(LanguageContext);
+
   let title = 'Something went wrong';
   let message = 'Please try again. Your data is safe.';
   let retry = 'Retry';
 
-  try {
-    const { t } = useLanguage();
-    title = t.errorTitle;
-    message = t.errorMessage;
-    retry = t.retry;
-  } catch {
-    // Safe fallback if language context fails
+  if (context) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const t = context.t as any;
+    if (t.errorTitle) title = t.errorTitle;
+    if (t.errorMessage) message = t.errorMessage;
+    if (t.retry) retry = t.retry;
   }
 
   return (

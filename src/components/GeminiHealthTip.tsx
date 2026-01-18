@@ -20,99 +20,94 @@ const GeminiHealthTip: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Function to get cached tip for today and language
-  const getCachedTip = (): GeminiHealthTip | null => {
-    const cachedData = localStorage.getItem('gemini_health_tip');
-    if (!cachedData) return null;
-
-    try {
-      const { tip, date, lang } = JSON.parse(cachedData);
-      const today = new Date().toDateString();
-      
-      // Return cached tip if it's from today AND same language
-      if (date === today && lang === language) {
-        return tip;
-      }
-    } catch (e) {
-      console.error('Error parsing cached tip:', e);
-    }
-
-    return null;
-  };
-
-  // Function to cache the tip with today's date and language
-  const cacheTip = (tip: GeminiHealthTip) => {
-    const today = new Date().toDateString();
-    const cacheData = {
-      tip,
-      date: today,
-      lang: language
-    };
-    localStorage.setItem('gemini_health_tip', JSON.stringify(cacheData));
-  };
-
-  // Function to fetch health tip from Gemini API
-  const fetchHealthTip = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      // Check if we have a cached tip for today
-      const cachedTip = getCachedTip();
-      if (cachedTip) {
-        setTip(cachedTip);
-        setLoading(false);
-        return;
-      }
-
-      // Prepare prompt based on language
-      const prompt = language === 'hi' 
-        ? "एक दिन में एक बार दिखाने के लिए एक नया, ज्ञानवर्धक और जुड़ाव वाला स्वास्थ्य सुझाव उपलब्ध कराएं। केवल एक शीर्षक और विवरण दें। उत्तर को हिंदी में प्रारूप में वापस करें: {\"title\": \"शीर्षक\", \"description\": \"विवरण\"}" 
-        : "Provide a new, informative, and engaging health tip to be shown once per day. Only provide a title and description. Return the response in JSON format: {\"title\": \"title\", \"description\": \"description\"}";
-
-      // Call the Gemini API
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
-      const text = response.text();
-      
-      // Extract JSON from response
-      const jsonMatch = text.match(/\{[^}]+\}/);
-      if (!jsonMatch) {
-        throw new Error('Invalid response format from Gemini API');
-      }
-      
-      const tipData = JSON.parse(jsonMatch[0]);
-      setTip(tipData);
-      cacheTip(tipData);
-    } catch (err) {
-      console.error('Error fetching health tip:', err);
-      
-      // Fallback to a default tip if API call fails
-      const fallbackTip = language === 'hi' ? {
-        title: "पानी पीना जारी रखें",
-        description: "अच्छे स्वास्थ्य बनाए रखने और शरीर को ठीक ढंग से काम करने में मदद करने के लिए रोजाना कम से कम 8 गिलास पानी पिएं।"
-      } : {
-        title: "Stay Hydrated",
-        description: "Drink at least 8 glasses of water daily to maintain good health and help your body function optimally."
-      };
-      setTip(fallbackTip);
-      cacheTip(fallbackTip);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    // Function to get cached tip for today and language
+    const getCachedTip = (): GeminiHealthTip | null => {
+      const cachedData = localStorage.getItem('gemini_health_tip');
+      if (!cachedData) return null;
+
+      try {
+        const { tip, date, lang } = JSON.parse(cachedData);
+        const today = new Date().toDateString();
+
+        // Return cached tip if it's from today AND same language
+        if (date === today && lang === language) {
+          return tip;
+        }
+      } catch (e) {
+        console.error('Error parsing cached tip:', e);
+      }
+
+      return null;
+    };
+
+    // Function to cache the tip with today's date and language
+    const cacheTip = (tip: GeminiHealthTip) => {
+      const today = new Date().toDateString();
+      const cacheData = {
+        tip,
+        date: today,
+        lang: language
+      };
+      localStorage.setItem('gemini_health_tip', JSON.stringify(cacheData));
+    };
+
+    // Function to fetch health tip from Gemini API
+    const fetchHealthTip = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        // Check if we have a cached tip for today
+        const cachedTip = getCachedTip();
+        if (cachedTip) {
+          setTip(cachedTip);
+          setLoading(false);
+          return;
+        }
+
+        // Prepare prompt based on language
+        const prompt = language === 'hi'
+          ? "एक दिन में एक बार दिखाने के लिए एक नया, ज्ञानवर्धक और जुड़ाव वाला स्वास्थ्य सुझाव उपलब्ध कराएं। केवल एक शीर्षक और विवरण दें। उत्तर को हिंदी में प्रारूप में वापस करें: {\"title\": \"शीर्षक\", \"description\": \"विवरण\"}"
+          : "Provide a new, informative, and engaging health tip to be shown once per day. Only provide a title and description. Return the response in JSON format: {\"title\": \"title\", \"description\": \"description\"}";
+
+        // Call the Gemini API
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+
+        // Extract JSON from response
+        const jsonMatch = text.match(/\{[^}]+\}/);
+        if (!jsonMatch) {
+          throw new Error('Invalid response format from Gemini API');
+        }
+
+        const tipData = JSON.parse(jsonMatch[0]);
+        setTip(tipData);
+        cacheTip(tipData);
+      } catch (err) {
+        console.error('Error fetching health tip:', err);
+
+        // Fallback to a default tip if API call fails
+        const fallbackTip = language === 'hi' ? {
+          title: "पानी पीना जारी रखें",
+          description: "अच्छे स्वास्थ्य बनाए रखने और शरीर को ठीक ढंग से काम करने में मदद करने के लिए रोजाना कम से कम 8 गिलास पानी पिएं।"
+        } : {
+          title: "Stay Hydrated",
+          description: "Drink at least 8 glasses of water daily to maintain good health and help your body function optimally."
+        };
+        setTip(fallbackTip);
+        cacheTip(fallbackTip);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchHealthTip();
 
     // Refresh tip every 24 hours
     const interval = setInterval(fetchHealthTip, 24 * 60 * 60 * 1000); // 24 hours
     return () => clearInterval(interval);
-  }, [language]);
-
-  // Refresh tip when language changes
-  useEffect(() => {
-    fetchHealthTip();
   }, [language]);
 
   if (loading) {

@@ -352,7 +352,9 @@ describe('AIAssistant Component', () => {
                 expect(stored).toBeTruthy();
 
                 const sessions = JSON.parse(stored!);
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const userMessages = sessions[0].messages.filter((m: any) => m.role === 'user');
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 expect(userMessages.some((m: any) => m.content === 'Test message')).toBe(true);
             });
         });

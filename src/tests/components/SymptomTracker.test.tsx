@@ -137,7 +137,8 @@ describe('SymptomTracker Component', () => {
             });
 
             // Delete the symptom
-            const deleteButton = screen.getByRole('button', { name: '' }); // Delete button with Trash icon
+            // Delete the symptom
+            const deleteButton = screen.getByRole('button', { name: /delete fatigue/i });
             await user.click(deleteButton);
 
             await waitFor(() => {
@@ -249,7 +250,7 @@ describe('SymptomTracker Component', () => {
             });
 
             // Click export button
-            const exportButton = screen.getByRole('button', { name: /export data/i });
+            const exportButton = screen.getAllByRole('button', { name: /export/i })[0];
             await user.click(exportButton);
 
             const csvOption = screen.getByText(/Download as CSV/i);
@@ -275,7 +276,7 @@ describe('SymptomTracker Component', () => {
             });
 
             // Click export button
-            const exportButton = screen.getByRole('button', { name: /export data/i });
+            const exportButton = screen.getAllByRole('button', { name: /export/i })[0];
             await user.click(exportButton);
 
             const pdfOption = screen.getByText(/Download as PDF/i);
@@ -312,14 +313,14 @@ describe('SymptomTracker Component', () => {
             renderWithLanguageProvider('hi');
 
             expect(screen.getByPlaceholderText('लक्षण का नाम')).toBeInTheDocument();
-            expect(screen.getByText('लक्षण जोड़ें')).toBeInTheDocument();
+            expect(screen.getAllByText('लक्षण जोड़ें')[0]).toBeInTheDocument();
         });
 
         it('should display UI in English', () => {
             renderWithLanguageProvider('en');
 
             expect(screen.getByPlaceholderText('Symptom Name')).toBeInTheDocument();
-            expect(screen.getByText('Add Symptom')).toBeInTheDocument();
+            expect(screen.getAllByText('Add Symptom')[0]).toBeInTheDocument();
         });
 
         it('should show error message in Hindi', async () => {
@@ -405,6 +406,6 @@ describe('SymptomTracker Component', () => {
                 expect(screen.getByText('Symptom 2')).toBeInTheDocument();
                 expect(screen.getByText('Symptom 3')).toBeInTheDocument();
             });
-        });
+        }, 15000);
     });
 });

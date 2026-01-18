@@ -38,6 +38,7 @@ const MedicineStore: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [compareOpen, setCompareOpen] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [compareData, setCompareData] = useState<any>(null);
 
 
@@ -58,7 +59,7 @@ const MedicineStore: React.FC = () => {
     if (!query.trim() || query.length < 2) return;
 
     const trimmedQuery = query.trim();
-    
+
     // Remove duplicate if exists, add to front (most recent first)
     const updated = [
       trimmedQuery,
@@ -188,7 +189,7 @@ const MedicineStore: React.FC = () => {
                 {language === 'hi' ? 'सभी हटाएं' : 'Clear All'}
               </Button>
             </div>
-            
+
             <div className="py-2">
               {searchHistory.map((item, index) => (
                 <div
@@ -297,7 +298,7 @@ const MedicineStore: React.FC = () => {
                   {Math.round(
                     ((medicine.originalPrice - medicine.price) /
                       medicine.originalPrice) *
-                      100
+                    100
                   )}
                   % OFF
                 </Badge>
@@ -382,7 +383,7 @@ const MedicineStore: React.FC = () => {
                     : selectedMedicine.name}
                 </DialogTitle>
               </DialogHeader>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Product Image */}
                 <div className="flex justify-center">
@@ -392,7 +393,7 @@ const MedicineStore: React.FC = () => {
                     className="w-full h-64 object-contain rounded-lg"
                   />
                 </div>
-                
+
                 {/* Product Details */}
                 <div className="space-y-4">
                   <div>
@@ -405,25 +406,25 @@ const MedicineStore: React.FC = () => {
                         : selectedMedicine.description}
                     </p>
                   </div>
-                  
+
                   <div className="flex items-center gap-2">
                     <Star className="w-5 h-5 fill-current text-warning" />
                     <span className="font-medium">{selectedMedicine.rating} Rating</span>
                   </div>
-                  
+
                   <div className="flex flex-wrap gap-2">
                     <Badge variant="secondary">
-                      {language === 'hi' ? 'कैटेगरी' : 'Category'}: {language === 'hi' 
-                        ? categories.find(c => c.id === selectedMedicine.category)?.nameHi 
+                      {language === 'hi' ? 'कैटेगरी' : 'Category'}: {language === 'hi'
+                        ? categories.find(c => c.id === selectedMedicine.category)?.nameHi
                         : categories.find(c => c.id === selectedMedicine.category)?.name}
                     </Badge>
                     <Badge variant="outline">
-                      {selectedMedicine.inStock 
-                        ? (language === 'hi' ? 'स्टॉक में' : 'In Stock') 
+                      {selectedMedicine.inStock
+                        ? (language === 'hi' ? 'स्टॉक में' : 'In Stock')
                         : (language === 'hi' ? 'स्टॉक में नहीं' : 'Out of Stock')}
                     </Badge>
                   </div>
-                  
+
                   <div className="text-2xl font-bold text-primary">
                     ₹{selectedMedicine.price}
                     {selectedMedicine.originalPrice > selectedMedicine.price && (
@@ -432,15 +433,15 @@ const MedicineStore: React.FC = () => {
                       </span>
                     )}
                   </div>
-                  
+
                   {genericComparison?.[selectedMedicine.name] && (
                     <Badge className="bg-green-500 text-white">
-                      {language === 'hi' 
-                        ? 'सस्ता जेनेरिक उपलब्ध' 
+                      {language === 'hi'
+                        ? 'सस्ता जेनेरिक उपलब्ध'
                         : 'Cheaper Generic Available'}
                     </Badge>
                   )}
-                  
+
                   {/* Expandable Medicine Details */}
                   <div className="space-y-2 pt-2">
                     <details className="group">
@@ -449,39 +450,39 @@ const MedicineStore: React.FC = () => {
                         <span className="ml-2 group-open:rotate-180 transition-transform">▼</span>
                       </summary>
                       <div className="mt-2 text-sm text-muted-foreground">
-                        {language === 'hi' 
+                        {language === 'hi'
                           ? `सामान्य रूप से डॉक्टर की सलाह पर लें। सामान्य खुराक: ${selectedMedicine.name.includes('Paracetamol') ? '500mg, 3 बार दिन में' : selectedMedicine.name.includes('ORS') ? 'एक बूंद दिन में 3 बार' : 'जैसा डॉक्टर निर्धारित करे'}`
                           : `Generally take as per doctor's advice. Typical dosage: ${selectedMedicine.name.includes('Paracetamol') ? '500mg, 3 times a day' : selectedMedicine.name.includes('ORS') ? 'One sachet dissolved in water, 3 times a day' : 'As prescribed by doctor'}`}
                       </div>
                     </details>
-                    
+
                     <details className="group">
                       <summary className="cursor-pointer font-semibold list-none flex justify-between items-center">
                         {language === 'hi' ? 'सावधानियां' : 'Precautions'}
                         <span className="ml-2 group-open:rotate-180 transition-transform">▼</span>
                       </summary>
                       <div className="mt-2 text-sm text-muted-foreground">
-                        {language === 'hi' 
+                        {language === 'hi'
                           ? 'खाली पेट लेने से बचें, यदि गर्भवती हों तो डॉक्टर से परामर्श करें।'
                           : 'Avoid on empty stomach, consult doctor if pregnant.'}
                       </div>
                     </details>
-                    
+
                     <details className="group">
                       <summary className="cursor-pointer font-semibold list-none flex justify-between items-center">
                         {language === 'hi' ? 'साइड इफेक्ट्स' : 'Side Effects'}
                         <span className="ml-2 group-open:rotate-180 transition-transform">▼</span>
                       </summary>
                       <div className="mt-2 text-sm text-muted-foreground">
-                        {language === 'hi' 
+                        {language === 'hi'
                           ? 'मतली, चक्कर, त्वचा पर लाल चकत्ते।'
                           : 'Nausea, dizziness, skin rashes.'}
                       </div>
                     </details>
                   </div>
-                  
+
                   <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                    <Button 
+                    <Button
                       className="flex-1"
                       onClick={() => {
                         handleAddToCart(selectedMedicine);
@@ -490,8 +491,8 @@ const MedicineStore: React.FC = () => {
                     >
                       {language === 'hi' ? 'खरीदें' : 'Buy Now'}
                     </Button>
-                    
-                    <Button 
+
+                    <Button
                       variant="outline"
                       className="flex-1"
                       disabled={!genericComparison?.[selectedMedicine.name]}

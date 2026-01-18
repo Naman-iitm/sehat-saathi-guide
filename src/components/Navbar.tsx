@@ -82,7 +82,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-background shadow-sm dark:shadow-gray-800 transition-colors duration-300 border-b border-border">
+    <nav className="sticky top-0 z-50 w-full bg-background shadow-sm dark:shadow-gray-800 transition-colors duration-300 border-b border-border" aria-label="Main navigation">
       {/* Top Header Row */}
       <div className="border-b border-border/50">
         <div className="container mx-auto px-4">
@@ -108,12 +108,13 @@ const Navbar: React.FC = () => {
                       variant="ghost"
                       size="sm"
                       className="gap-1 p-0 h-auto hover:bg-transparent font-medium"
+                      aria-label={`Select delivery pincode, currently ${selectedPincode}`}
                     >
                       {selectedPincode}
-                      <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
+                      <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" aria-hidden="true" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start">
+                  <DropdownMenuContent align="start" aria-label="Pincode options">
                     <DropdownMenuItem onClick={() => setSelectedPincode('110001')}>110001 - New Delhi</DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setSelectedPincode('400001')}>400001 - Mumbai</DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setSelectedPincode('560001')}>560001 - Bangalore</DropdownMenuItem>
@@ -130,19 +131,20 @@ const Navbar: React.FC = () => {
               {/* Language Selector */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="gap-1 px-2">
-                    <Globe className="w-4 h-4" />
+                  <Button variant="ghost" size="sm" className="gap-1 px-2" aria-label={`Change language, currently ${languageNames[language]}`}>
+                    <Globe className="w-4 h-4" aria-hidden="true" />
                     <span className="hidden lg:inline">{languageNames[language]}</span>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
+                <DropdownMenuContent align="end" aria-label="Language options">
                   {availableLanguages.map((lang) => (
                     <DropdownMenuItem
                       key={lang}
                       onClick={() => setLanguage(lang)}
                       className={`gap-3 py-2 cursor-pointer ${language === lang ? 'bg-secondary' : ''}`}
+                      aria-current={language === lang ? 'true' : undefined}
                     >
-                      <span className="text-lg">{languageFlags[lang]}</span>
+                      <span className="text-lg" aria-hidden="true">{languageFlags[lang]}</span>
                       <span>{languageNames[lang]}</span>
                     </DropdownMenuItem>
                   ))}
@@ -163,10 +165,10 @@ const Navbar: React.FC = () => {
 
               {/* Cart */}
               <Link to="/cart">
-                <Button variant="ghost" size="icon" className="relative">
-                  <ShoppingCart className="w-5 h-5" />
+                <Button variant="ghost" size="icon" className="relative" aria-label={`Shopping cart, ${itemCount} ${itemCount === 1 ? 'item' : 'items'}`}>
+                  <ShoppingCart className="w-5 h-5" aria-hidden="true" />
                   {itemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-destructive text-destructive-foreground text-[10px] rounded-full flex items-center justify-center font-bold animate-in zoom-in">
+                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-destructive text-destructive-foreground text-[10px] rounded-full flex items-center justify-center font-bold animate-in zoom-in" aria-hidden="true">
                       {itemCount}
                     </span>
                   )}
@@ -177,26 +179,26 @@ const Navbar: React.FC = () => {
               {isAuthenticated ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="gap-2 hidden sm:flex">
-                      <div className="w-7 h-7 rounded-full bg-secondary flex items-center justify-center">
+                    <Button variant="ghost" size="sm" className="gap-2 hidden sm:flex" aria-label={`User menu for ${user?.name}`}>
+                      <div className="w-7 h-7 rounded-full bg-secondary flex items-center justify-center" aria-hidden="true">
                         <User className="w-4 h-4" />
                       </div>
                       <span className="max-w-[100px] truncate">{user?.name?.split(' ')[0]}</span>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  <DropdownMenuContent align="end" aria-label="User menu">
                     <DropdownMenuItem asChild>
                       <Link to="/profile" className="cursor-pointer gap-2">
-                        <User className="w-4 h-4" /> {t.myProfile}
+                        <User className="w-4 h-4" aria-hidden="true" /> {t.myProfile}
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link to="/dashboard" className="cursor-pointer gap-2">
-                        <Activity className="w-4 h-4" /> Dashboard
+                        <Activity className="w-4 h-4" aria-hidden="true" /> Dashboard
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={logout} className="text-destructive cursor-pointer gap-2">
-                      <LogOut className="w-4 h-4" /> {t.logout}
+                      <LogOut className="w-4 h-4" aria-hidden="true" /> {t.logout}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -209,8 +211,8 @@ const Navbar: React.FC = () => {
               {/* Mobile Menu Trigger */}
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild className="lg:hidden">
-                  <Button variant="ghost" size="icon">
-                    <Menu className="w-6 h-6" />
+                  <Button variant="ghost" size="icon" aria-label="Open navigation menu" aria-expanded={isOpen}>
+                    <Menu className="w-6 h-6" aria-hidden="true" />
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="right" className="w-[300px] sm:w-[400px]">
@@ -247,11 +249,11 @@ const Navbar: React.FC = () => {
                             variant={isActive(item.path) ? 'secondary' : 'ghost'}
                             className={`w-full justify-start gap-4 h-11 ${isActive(item.path) ? 'font-semibold' : ''}`}
                           >
-                          {isStrIcon ? (
+                            {isStrIcon ? (
                               <span className="text-lg">{item.icon as string}</span>
-                          ) : (
+                            ) : (
                               <Icon className="w-5 h-5" />
-                          )}
+                            )}
                             {item.label}
                           </Button>
                         </Link>
@@ -305,10 +307,10 @@ const Navbar: React.FC = () => {
                     variant="ghost"
                     className={`gap-2 rounded-full px-4 h-9 ${active ? 'bg-secondary text-primary hover:bg-secondary/80' : 'text-muted-foreground hover:text-foreground'}`}
                   >
-                  {isStrIcon
-                    ? <span>{item.icon as string}</span>
-                    : <Icon className={`w-4 h-4 ${active ? 'fill-current' : ''}`} />
-                  }
+                    {isStrIcon
+                      ? <span>{item.icon as string}</span>
+                      : <Icon className={`w-4 h-4 ${active ? 'fill-current' : ''}`} />
+                    }
                     {item.label}
                   </Button>
                 </Link>
