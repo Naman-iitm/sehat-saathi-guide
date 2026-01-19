@@ -1,5 +1,6 @@
-
+﻿
 import React, { useState } from 'react';
+import { Bell, FlaskConical } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -69,6 +70,8 @@ const Navbar: React.FC = () => {
     { path: '/nearby', label: t.nearbyHospitals, icon: MapPin },
     { path: '/reminders', label: 'Reminders', icon: '⏰' },
     { path: '/medical-history', label: 'Medical History', icon: FileText },
+    { path: '/lab-tests', label: 'Lab Tests', icon: FlaskConical },
+
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -294,7 +297,7 @@ const Navbar: React.FC = () => {
       {/* Desktop Navigation (Bottom Row) */}
       <div className="hidden lg:block bg-background/50 backdrop-blur-sm">
         <div className="container mx-auto px-4">
-          <div className="flex items-center gap-1 h-12 overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-1 h-12 overflow-hidden">
             {navItems.map((item) => {
               const active = isActive(item.path);
               const Icon = typeof item.icon === 'string' ? Activity : item.icon;
@@ -307,11 +310,11 @@ const Navbar: React.FC = () => {
                 >
                   <Button
                     variant="ghost"
-                    className={`gap-2 rounded-full px-4 h-9 ${active ? 'bg-secondary text-primary hover:bg-secondary/80' : 'text-muted-foreground hover:text-foreground'}`}
+                    className={`gap-1 rounded-full px-3 h-8 text-sm ${active ? 'bg-secondary text-primary hover:bg-secondary/80' : 'text-muted-foreground hover:text-foreground'}`}
                   >
                   {isStrIcon
                     ? <span>{item.icon as string}</span>
-                    : <Icon className={`w-4 h-4 ${active ? 'fill-current' : ''}`} />
+                    : <Icon className="w-3.5 h-3.5" />
                   }
                     {item.label}
                   </Button>

@@ -18,6 +18,10 @@ import HealthTips from '@/components/HealthTips';
 import MedicineStore from '@/components/MedicineStore';
 import AIAssistant from '@/components/AIAssistant';
 import MedicalHistoryPage from '@/pages/MedicalHistory';
+import LabTests from "./pages/LabTests";
+import LabTestDetails from "@/pages/LabTestDetails";
+import LabBooking from "@/pages/LabBooking";
+
 
 import SarkariYojana from '@/components/SarkariYojana';
 import NearbyHospitals from '@/components/NearbyHospitals';
@@ -129,6 +133,9 @@ const App = () => {
                       <Route path="/tips" element={<HealthTips />} />
                       <Route path="/store" element={<MedicineStore />} />
                       <Route path="/medical-history" element={<MedicalHistoryPage />} />
+                      <Route path="/lab-tests" element={<LabTests />} />
+                      <Route path="/lab-tests/:id" element={<LabTestDetails />} />
+                      <Route path="/lab-tests/:id/book" element={<LabBooking />} />
 
                       <Route path="/assistant" element={<AIAssistant />} />
                       <Route path="/schemes" element={<SarkariYojana />} />
