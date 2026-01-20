@@ -1,0 +1,26 @@
+[
+  {
+    "referenceId": "SS-MKKUJ4RU-GE8RWB",
+    "name": "Test User",
+    "email": "test@example.com",
+    "phone": null,
+    "subject": "support",
+    "message": "This is a test message from testing.",
+    "status": "pending",
+    "ipAddress": "::1",
+    "userAgent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.7462",
+    "createdAt": "2026-01-19T07:31:01.482Z"
+  },
+  {
+    "referenceId": "SS-MKKUO58B-9ZM9S3",
+    "name": "abhijeet padh",
+    "email": "abhijeet.padhy2007@gmail.com",
+    "phone": "1234567890",
+    "subject": "partnership",
+    "message": "123456789098765432",
+    "status": "pending",
+    "ipAddress": "::1",
+    "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1",
+    "createdAt": "2026-01-19T07:34:55.355Z"
+  }
+]

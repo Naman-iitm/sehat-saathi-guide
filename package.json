@@ -87,6 +87,7 @@
     "@types/react-dom": "^18.3.7",
     "@types/react-router-dom": "^5.3.3",
     "@types/simple-peer": "^9.11.9",
+    "@types/webrtc": "^0.0.47",
     "@vitejs/plugin-react-swc": "^3.11.0",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.32.0",

@@ -11,6 +11,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import GenericComparisonModal from '@/components/GenericComparisonModal';
 import {
   Dialog,
@@ -20,7 +27,9 @@ import {
 } from '@/components/ui/dialog';
 
 import { toast } from 'sonner';
-import { Search, ShoppingCart, Star, Tag, X, Clock, Package } from 'lucide-react';
+import { Search, ShoppingCart, Star, Tag, X, Clock, Package, ArrowUpDown } from 'lucide-react';
+
+type SortOption = 'default' | 'price-asc' | 'price-desc' | 'rating' | 'name' | 'discount';
 
 const MedicineStore: React.FC = () => {
   const navigate = useNavigate();
@@ -32,6 +41,7 @@ const MedicineStore: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const [showHistory, setShowHistory] = useState(false);
+  const [sortBy, setSortBy] = useState<SortOption>('default');
 
   const [selectedMedicine, setSelectedMedicine] =
     useState<(typeof medicines)[0] | null>(null);
@@ -41,6 +51,15 @@ const MedicineStore: React.FC = () => {
   const [compareData, setCompareData] = useState<any>(null);
  
 
+  // Sort options for dropdown
+  const sortOptions = [
+    { value: 'default', labelEn: 'Default', labelHi: 'डिफ़ॉल्ट' },
+    { value: 'price-asc', labelEn: 'Price: Low to High', labelHi: 'कीमत: कम से अधिक' },
+    { value: 'price-desc', labelEn: 'Price: High to Low', labelHi: 'कीमत: अधिक से कम' },
+    { value: 'rating', labelEn: 'Rating: High to Low', labelHi: 'रेटिंग: अधिक से कम' },
+    { value: 'name', labelEn: 'Name: A to Z', labelHi: 'नाम: A से Z' },
+    { value: 'discount', labelEn: 'Discount: Highest First', labelHi: 'छूट: सबसे अधिक पहले' },
+  ];
 
   // Load search history from localStorage on mount
   useEffect(() => {
@@ -60,11 +79,10 @@ const MedicineStore: React.FC = () => {
 
     const trimmedQuery = query.trim();
     
-    // Remove duplicate if exists, add to front (most recent first)
     const updated = [
       trimmedQuery,
       ...searchHistory.filter(item => item !== trimmedQuery)
-    ].slice(0, 5); // Keep only 5 most recent
+    ].slice(0, 5);
 
     setSearchHistory(updated);
     localStorage.setItem('medicine-search-history', JSON.stringify(updated));
@@ -107,6 +125,7 @@ const MedicineStore: React.FC = () => {
     setShowHistory(false);
   };
 
+  // Filter medicines
   const filteredMedicines = medicines.filter((medicine) => {
     const matchesSearch =
       medicine.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -117,6 +136,31 @@ const MedicineStore: React.FC = () => {
       medicine.category === selectedCategory;
 
     return matchesSearch && matchesCategory;
+  });
+
+  // Sort medicines
+  const sortedMedicines = [...filteredMedicines].sort((a, b) => {
+    switch (sortBy) {
+      case 'price-asc':
+        return a.price - b.price;
+      
+      case 'price-desc':
+        return b.price - a.price;
+      
+      case 'rating':
+        return b.rating - a.rating;
+      
+      case 'name':
+        return a.name.localeCompare(b.name);
+      
+      case 'discount':
+        const discountA = ((a.originalPrice - a.price) / a.originalPrice) * 100;
+        const discountB = ((b.originalPrice - b.price) / b.originalPrice) * 100;
+        return discountB - discountA;
+      
+      default:
+        return 0;
+    }
   });
 
   const handleAddToCart = (medicine: typeof medicines[0]) => {
@@ -221,10 +265,10 @@ const MedicineStore: React.FC = () => {
         <div className="mb-4 flex items-center gap-2 result-counter">
           <Badge variant="secondary" className="text-sm">
             {language === 'hi'
-              ? `${filteredMedicines.length} दवाइयां मिलीं`
-              : `Found ${filteredMedicines.length} medicine${filteredMedicines.length !== 1 ? 's' : ''}`}
+              ? `${sortedMedicines.length} दवाइयां मिलीं`
+              : `Found ${sortedMedicines.length} medicine${sortedMedicines.length !== 1 ? 's' : ''}`}
           </Badge>
-          {filteredMedicines.length > 0 && (
+          {sortedMedicines.length > 0 && (
             <span className="text-xs text-muted-foreground">
               {language === 'hi'
                 ? `"${searchQuery}" के लिए`
@@ -234,27 +278,47 @@ const MedicineStore: React.FC = () => {
         </div>
       )}
 
-      {/* Categories */}
-      <div className="mb-4 sm:mb-6 flex gap-2 overflow-x-auto pb-2 -mx-3 px-3 sm:-mx-4 sm:px-4 scrollbar-hide">
-        {categories.map((category) => (
-          <Button
-            key={category.id}
-            size="sm"
-            variant={
-              selectedCategory === category.id ? 'default' : 'outline'
-            }
-            onClick={() => setSelectedCategory(category.id)}
-            className="whitespace-nowrap text-xs sm:text-sm py-2 h-auto transition-all hover:scale-105"
-          >
-            {language === 'hi' ? category.nameHi : category.name}
-          </Button>
-        ))}
+      {/* Categories and Sort */}
+      <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+        {/* Categories */}
+        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+          {categories.map((category) => (
+            <Button
+              key={category.id}
+              size="sm"
+              variant={
+                selectedCategory === category.id ? 'default' : 'outline'
+              }
+              onClick={() => setSelectedCategory(category.id)}
+              className="whitespace-nowrap text-xs sm:text-sm py-2 h-auto transition-all hover:scale-105"
+            >
+              {language === 'hi' ? category.nameHi : category.name}
+            </Button>
+          ))}
+        </div>
+
+        {/* Sort Dropdown */}
+        <div className="flex items-center gap-2 min-w-[200px]">
+          <ArrowUpDown className="w-4 h-4 text-muted-foreground" />
+          <Select value={sortBy} onValueChange={(value: SortOption) => setSortBy(value)}>
+            <SelectTrigger className="h-9 text-sm">
+              <SelectValue placeholder={language === 'hi' ? 'क्रमबद्ध करें' : 'Sort by'} />
+            </SelectTrigger>
+            <SelectContent>
+              {sortOptions.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {language === 'hi' ? option.labelHi : option.labelEn}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
    
      
       {/* Empty State */}
-      {filteredMedicines.length === 0 && searchQuery && (
+      {sortedMedicines.length === 0 && searchQuery && (
         <div className="flex flex-col items-center justify-center py-16 empty-state">
           <Package className="w-16 h-16 text-muted-foreground mb-4" />
           <h3 className="text-xl font-semibold mb-2">
@@ -279,7 +343,7 @@ const MedicineStore: React.FC = () => {
 
       {/* Products */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
-        {filteredMedicines.map((medicine) => (
+        {sortedMedicines.map((medicine) => (
           <Card
             key={medicine.id}
             className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"

@@ -7,9 +7,11 @@ import authRoutes from "./routes/auth";
 import medicalHistoryRoutes from "./routes/medicalHistory";
 import symptomsRoutes from "./routes/symptoms";
 import remindersRoutes from "./routes/reminders";
+import notificationsRoutes from "./routes/notifications";
 import ordersRoutes from "./routes/orders";
 import analyticsRoutes from "./routes/analytics";
 import forumRoutes from "./routes/forum";
+import contactRoutes from "./routes/contact";
 
 const app = express();
 
@@ -70,8 +72,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/medical-history", medicalHistoryRoutes);
 app.use("/api/symptoms", symptomsRoutes);
 app.use("/api/reminders", remindersRoutes);
+app.use("/api/notifications", notificationsRoutes);
 app.use("/api/orders", ordersRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/forum", forumRoutes);
+app.use("/api/contact", contactRoutes);
 
 export default app;

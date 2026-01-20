@@ -15,6 +15,16 @@ import {
   Hand,
   Carrot,
   PersonStanding,
+   GlassWater,
+  Apple,
+  Ban,
+  Brush,
+  Shield,
+  SmartphoneNfc,
+
+  AlertTriangle,
+  HeartPulse,
+  Smile,
 } from 'lucide-react';
 
 // Mapping icon names to actual icon components
@@ -31,6 +41,19 @@ const iconMap: Record<string, React.FC<any>> = {
   activity: PersonStanding,
   bug: Bug,
   syringe: Syringe,
+    // ✅ NEW (important)
+  "glass-water": GlassWater,
+  apple: Apple,
+  ban: Ban,
+  broom: Brush,
+  shield: Shield,
+  smartphone: SmartphoneNfc,
+  "alert-triangle": AlertTriangle,
+  "heart-pulse": HeartPulse,
+  smile: Smile,
+  mask: Shield,
+  wind: Wind,
+
 };
 
 const HealthTips: React.FC = () => {
