@@ -84,7 +84,7 @@ const Cart: React.FC = () => {
                   <img
                     src={item.image}
                     alt={language === 'hi' ? item.nameHi : item.name}
-                    className="w-20 h-20 object-cover rounded-lg"
+                    className="w-12 h-12 object-contain rounded-lg bg-muted p-1"
                   />
                   <div className="flex-1">
                     <h3 className="font-semibold text-foreground">

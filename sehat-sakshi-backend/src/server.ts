@@ -4,6 +4,7 @@ import { env } from "./config/env";
 import { connectDB } from "./config/database";
 import logger from "./config/logger";
 import { initSocket } from "./config/socket";
+import { reminderWorker } from "./services/reminderWorker";
 
 const startServer = async () => {
   try {
@@ -12,17 +13,26 @@ const startServer = async () => {
     logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
     logger.info(`Node version: ${process.version}`);
 
-    // Connect to database
-    logger.info("Connecting to database...");
-    await connectDB();
-    logger.info("Database connected successfully");
+    // Try to connect to database (non-blocking)
+    logger.info("Attempting to connect to database...");
+    try {
+      await connectDB();
+      logger.info("Database connected successfully");
+    } catch (dbError) {
+      logger.warn("Database connection failed - some features may be unavailable");
+      logger.warn("Contact form will still work using JSON file storage");
+    }
 
     // Create HTTP server
     const httpServer = createServer(app);
 
     // Initialize Socket.io
     initSocket(httpServer);
-    logger.info("Socket.io initialized for WebRTC signaling");
+    logger.info("Socket.io initialized for WebRTC signaling and notifications");
+
+    // Start reminder worker
+    reminderWorker.start();
+    logger.info("Reminder worker started");
 
     // Start server
     httpServer.listen(env.PORT, () => {
@@ -35,6 +45,7 @@ const startServer = async () => {
     // Graceful shutdown
     const gracefullyShutdown = () => {
       logger.info('Shutting down gracefully...');
+      reminderWorker.stop();
       httpServer.close(() => {
         logger.info('HTTP server closed');
         process.exit(0);

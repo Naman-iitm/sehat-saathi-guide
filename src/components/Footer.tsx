@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Facebook, Instagram, Linkedin, Mail, Phone, Send,X } from 'lucide-react';
+import { Heart, Facebook, Instagram, Linkedin, Mail, Phone, Send, X } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
@@ -129,69 +129,68 @@ const Footer: React.FC = () => {
 
 
 
-<div className="mb-12 max-w-3xl mx-auto">
-  <div className="relative overflow-hidden rounded-2xl border border-green-500/20 bg-white shadow-lg">
-    
-    {/* Gradient accent */}
-    <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-emerald-500/10 pointer-events-none" />
+                <div className="mb-12 max-w-3xl mx-auto">
+                    <div className="relative overflow-hidden rounded-2xl border border-green-500/20 bg-white shadow-lg">
 
-    <div className="relative p-8 sm:p-10">
-      <div className="text-center mb-6">
-        <h3 className="font-bold text-2xl sm:text-3xl text-foreground mb-2">
-          {t.newsletterTitle}
-        </h3>
-        <p className="text-muted-foreground text-sm max-w-xl mx-auto">
-          {t.stayUpdated || 'Stay updated with our latest health tips and features.'}
-        </p>
-      </div>
+                        {/* Gradient accent */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-emerald-500/10 pointer-events-none" />
 
-      <form
-        onSubmit={handleNewsletterSubmit}
-        className="flex flex-col sm:flex-row gap-4 items-center"
-      >
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder={t.email || 'Enter your email address'}
-          className="w-full flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-white text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
-          disabled={isSubmitting}
-          aria-label="Email for newsletter"
-        />
+                        <div className="relative p-8 sm:p-10">
+                            <div className="text-center mb-6">
+                                <h3 className="font-bold text-2xl sm:text-3xl text-gray-900 mb-2">
+                                    {t.newsletterTitle}
+                                </h3>
+                                <p className="text-gray-800 text-sm max-w-xl mx-auto font-medium">
+                                    {t.stayUpdated || 'Stay updated with our latest health tips and features.'}
+                                </p>
+                            </div>
 
-        <Button
-          type="submit"
-          size="lg"
-          disabled={isSubmitting}
-          className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold px-6 transition"
-        >
-          <Send className={`w-4 h-4 mr-2 ${isSubmitting ? 'animate-spin' : ''}`} />
-          {isSubmitting ? 'Subscribing...' : 'Subscribe'}
-        </Button>
-      </form>
+                            <form
+                                onSubmit={handleNewsletterSubmit}
+                                className="flex flex-col sm:flex-row gap-4 items-center"
+                            >
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder={t.email || 'Enter your email address'}
+                                    className="w-full flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-white text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+                                    disabled={isSubmitting}
+                                    aria-label="Email for newsletter"
+                                />
 
-      {message && (
-  <div
-    role="status"
-    aria-live="polite"
-    className={`mt-4 flex items-center justify-center gap-2 text-sm font-medium rounded-md px-4 py-2 ${
-      messageType === 'success'
-        ? 'bg-green-50 text-green-700 border border-green-200'
-        : 'bg-red-50 text-red-700 border border-red-200'
-    }`}
-  >
-    {messageType === 'success' ? (
-      <CheckCircle className="w-4 h-4 text-green-600" />
-    ) : (
-      <XCircle className="w-4 h-4 text-red-600" />
-    )}
-    <span>{message}</span>
-  </div>
-)}
+                                <Button
+                                    type="submit"
+                                    size="lg"
+                                    disabled={isSubmitting}
+                                    className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold px-6 transition"
+                                >
+                                    <Send className={`w-4 h-4 mr-2 ${isSubmitting ? 'animate-spin' : ''}`} />
+                                    {isSubmitting ? 'Subscribing...' : 'Subscribe'}
+                                </Button>
+                            </form>
 
-    </div>
-  </div>
-</div>
+                            {message && (
+                                <div
+                                    role="status"
+                                    aria-live="polite"
+                                    className={`mt-4 flex items-center justify-center gap-2 text-sm font-medium rounded-md px-4 py-2 ${messageType === 'success'
+                                            ? 'bg-green-50 text-green-700 border border-green-200'
+                                            : 'bg-red-50 text-red-700 border border-red-200'
+                                        }`}
+                                >
+                                    {messageType === 'success' ? (
+                                        <CheckCircle className="w-4 h-4 text-green-600" />
+                                    ) : (
+                                        <XCircle className="w-4 h-4 text-red-600" />
+                                    )}
+                                    <span>{message}</span>
+                                </div>
+                            )}
+
+                        </div>
+                    </div>
+                </div>
 
 
 
@@ -219,10 +218,10 @@ const Footer: React.FC = () => {
                                 title="Facebook page coming soon" className="text-muted-foreground hover:text-primary transition-colors">
                                 <Facebook className="w-5 h-5" />
                             </a>
-                           <a href="#"onClick={(e) => e.preventDefault()}
-                               title="X page coming soon"
-                               className="text-muted-foreground hover:text-primary transition-colors"
-                               >
+                            <a href="#" onClick={(e) => e.preventDefault()}
+                                title="X page coming soon"
+                                className="text-muted-foreground hover:text-primary transition-colors"
+                            >
                                 <X className="w-5 h-5" />
                             </a>
                             <a href="#" onClick={(e) => e.preventDefault()}
@@ -272,6 +271,11 @@ const Footer: React.FC = () => {
                     <div>
                         <h3 className="font-semibold text-lg mb-4">{t.support}</h3>
                         <ul className="space-y-3">
+                            <li>
+                                <Link to="/contact" className="text-muted-foreground hover:text-primary text-sm">
+                                    {t.contact}
+                                </Link>
+                            </li>
                             <li>
                                 <Link to="#" className="text-muted-foreground hover:text-primary text-sm">
                                     {t.helpCenter}
