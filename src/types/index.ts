@@ -40,6 +40,10 @@ export interface GovernmentScheme {
   eligibilityHi: string;
   link: string;
   icon: string;
+  category: 'pregnant' | 'child' | 'senior' | 'general';
+  minAge?: number;
+  keywords?: string[];
+
 }
 
 export interface ChatMessage {
