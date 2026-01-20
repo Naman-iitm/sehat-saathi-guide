@@ -192,17 +192,7 @@ const Footer: React.FC = () => {
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {/* Brand */}
                     <div className="space-y-4">
                         <Link to="/" className="flex items-center gap-2">
@@ -215,14 +205,11 @@ const Footer: React.FC = () => {
                             {t.welcomeMessage}
                         </p>
                         <div className="flex gap-4 pt-2">
-                            <a href="#" onClick={(e) => e.preventDefault()}
-                                title="Facebook page coming soon" className="text-muted-foreground hover:text-primary transition-colors">
-                                <Facebook className="w-5 h-5" />
-                            </a>
+                            
                            <a href="#"onClick={(e) => e.preventDefault()}
                                title="X page coming soon"
                                className="text-muted-foreground hover:text-primary transition-colors"
-                               >
+>
                                 <X className="w-5 h-5" />
                             </a>
                             <a href="#" onClick={(e) => e.preventDefault()}
@@ -287,18 +274,30 @@ const Footer: React.FC = () => {
                                     {t.feedback}
                                 </a>
                             </li>
+
                             <li className="flex items-center gap-2 text-muted-foreground text-sm">
-                                <Phone className="w-4 h-4" />
-                                <a href="tel:+9118001234567" aria-label="Call +91 1800-123-4567" className="hover:text-primary">
-                                    +91 1800-123-4567
-                                </a>
-                            </li>
-                            <li className="flex items-center gap-2 text-muted-foreground text-sm">
-                                <Mail className="w-4 h-4" />
-                                <a href="mailto:support@swasthya.com" aria-label="Email support@swasthya.com" className="hover:text-primary">
-                                    support@swasthya.com
-                                </a>
-                            </li>
+  <Phone className="w-4 h-4" />
+  <a
+    href="tel:+9118001234567"
+    aria-label="Call +91 1800-123-4567"
+    className="hover:text-primary"
+  >
+    +91 1800-123-4567
+  </a>
+</li>
+
+<li className="flex items-center gap-2 text-muted-foreground text-sm">
+  <Mail className="w-4 h-4" />
+  <a
+    href="mailto:support@swasthya.com"
+    aria-label="Email support@swasthya.com"
+    className="hover:text-primary"
+  >
+    support@swasthya.com
+  </a>
+</li>
+
+
                         </ul>
                     </div>
 

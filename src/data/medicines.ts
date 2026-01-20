@@ -106,7 +106,7 @@ export const medicines: Medicine[] = [
     rating: 4.5,
     inStock: true,
   
-
+  },
   {
     id: '9',
     name: 'Dettol',
