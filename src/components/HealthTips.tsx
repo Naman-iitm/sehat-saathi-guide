@@ -2,12 +2,12 @@ import React from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { healthTips } from '@/data/healthTips';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
 import {
   Toilet,
   Droplets,
   Utensils,
   Moon,
-  Home,
   Wind,
   User,
   Bug,
@@ -15,16 +15,28 @@ import {
   Hand,
   Carrot,
   PersonStanding,
-   GlassWater,
+  GlassWater,
   Apple,
   Ban,
   Brush,
   Shield,
   SmartphoneNfc,
-
   AlertTriangle,
   HeartPulse,
   Smile,
+
+  // 🔽 REQUIRED for new tips
+  Clock,
+  Eye,
+  PauseCircle,
+  Shoe,
+  Pill,
+  Users,
+  Sun,
+  BriefcaseMedical,
+  MoonStar,
+  Stethoscope,
+  Cup,
 } from 'lucide-react';
 
 // Mapping icon names to actual icon components
@@ -41,19 +53,33 @@ const iconMap: Record<string, React.FC<any>> = {
   activity: PersonStanding,
   bug: Bug,
   syringe: Syringe,
-    // ✅ NEW (important)
-  "glass-water": GlassWater,
+
+  // existing
+  'glass-water': GlassWater,
   apple: Apple,
   ban: Ban,
   broom: Brush,
   shield: Shield,
   smartphone: SmartphoneNfc,
-  "alert-triangle": AlertTriangle,
-  "heart-pulse": HeartPulse,
+  'alert-triangle': AlertTriangle,
+  'heart-pulse': HeartPulse,
   smile: Smile,
   mask: Shield,
   wind: Wind,
 
+  // 🔽 NEW (for added guidelines)
+  'person-standing': PersonStanding,
+  clock: Clock,
+  eye: Eye,
+  'pause-circle': PauseCircle,
+  shoe: Shoe,
+  pill: Pill,
+  users: Users,
+  sun: Sun,
+  'briefcase-medical': BriefcaseMedical,
+  'moon-star': MoonStar,
+  stethoscope: Stethoscope,
+  cup: Cup,
 };
 
 const HealthTips: React.FC = () => {
@@ -66,21 +92,23 @@ const HealthTips: React.FC = () => {
           {t.healthTipsTitle}
         </h1>
         <p className="text-muted-foreground">
-          {language === 'hi' 
-            ? 'सरल और प्रभावी स्वास्थ्य सुझाव' 
+          {language === 'hi'
+            ? 'सरल और प्रभावी स्वास्थ्य सुझाव'
             : 'Simple and effective health tips'}
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {healthTips.map((tip) => (
-          <Card 
-            key={tip.id} 
+          <Card
+            key={tip.id}
             className="border-2 border-border shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
           >
             <CardHeader className="bg-secondary pb-4">
               <CardTitle className="flex items-center gap-3 text-secondary-foreground">
-                {iconMap[tip.icon] ? React.createElement(iconMap[tip.icon], { className: "w-10 h-10" }) : <span className="text-4xl">{tip.icon}</span>}
+                {iconMap[tip.icon]
+                  ? React.createElement(iconMap[tip.icon], { className: 'w-10 h-10' })
+                  : <span className="text-4xl">{tip.icon}</span>}
                 <span className="text-lg">
                   {language === 'hi' ? tip.titleHi : tip.title}
                 </span>
