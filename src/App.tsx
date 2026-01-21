@@ -18,6 +18,7 @@ import HealthTips from '@/components/HealthTips';
 import MedicineStore from '@/components/MedicineStore';
 import AIAssistant from '@/components/AIAssistant';
 import MedicalHistoryPage from '@/pages/MedicalHistory';
+import HealthDashboard from '@/pages/HealthDashboard';
 
 import SarkariYojana from '@/components/SarkariYojana';
 import NearbyHospitals from '@/components/NearbyHospitals';
@@ -118,7 +119,7 @@ const App = () => {
                 <BrowserRouter>
                   <ScrollToTopOnRouteChange />
                   <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
-                    <Navbar/>
+                    <Navbar />
                     <Routes>
                       <Route path="/" element={<Index />} />
                       <Route path="/symptoms" element={<SymptomTracker />} />
@@ -138,6 +139,7 @@ const App = () => {
                       <Route path="/terms-and-conditions" element={<TermsConditions />} />
                       <Route path="/reminders" element={<Reminders />} />
                       <Route path="/offers" element={<Offers />} />
+                      <Route path="/analytics" element={<HealthDashboard />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                     <Footer />

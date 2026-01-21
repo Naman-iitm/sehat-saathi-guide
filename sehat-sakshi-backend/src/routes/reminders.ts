@@ -60,4 +60,27 @@ router.delete('/:id', protect, async (req: AuthRequest, res: Response) => {
   }
 });
 
+// Log reminder activity (taken/skipped)
+router.post('/:id/log', protect, async (req: AuthRequest, res: Response) => {
+  try {
+    const { status } = req.body; // 'taken' | 'skipped'
+    const userId = (req.user as any)._id;
+    const reminderId = req.params.id;
+
+    const ReminderLog = (await import('../models/ReminderLog')).ReminderLog;
+
+    const log = await ReminderLog.create({
+      userId,
+      reminderId,
+      status,
+      takenAt: new Date()
+    });
+
+    res.status(201).json(log);
+  } catch (error) {
+    console.error('Reminder log error:', error);
+    res.status(500).json({ message: 'Server error logging reminder' });
+  }
+});
+
 export default router;
