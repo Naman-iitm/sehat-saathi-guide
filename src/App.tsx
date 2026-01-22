@@ -43,6 +43,7 @@ import HelpCenter from '@/pages/HelpCenter';
 import HelpArticle from '@/pages/HelpArticle';
 import VoiceNavigation from "@/components/voice/VoiceNavigation";
 import ContactUs from "@/pages/ContactUs";
+import PrescriptionOCR from "@/pages/PrescriptionOCR";
 
 const queryClient = new QueryClient();
 
@@ -160,6 +161,7 @@ const App = () => {
                       <Route path="/contact" element={<ContactUs />} />
                       <Route path="/help" element={<HelpCenter />} />
                       <Route path="/help/article/:id" element={<HelpArticle />} />
+                      <Route path="/prescription-ocr" element={<PrescriptionOCR />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                     <Footer />

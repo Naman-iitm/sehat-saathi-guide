@@ -38,7 +38,8 @@ import {
   Store,
   MessageCircle,
   Home,
-  FileText
+  FileText,
+  ScanEye
 } from 'lucide-react';
 import NotificationBell from '@/components/notifications/NotificationBell';
 
@@ -66,6 +67,7 @@ const Navbar: React.FC = () => {
     { path: '/tips', label: t.healthTips, icon: Lightbulb },
     { path: '/store', label: t.medicineStore, icon: Store },
     { path: '/assistant', label: t.aiAssistant, icon: MessageCircle },
+    { path: '/prescription-ocr', label: 'AI Prescription', icon: ScanEye },
     { path: '/analytics', label: 'Analytics', icon: Activity },
     { path: '/schemes', label: t.schemes, icon: Building },
     { path: '/nearby', label: t.nearbyHospitals, icon: MapPin },
