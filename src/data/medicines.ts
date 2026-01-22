@@ -83,7 +83,6 @@ export const medicines: Medicine[] = [
       "https://healwell-homeo.com/cdn/shop/files/Antiseptic_432x.jpg?v=1722318520",
     category: "first-aid",
     rating: 4.7,
-
     inStock: true,
   },
   {
@@ -128,7 +127,6 @@ export const medicines: Medicine[] = [
     rating: 4.6,
     inStock: true,
   },
-
   {
     id: "10",
     name: "Eno",
@@ -143,7 +141,6 @@ export const medicines: Medicine[] = [
     rating: 4.6,
     inStock: true,
   },
-
   {
     id: "11",
     name: "Vicks Inhaler",
@@ -159,13 +156,20 @@ export const medicines: Medicine[] = [
     rating: 4.4,
     inStock: true,
   },
-
   {
+
     id: "10",
     name: "Vitamin C Tablets",
     nameHi: "विटामिन सी टैबलेट",
     description: "For immunity and general health",
     descriptionHi: "इम्यूनिटी और सामान्य स्वास्थ्य के लिए",
+
+    id: '10-2',
+    name: 'Vitamin C Tablets',
+    nameHi: 'विटामिन सी टैबलेट',
+    description: 'For immunity and general health',
+    descriptionHi: 'इम्यूनिटी और सामान्य स्वास्थ्य के लिए',
+
     price: 21,
     originalPrice: 30,
     image:
@@ -175,11 +179,19 @@ export const medicines: Medicine[] = [
     inStock: true,
   },
   {
+
     id: "11",
     name: "Multivitamin Capsules",
     nameHi: "मल्टीविटामिन कैप्सूल",
     description: "Daily nutrition and energy support",
     descriptionHi: "दैनिक पोषण और ऊर्जा के लिए",
+
+    id: '11-2',
+    name: 'Multivitamin Capsules',
+    nameHi: 'मल्टीविटामिन कैप्सूल',
+    description: 'Daily nutrition and energy support',
+    descriptionHi: 'दैनिक पोषण और ऊर्जा के लिए',
+
     price: 87,
     originalPrice: 97,
     image:
@@ -203,11 +215,19 @@ export const medicines: Medicine[] = [
     inStock: true,
   },
   {
+
     id: "13",
     name: "Azithromycin 500mg",
     nameHi: "एज़िथ्रोमाइसिन 500mg",
     description: "Antibiotic for bacterial infections",
     descriptionHi: "बैक्टीरियल संक्रमण के लिए एंटीबायोटिक",
+
+    id: '13',
+    name: 'Azithromycin 500mg',
+    nameHi: 'एज़िथ्रोमाइसिन 500mg',
+    description: 'Antibiotic for bacterial infections',
+    descriptionHi: 'बैक्टीरियल संक्रमण के लिए एंटीबायोटिक',
+
     price: 95,
     originalPrice: 130,
     image:

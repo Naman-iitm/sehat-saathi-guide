@@ -38,7 +38,12 @@ import NotificationHistory from "@/pages/NotificationHistory";
 import VideoConsultation from '@/pages/VideoConsultation';
 import Offers from "@/components/Offers";
 import OfflineIndicator from "@/components/OfflineIndicator";
+import HelpCenter from '@/pages/HelpCenter';
+import HelpArticle from '@/pages/HelpArticle';
+import VoiceNavigation from "@/components/voice/VoiceNavigation";
 import ContactUs from "@/pages/ContactUs";
+import Dashboard from "@/pages/Dashboard";
+import RequireAuth from "@/components/RequireAuth";
 
 const queryClient = new QueryClient();
 
@@ -129,6 +134,14 @@ const App = () => {
                     <Navbar />
                     <Routes>
                       <Route path="/" element={<Index />} />
+                      <Route
+                        path="/dashboard"
+                        element={
+                          <RequireAuth>
+                            <Dashboard />
+                          </RequireAuth>
+                        }
+                      />
                       <Route path="/symptoms" element={<SymptomTracker />} />
                       <Route path="/tips" element={<HealthTips />} />
                       <Route path="/store" element={<MedicineStore />} />
@@ -149,13 +162,25 @@ const App = () => {
                       <Route path="/terms-and-conditions" element={<TermsConditions />} />
                       <Route path="/offers" element={<Offers />} />
                       <Route path="/notifications" element={<NotificationHistory />} />
+                      <Route
+                        path="/reminders"
+                        element={
+                          <RequireAuth>
+                            <Reminders />
+                          </RequireAuth>
+                        }
+                      />
                       <Route path="/consultation/:id" element={<VideoConsultation />} />
                       <Route path="/contact" element={<ContactUs />} />
+                      <Route path="/help" element={<HelpCenter />} />
+                      <Route path="/help/article/:id" element={<HelpArticle />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                     <Footer />
-                    {/* NEW: Add the floating scroll to top button */}
+                    {/* Floating scroll to top button */}
                     <ScrollToTopButton />
+                    {/* Voice Navigation - Floating mic button */}
+                    <VoiceNavigation />
                   </div>
                 </BrowserRouter>
               </TooltipProvider>

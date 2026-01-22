@@ -71,6 +71,7 @@ const Navbar: React.FC = () => {
     { path: '/reminders', label: 'Reminders', icon: '⏰' },
     { path: '/medical-history', label: 'Medical History', icon: FileText },
     { path: '/lab-tests', label: 'Lab Tests', icon: FlaskConical },
+    { path: '/help', label: 'Help Center', icon: Lightbulb },
 
   ];
 
@@ -254,11 +255,11 @@ const Navbar: React.FC = () => {
                             variant={isActive(item.path) ? 'secondary' : 'ghost'}
                             className={`w-full justify-start gap-4 h-11 ${isActive(item.path) ? 'font-semibold' : ''}`}
                           >
-                          {isStrIcon ? (
+                            {isStrIcon ? (
                               <span className="text-lg">{item.icon as string}</span>
-                          ) : (
+                            ) : (
                               <Icon className="w-5 h-5" />
-                          )}
+                            )}
                             {item.label}
                           </Button>
                         </Link>
@@ -312,10 +313,10 @@ const Navbar: React.FC = () => {
                     variant="ghost"
                     className={`gap-1 rounded-full px-3 h-8 text-sm ${active ? 'bg-secondary text-primary hover:bg-secondary/80' : 'text-muted-foreground hover:text-foreground'}`}
                   >
-                  {isStrIcon
-                    ? <span>{item.icon as string}</span>
-                    : <Icon className="w-3.5 h-3.5" />
-                  }
+                    {isStrIcon
+                      ? <span>{item.icon as string}</span>
+                      : <Icon className="w-3.5 h-3.5" />
+                    }
                     {item.label}
                   </Button>
                 </Link>

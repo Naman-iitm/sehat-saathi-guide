@@ -276,25 +276,102 @@ const Index: React.FC = () => {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
           {features.map((feature) => (
-            <Link key={feature.path} to={feature.path}>
-              <Card className="border-2 hover:shadow-xl transition-all hover:-translate-y-1 h-full overflow-hidden">
-                <CardContent className="p-0">
-                  <div className="bg-primary/10 p-3 sm:p-6 text-center">
-                    <feature.icon className="w-8 sm:w-12 h-8 sm:h-12 mx-auto text-primary" />
-                  </div>
-                  <div className="p-2 sm:p-4 text-center space-y-1">
-                    <h3 className="font-medium text-xs sm:text-sm line-clamp-2">{language === 'hi' ? feature.labelHi : feature.label}</h3>
-                    <p className="text-xs text-muted-foreground line-clamp-2">
-                      {language === 'hi' ? feature.descHi : feature.descEn}
-                    </p>
-                    <div className="mt-2 sm:mt-4 flex items-center justify-center text-primary gap-1">
-                      <span className="text-xs sm:text-sm">{language === 'hi' ? 'खोलें' : 'Open'}</span>
-                      <ArrowRight className="w-3 sm:w-4 h-3 sm:h-4" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
+          <Link key={feature.path} to={feature.path}>
+  <Card
+    className="
+      relative group h-full
+      rounded-2xl
+      bg-card
+      border border-white/10
+      overflow-hidden
+
+      /* resting */
+      shadow-[0_6px_18px_rgba(0,0,0,0.35)]
+
+      /* animation */
+      transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)]
+
+      /* hover */
+      hover:-translate-y-3
+      hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.75)]
+      hover:border-emerald-400/50
+    "
+  >
+    <CardContent className="relative p-0">
+
+      
+      <div
+        className="
+          absolute inset-0
+          opacity-0 group-hover:opacity-100
+          transition-opacity duration-500
+          bg-[radial-gradient(circle_at_50%_0%,rgba(16,185,129,0.25),transparent_65%)]
+          pointer-events-none
+        "
+      />
+
+      
+      <div
+        className="
+          absolute inset-0
+          opacity-0 group-hover:opacity-100
+          transition-opacity duration-500
+          bg-gradient-to-br from-emerald-400/10 via-transparent to-transparent
+          pointer-events-none
+        "
+      />
+
+      {/* icon section */}
+      <div className="relative bg-primary/10 p-4 sm:p-6 text-center">
+        <div
+          className="
+            inline-flex rounded-xl p-3
+            transition-all duration-500
+            group-hover:scale-110
+            group-hover:-translate-y-1
+            group-hover:shadow-[0_12px_30px_rgba(16,185,129,0.45)]
+            bg-primary/10
+          "
+        >
+          <feature.icon className="w-8 sm:w-12 h-8 sm:h-12 text-primary" />
+        </div>
+      </div>
+
+      {/* content */}
+      <div className="relative p-3 sm:p-4 text-center space-y-1">
+        <h3
+          className="
+            font-medium text-xs sm:text-sm line-clamp-2
+            transition-colors duration-300
+            group-hover:text-primary
+          "
+        >
+          {language === 'hi' ? feature.labelHi : feature.label}
+        </h3>
+
+        <p className="text-xs text-muted-foreground line-clamp-2">
+          {language === 'hi' ? feature.descHi : feature.descEn}
+        </p>
+
+        <div className="mt-3 flex items-center justify-center gap-1 text-primary">
+          <span className="text-xs sm:text-sm">{
+            language === 'hi' ? 'खोलें' : 'Open'
+          }</span>
+
+          <ArrowRight
+            className="
+              w-4 h-4
+              transition-transform duration-300
+              group-hover:translate-x-1
+            "
+          />
+        </div>
+      </div>
+
+    </CardContent>
+  </Card>
+</Link>
+
           ))}
         </div>
       </section>
