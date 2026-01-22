@@ -29,14 +29,14 @@ import {
   Clock,
   Eye,
   PauseCircle,
-  Shoe,
+  Footprints,
   Pill,
   Users,
   Sun,
   BriefcaseMedical,
   MoonStar,
   Stethoscope,
-  Cup,
+  CupSoda,
 } from 'lucide-react';
 
 // Mapping icon names to actual icon components
@@ -72,14 +72,14 @@ const iconMap: Record<string, React.FC<any>> = {
   clock: Clock,
   eye: Eye,
   'pause-circle': PauseCircle,
-  shoe: Shoe,
+  shoe: Footprints,
   pill: Pill,
   users: Users,
   sun: Sun,
   'briefcase-medical': BriefcaseMedical,
   'moon-star': MoonStar,
   stethoscope: Stethoscope,
-  cup: Cup,
+  cup: CupSoda,
 };
 
 const HealthTips: React.FC = () => {

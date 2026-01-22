@@ -44,6 +44,8 @@ import HelpArticle from '@/pages/HelpArticle';
 import VoiceNavigation from "@/components/voice/VoiceNavigation";
 import ContactUs from "@/pages/ContactUs";
 import PrescriptionOCR from "@/pages/PrescriptionOCR";
+import Dashboard from "@/pages/Dashboard";
+import RequireAuth from "@/components/RequireAuth";
 
 const queryClient = new QueryClient();
 
@@ -136,6 +138,14 @@ const App = () => {
                     <Navbar />
                     <Routes>
                       <Route path="/" element={<Index />} />
+                      <Route
+                        path="/dashboard"
+                        element={
+                          <RequireAuth>
+                            <Dashboard />
+                          </RequireAuth>
+                        }
+                      />
                       <Route path="/symptoms" element={<SymptomTracker />} />
                       <Route path="/tips" element={<HealthTips />} />
                       <Route path="/store" element={<MedicineStore />} />
@@ -157,6 +167,14 @@ const App = () => {
                       <Route path="/offers" element={<Offers />} />
                       <Route path="/analytics" element={<HealthDashboard />} />
                       <Route path="/notifications" element={<NotificationHistory />} />
+                      <Route
+                        path="/reminders"
+                        element={
+                          <RequireAuth>
+                            <Reminders />
+                          </RequireAuth>
+                        }
+                      />
                       <Route path="/consultation/:id" element={<VideoConsultation />} />
                       <Route path="/contact" element={<ContactUs />} />
                       <Route path="/help" element={<HelpCenter />} />
