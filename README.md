@@ -109,6 +109,18 @@ Sehat Saathi is built to be inclusive. We currently support the following langua
 - **Routing**: [React Router DOM](https://reactrouter.com/)
 - **Package Manager**: [Bun](https://bun.sh/) (Recommended) or [npm](https://www.npmjs.com/)
 
+### 🎨 Frontend Technologies & Features
+
+| Technology | Category | Usage |
+|------------|----------|-------|
+| **HTML5** | Structure & Semantics | Core semantic markup for accessibility and SEO |
+| **CSS3** | Styling & Layout | Advanced styling with modern CSS features |
+| **Flexbox** | Flexible Layouts | Responsive one-dimensional layouts |
+| **CSS Grid** | Grid Layouts | Complex multi-dimensional responsive grids |
+| **Media Queries** | Design | Mobile-first responsive breakpoints |
+| **Tailwind CSS** | Utility-First Framework | Rapid UI development with utility classes |
+| **Accessibility (A11y)** | Design Standards | WCAG 2.1 compliance via Radix UI & shadcn/ui |
+
 ---
 
  🚀 GETTING STARTED

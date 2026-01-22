@@ -101,8 +101,12 @@ const translations = {
   },
 };
 
-const COLORS = ['#10b981', '#f59e0b', '#ef4444', '#3b82f6', '#8b5cf6', '#ec4899'];
-const SEVERITY_COLORS = { mild: '#10b981', moderate: '#f59e0b', severe: '#ef4444' };
+// Color schemes that work in both light and dark modes
+const COLORS = ['#059669', '#d97706', '#dc2626', '#2563eb', '#7c3aed', '#db2777'];
+const SEVERITY_COLORS = { mild: '#059669', moderate: '#d97706', severe: '#dc2626' };
+
+// Chart text colors that adapt to theme
+const getChartTextColor = (isDark: boolean) => isDark ? '#e5e7eb' : '#1f2937';
 
 const HealthDashboard: React.FC = () => {
   const { language } = useLanguage();
