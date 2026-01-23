@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
+import path from "path";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler";
 import { generalLimiter } from "./middleware/rateLimiter";
 import authRoutes from "./routes/auth";
@@ -14,7 +15,7 @@ import syncRoutes from "./routes/sync";
 import forumRoutes from "./routes/forum";
 import contactRoutes from "./routes/contact";
 import aiRoutes from "./routes/ai";
-import path from "path";
+import caregiverRoutes from "./routes/caregiver";
 
 const app = express();
 
@@ -85,5 +86,10 @@ app.use("/api/sync", syncRoutes);
 app.use("/api/forum", forumRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/ai", aiRoutes);
+app.use("/api/caregivers", caregiverRoutes);
+
+// Error Handling
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 export default app;
