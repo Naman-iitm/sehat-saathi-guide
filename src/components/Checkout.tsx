@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { useOffline } from '@/hooks/useOffline';
+import { offlineDB } from '@/lib/offlineDB';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,8 +17,9 @@ const Checkout: React.FC = () => {
   const { t, language } = useLanguage();
   const { items, total, clearCart } = useCart();
   const { user } = useAuth();
+  const { isOnline } = useOffline();
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     fullName: '',
     phone: '',
@@ -32,17 +35,17 @@ const Checkout: React.FC = () => {
   const generateTrackingNumber = (): string => {
     return `TRK-${Math.floor(Math.random() * 1000000000).toString().padStart(9, '0')}`;
   };
-  
+
   // Helper function to calculate estimated delivery date (3-7 days from now)
   const calculateEstimatedDelivery = (): string => {
     const date = new Date();
     date.setDate(date.getDate() + Math.floor(Math.random() * 5) + 3); // 3-7 days from now
     return date.toISOString().split('T')[0];
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.fullName || !formData.phone || !formData.address || !formData.city || !formData.pincode) {
       toast.error(
         language === 'hi' ? 'कृपया सभी फ़ील्ड भरें' : 'Please fill all fields'
@@ -51,22 +54,22 @@ const Checkout: React.FC = () => {
     }
 
     setIsSubmitting(true);
-    
+
     if (!user) {
       toast.error(language === 'hi' ? 'कृपया पहले लॉगिन करें' : 'Please login first');
       navigate('/auth');
       return;
     }
-    
+
     // Simulate order processing
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    
+
     // Create order in user's order history
     try {
       const ordersKey = `user_orders_${user.id}`;
       const existingOrders = localStorage.getItem(ordersKey);
       let orders = existingOrders ? JSON.parse(existingOrders) : [];
-      
+
       // Convert cart items to order items
       const orderItems = items.map(item => ({
         id: item.id,
@@ -76,10 +79,10 @@ const Checkout: React.FC = () => {
         price: item.price,
         image: item.image
       }));
-      
+
       // Generate a new order ID
       const orderId = `#ORD-${new Date().toISOString().split('T')[0].replace(/-/g, '')}-${(orders.length + 1).toString().padStart(3, '0')}`;
-      
+
       // Create new order
       const newOrder = {
         id: Date.now().toString(),
@@ -101,17 +104,29 @@ const Checkout: React.FC = () => {
           }
         ]
       };
-      
+
       // Add new order to the beginning of the list
       orders.unshift(newOrder);
-      
+
       // Save updated orders to localStorage
       localStorage.setItem(ordersKey, JSON.stringify(orders));
+
+      // NEW: Queue for Sync if offline or always
+      await offlineDB.addToQueue({
+        type: 'order',
+        data: newOrder,
+        action: 'CREATE'
+      });
+
+      if (!isOnline) {
+        toast.info(language === 'hi' ? 'ऑर्डर ऑफ़लाइन सहेजा गया, इंटरनेट आने पर सिंक होगा' : 'Order saved offline, will sync when online');
+      }
+
     } catch (error) {
       console.error('Error saving order:', error);
       toast.error(language === 'hi' ? 'ऑर्डर सहेजने में त्रुटि' : 'Error saving order');
     }
-    
+
     setOrderPlaced(true);
     clearCart();
     toast.success(t.orderSuccess);

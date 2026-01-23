@@ -17,12 +17,14 @@ interface AuthContextType {
   logout: () => void;
   updateProfile: (updatedUser: User) => Promise<void>;
   isLoading: boolean;
+  token: string | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(localStorage.getItem('auth_token'));
   const [isLoading, setIsLoading] = useState(true);
   const [useBackend, setUseBackend] = useState(false);
 
@@ -37,7 +39,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       if (backendAvailable && token) {
         try {
-          const data = await authAPI.getMe();
+          const data: any = await authAPI.getMe();
           if (data.user) {
             setUser(data.user);
           }
@@ -69,9 +71,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
       if (useBackend) {
-        const data = await authAPI.login(email, password);
+        const data: any = await authAPI.login(email, password);
         if (data.user && data.token) {
           localStorage.setItem('auth_token', data.token);
+          setToken(data.token);
           setUser(data.user);
           return true;
         }
@@ -82,7 +85,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const savedUsers = localStorage.getItem('registeredUsers');
       const users = savedUsers ? JSON.parse(savedUsers) : [];
       const foundUser = users.find((u: User) => u.email === email);
-      
+
       if (foundUser) {
         setUser(foundUser);
         return true;
@@ -96,9 +99,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const register = async (name: string, email: string, phone: string, password: string): Promise<boolean> => {
     try {
       if (useBackend) {
-        const data = await authAPI.register(name, email, phone, password);
+        const data: any = await authAPI.register(name, email, phone, password);
         if (data.user && data.token) {
           localStorage.setItem('auth_token', data.token);
+          setToken(data.token);
           setUser(data.user);
           return true;
         }
@@ -126,6 +130,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const logout = () => {
     setUser(null);
+    setToken(null);
     localStorage.removeItem('user');
     localStorage.removeItem('auth_token');
   };
@@ -133,7 +138,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const updateProfile = async (updatedUser: User) => {
     try {
       if (useBackend) {
-        const data = await authAPI.updateProfile({
+        const data: any = await authAPI.updateProfile({
           name: updatedUser.name,
           phone: updatedUser.phone,
           profilePic: updatedUser.profilePic,
@@ -170,6 +175,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         logout,
         updateProfile,
         isLoading,
+        token,
       }}
     >
       {children}

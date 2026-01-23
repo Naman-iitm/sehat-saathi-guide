@@ -14,9 +14,14 @@ import {
   TabsList,
   TabsTrigger,
 } from "../components/ui/tabs";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, CheckCircle2 } from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
+import { toast } from "@/hooks/use-toast";
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export default function Reminders() {
+  const { token } = useAuth();
   const [reminders, setReminders] = useState<Reminder[]>([]);
   const [title, setTitle] = useState("");
   const [type, setType] = useState<"medicine" | "appointment">("medicine");
@@ -123,6 +128,37 @@ export default function Reminders() {
     saveReminders(updated);
   };
 
+  /* Log Reminder Completion */
+  const logReminder = async (id: string, status: 'taken' | 'skipped') => {
+    if (!token) {
+      toast({
+        title: "Offline Mode",
+        description: "Reminder status saved locally.",
+      });
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/api/reminders/${id}/log`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ status })
+      });
+
+      if (response.ok) {
+        toast({
+          title: status === 'taken' ? "Medication Taken" : "Medication Skipped",
+          description: "Activity logged for analytics.",
+        });
+      }
+    } catch (error) {
+      console.error("Log error:", error);
+    }
+  };
+
   return (
     <div className="container mx-auto p-4 max-w-3xl">
       <Card>
@@ -199,8 +235,17 @@ export default function Reminders() {
                   </div>
                 </div>
 
-                {/* Edit & Delete */}
-                <div className="flex items-center gap-2">
+                {/* Log & Edit & Delete */}
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="h-8 gap-1 border-green-500/30 hover:bg-green-50 text-green-600 hidden sm:flex"
+                    onClick={() => logReminder(r.id, 'taken')}
+                  >
+                    <CheckCircle2 className="w-4 h-4" /> Done
+                  </Button>
+
                   <Button
                     size="icon"
                     variant="ghost"

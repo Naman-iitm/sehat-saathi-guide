@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { LanguageProvider } from '@/contexts/LanguageContext';
+import { syncQueue } from "./lib/syncQueue";
 import { CartProvider } from '@/contexts/CartContext';
 import { AuthProvider } from '@/contexts/AuthContext';
 
@@ -18,10 +19,10 @@ import HealthTips from '@/components/HealthTips';
 import MedicineStore from '@/components/MedicineStore';
 import AIAssistant from '@/components/AIAssistant';
 import MedicalHistoryPage from '@/pages/MedicalHistory';
+import HealthDashboard from '@/pages/HealthDashboard';
 import LabTests from "./pages/LabTests";
 import LabTestDetails from "@/pages/LabTestDetails";
 import LabBooking from "@/pages/LabBooking";
-
 
 import SarkariYojana from '@/components/SarkariYojana';
 import NearbyHospitals from '@/components/NearbyHospitals';
@@ -109,6 +110,8 @@ const App = () => {
     // Simulate loading completion after a short delay
     const timer = setTimeout(() => {
       setLoading(false);
+      // Register Background Sync when app loads
+      syncQueue.registerBackgroundSync();
     }, 1000);
 
     return () => clearTimeout(timer);
@@ -161,6 +164,7 @@ const App = () => {
                       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                       <Route path="/terms-and-conditions" element={<TermsConditions />} />
                       <Route path="/offers" element={<Offers />} />
+                      <Route path="/analytics" element={<HealthDashboard />} />
                       <Route path="/notifications" element={<NotificationHistory />} />
                       <Route
                         path="/reminders"

@@ -1,36 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { WifiOff, Wifi } from 'lucide-react';
+import { WifiOff, Wifi, Cloud, RefreshCcw } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useOffline } from '@/hooks/useOffline';
+import { syncQueue } from '@/lib/syncQueue';
+import { Button } from './ui/button';
 
 const OfflineIndicator: React.FC = () => {
-    const [isOnline, setIsOnline] = useState(navigator.onLine);
+    const { isOnline, pendingCount } = useOffline();
     const [showReconnected, setShowReconnected] = useState(false);
+    const [isSyncing, setIsSyncing] = useState(false);
     const { language } = useLanguage();
 
     useEffect(() => {
-        const handleOnline = () => {
-            setIsOnline(true);
+        if (isOnline) {
             setShowReconnected(true);
-            // Hide the reconnected message after 3 seconds
-            setTimeout(() => setShowReconnected(false), 3000);
-        };
-
-        const handleOffline = () => {
-            setIsOnline(false);
+            const timer = setTimeout(() => setShowReconnected(false), 3000);
+            return () => clearTimeout(timer);
+        } else {
             setShowReconnected(false);
-        };
+        }
+    }, [isOnline]);
 
-        window.addEventListener('online', handleOnline);
-        window.addEventListener('offline', handleOffline);
+    const handleManualSync = async () => {
+        setIsSyncing(true);
+        await syncQueue.processQueue();
+        setIsSyncing(false);
+    };
 
-        return () => {
-            window.removeEventListener('online', handleOnline);
-            window.removeEventListener('offline', handleOffline);
-        };
-    }, []);
-
-    // Don't render anything if online and not showing reconnected message
-    if (isOnline && !showReconnected) {
+    if (isOnline && !showReconnected && pendingCount === 0) {
         return null;
     }
 
@@ -52,26 +49,54 @@ const OfflineIndicator: React.FC = () => {
         mai: "फेर ऑनलाइन!",
     };
 
+    const syncPendingText = {
+        en: `${pendingCount} item(s) pending sync`,
+        hi: `${pendingCount} आइटम सिंक होना बाकी है`,
+        bn: `${pendingCount} টি আইটেম সিঙ্ক বাকি আছে`,
+        mr: `${pendingCount} आयटम सिंक करणे बाकी आहे`,
+    };
+
     return (
         <div
-            className={`fixed top-0 left-0 right-0 z-[100] px-4 py-2 text-center text-sm font-medium transition-all duration-300 ${isOnline
+            className={`fixed top-0 left-0 right-0 z-[100] px-4 py-2 transition-all duration-300 ${isOnline && pendingCount > 0
+                ? 'bg-blue-500 text-white'
+                : isOnline
                     ? 'bg-green-500 text-white'
                     : 'bg-yellow-500 text-yellow-900'
                 }`}
             role="alert"
             aria-live="polite"
         >
-            <div className="flex items-center justify-center gap-2">
-                {isOnline ? (
-                    <>
-                        <Wifi className="w-4 h-4" />
-                        <span>{reconnectedText[language] || reconnectedText.en}</span>
-                    </>
-                ) : (
-                    <>
+            <div className="container mx-auto flex items-center justify-between gap-2 max-w-7xl">
+                <div className="flex items-center gap-2">
+                    {isOnline ? (
+                        pendingCount > 0 ? <Cloud className="w-4 h-4" /> : <Wifi className="w-4 h-4" />
+                    ) : (
                         <WifiOff className="w-4 h-4" />
-                        <span>{offlineText[language] || offlineText.en}</span>
-                    </>
+                    )}
+                    <span className="text-xs sm:text-sm font-medium">
+                        {isOnline
+                            ? (pendingCount > 0 ? (syncPendingText[language] || syncPendingText.en) : (reconnectedText[language] || reconnectedText.en))
+                            : (offlineText[language] || offlineText.en)
+                        }
+                    </span>
+                </div>
+
+                {isOnline && pendingCount > 0 && (
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleManualSync}
+                        disabled={isSyncing}
+                        className="h-7 px-2 text-xs bg-white/10 hover:bg-white/20 text-white border-none"
+                    >
+                        {isSyncing ? (
+                            <RefreshCcw className="w-3 h-3 animate-spin mr-1" />
+                        ) : (
+                            <Cloud className="w-3 h-3 mr-1" />
+                        )}
+                        Sync Now
+                    </Button>
                 )}
             </div>
         </div>

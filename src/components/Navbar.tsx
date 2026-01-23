@@ -66,6 +66,7 @@ const Navbar: React.FC = () => {
     { path: '/tips', label: t.healthTips, icon: Lightbulb },
     { path: '/store', label: t.medicineStore, icon: Store },
     { path: '/assistant', label: t.aiAssistant, icon: MessageCircle },
+    { path: '/analytics', label: 'Analytics', icon: Activity },
     { path: '/schemes', label: t.schemes, icon: Building },
     { path: '/nearby', label: t.nearbyHospitals, icon: MapPin },
     { path: '/reminders', label: 'Reminders', icon: '⏰' },

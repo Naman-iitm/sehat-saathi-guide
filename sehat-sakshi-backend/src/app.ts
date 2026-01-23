@@ -10,6 +10,7 @@ import remindersRoutes from "./routes/reminders";
 import notificationsRoutes from "./routes/notifications";
 import ordersRoutes from "./routes/orders";
 import analyticsRoutes from "./routes/analytics";
+import syncRoutes from "./routes/sync";
 import forumRoutes from "./routes/forum";
 import contactRoutes from "./routes/contact";
 
@@ -75,6 +76,7 @@ app.use("/api/reminders", remindersRoutes);
 app.use("/api/notifications", notificationsRoutes);
 app.use("/api/orders", ordersRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/sync", syncRoutes);
 app.use("/api/forum", forumRoutes);
 app.use("/api/contact", contactRoutes);
 
