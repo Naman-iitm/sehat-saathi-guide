@@ -22,7 +22,8 @@ const LabTestDetails = () => {
         <li>Doctor-friendly format</li>
       </ul>
 
-      <Link to={`/lab-tests/${id}/book`}>
+      <Link to={`/lab-booking/${id}`}>
+
         <Button className="w-full">Book Now</Button>
       </Link>
     </div>

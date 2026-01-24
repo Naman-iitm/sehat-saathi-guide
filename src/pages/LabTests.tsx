@@ -6,6 +6,7 @@ import {
   Home as HomeIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import React from "react";
 import { Link } from "react-router-dom";
 
 
@@ -134,7 +135,8 @@ const PackageCard = ({
     <p className="text-sm text-muted-foreground">{tests}</p>
     <div className="flex justify-between items-center mt-4">
       <span className="font-semibold text-primary">{price}</span>
-      <Link to="/lab-tests/full-body-checkup">
+      <Link to="/lab-tests/1">
+
         <Button size="sm">View</Button>
       </Link>
 
@@ -164,7 +166,8 @@ const TestCard = ({
 
     <div className="flex justify-between items-center mt-4">
       <span className="font-semibold">{price}</span>
-      <Link to="/lab-tests/cbc/book">
+      <Link to="/lab-booking/1">
+
         <Button size="sm">Book</Button>
       </Link>
 
