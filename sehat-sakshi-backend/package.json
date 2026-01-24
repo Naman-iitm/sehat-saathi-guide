@@ -18,6 +18,8 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@types/multer": "^2.0.0",
     "@types/nodemailer": "^7.0.5",
     "@types/socket.io": "^3.0.1",
     "bcryptjs": "^2.4.3",
@@ -29,6 +31,7 @@
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.21.0",
+    "multer": "^2.0.2",
     "node-cron": "^3.0.3",
     "socket.io": "^4.8.3",
     "twilio": "^5.11.2",

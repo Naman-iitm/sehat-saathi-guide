@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
+import path from "path";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler";
 import { generalLimiter } from "./middleware/rateLimiter";
 import authRoutes from "./routes/auth";
@@ -15,7 +16,6 @@ import forumRoutes from "./routes/forum";
 import contactRoutes from "./routes/contact";
 import aiRoutes from "./routes/ai";
 import caregiverRoutes from "./routes/caregiver";
-import path from "path";
 
 const app = express();
 
@@ -51,6 +51,9 @@ app.use(
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
+// Serve static uploads
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+
 // Request ID middleware
 app.use((req, _res, next) => {
   req.id = req.headers["x-request-id"] as string ||
@@ -84,5 +87,9 @@ app.use("/api/forum", forumRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/caregivers", caregiverRoutes);
+
+// Error Handling
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 export default app;
