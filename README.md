@@ -228,9 +228,9 @@ Contributions are what make the open-source community such an amazing place to l
 
 | Level | Description | Points | Badge |
 |-------|-------------|--------|-------|
-| 🥉 Beginner | Fix typos, update docs, minor bug fixes | 5-10 |  |
-| 🥈 Intermediate | Add features, improve UI/UX, performance | 15-25 |  |
-| 🥇 Advanced | Major features, architecture improvements | 30-50 |  |
+| 🥉 Beginner | Fix typos, update docs, minor bug fixes | 3 |  |
+| 🥈 Intermediate | Add features, improve UI/UX, performance | 7 |  |
+| 🥇 Advanced | Major features, architecture improvements | 10 |  |
 
 ---
 
