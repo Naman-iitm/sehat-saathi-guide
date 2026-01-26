@@ -5,10 +5,12 @@ export interface ISOSAlert extends Document {
     location: {
         latitude: number;
         longitude: number;
+        address?: string;
     };
-    status: 'active' | 'resolved';
+    status: 'active' | 'resolved' | 'false_alarm';
+    notifiedContacts: string[]; // List of contact info notified
+    triggerTime: Date;
     resolvedAt?: Date;
-    notifiedContacts: mongoose.Types.ObjectId[];
     createdAt: Date;
 }
 
@@ -17,10 +19,12 @@ const sosAlertSchema = new Schema<ISOSAlert>({
     location: {
         latitude: { type: Number, required: true },
         longitude: { type: Number, required: true },
+        address: { type: String },
     },
-    status: { type: String, enum: ['active', 'resolved'], default: 'active' },
+    status: { type: String, enum: ['active', 'resolved', 'false_alarm'], default: 'active' },
+    notifiedContacts: [{ type: String }],
+    triggerTime: { type: Date, default: Date.now },
     resolvedAt: { type: Date },
-    notifiedContacts: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     createdAt: { type: Date, default: Date.now },
 });
 

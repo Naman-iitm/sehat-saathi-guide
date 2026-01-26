@@ -46,6 +46,8 @@ import CaregiverDashboard from "@/pages/CaregiverDashboard";
 import ContactUs from "@/pages/ContactUs";
 import Dashboard from "@/pages/Dashboard";
 import RequireAuth from "@/components/RequireAuth";
+import CaregiverDashboard from "@/pages/CaregiverDashboard";
+import PrescriptionOCR from "@/pages/PrescriptionOCR";
 
 const queryClient = new QueryClient();
 
@@ -143,6 +145,22 @@ const App = () => {
                         element={
                           <RequireAuth>
                             <Dashboard />
+                          </RequireAuth>
+                        }
+                      />
+                      <Route
+                        path="/caregivers"
+                        element={
+                          <RequireAuth>
+                            <CaregiverDashboard />
+                          </RequireAuth>
+                        }
+                      />
+                      <Route
+                        path="/prescription-ocr"
+                        element={
+                          <RequireAuth>
+                            <PrescriptionOCR />
                           </RequireAuth>
                         }
                       />

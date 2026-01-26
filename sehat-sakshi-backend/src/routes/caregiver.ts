@@ -1,12 +1,10 @@
-import { Router, Response } from "express";
-import { protect, AuthRequest } from "../middleware/auth";
-import { Caregiver } from "../models/Caregiver";
-import { User } from "../models/User";
-import { SOSAlert } from "../models/SOSAlert";
-import { asyncHandler } from "../middleware/errorHandler";
-import { BadRequestError, NotFoundError } from "../utils/errors";
-// Note: In a real implementation, we would import the initialized socket handler instance here
-// to emit real-time events. For this MVP, we focus on the REST API and data structure.
+import { Router, Response } from 'express';
+import { protect, AuthRequest } from '../middleware/auth';
+import { Caregiver } from '../models/Caregiver';
+import { User } from '../models/User';
+import { SOSAlert } from '../models/SOSAlert';
+import { asyncHandler } from '../middleware/errorHandler';
+import { BadRequestError, NotFoundError } from '../utils/errors';
 
 const router = Router();
 
@@ -15,120 +13,131 @@ const router = Router();
  * @desc    Invite a caregiver by email
  * @access  Private (Patient)
  */
-router.post(
-    "/invite",
-    protect,
-    asyncHandler(async (req: AuthRequest, res: Response) => {
-        const { email, relationship, permissions } = req.body;
-        const patientId = (req.user as any)._id;
+router.post('/invite', protect, asyncHandler(async (req: AuthRequest, res: Response) => {
+    const { email, relationship, name, permissions } = req.body;
 
-        const caregiverUser = await User.findOne({ email });
-        if (!caregiverUser) {
-            throw new NotFoundError("User with this email not found", "User");
-        }
+    if (!req.user) {
+        res.status(401);
+        throw new Error("User not authenticated");
+    }
 
-        if (caregiverUser._id.toString() === patientId.toString()) {
-            throw new BadRequestError("You cannot invite yourself");
-        }
+    const patientId = (req.user as any)._id;
 
-        const existingLink = await Caregiver.findOne({
-            patientId,
-            caregiverId: caregiverUser._id,
-        });
+    if (email === req.user.email) {
+        throw new BadRequestError("You cannot invite yourself as a caregiver.");
+    }
 
-        if (existingLink) {
-            throw new BadRequestError("Caregiver already added or invited");
-        }
+    // Check if user exists
+    const existingUser = await User.findOne({ email });
 
-        const newCaregiver = await Caregiver.create({
-            patientId,
-            caregiverId: caregiverUser._id,
-            relationship,
-            permissions,
-            status: "pending", // Caregiver must accept
-        });
+    // Check if already invited
+    const existingLink = await Caregiver.findOne({
+        patientId,
+        caregiverEmail: email,
+    });
 
-        res.status(201).json({
-            success: true,
-            data: newCaregiver,
-            message: "Invitation sent successfully",
-        });
-    })
-);
+    if (existingLink) {
+        throw new BadRequestError("Caregiver already added or invited.");
+    }
+
+    const invitation = await Caregiver.create({
+        patientId,
+        caregiverId: existingUser?._id, // Link if user exists
+        caregiverEmail: email,
+        name: existingUser?.name || name || "Pending Caregiver",
+        relationship: relationship || "Family",
+        permissions: permissions || {
+            canViewSymptoms: true,
+            canViewMedicines: true,
+            canViewVitals: true,
+            canViewAppointments: true,
+            canReceiveAlerts: true,
+            canReceiveSOS: true,
+        },
+        status: 'pending'
+    });
+
+    // TODO: Send email invitation via EmailService
+
+    res.status(201).json({
+        success: true,
+        data: invitation,
+        message: "Invitation sent successfully."
+    });
+}));
 
 /**
  * @route   GET /api/caregivers
  * @desc    Get list of my caregivers (for Patient)
  * @access  Private
  */
-router.get(
-    "/",
-    protect,
-    asyncHandler(async (req: AuthRequest, res: Response) => {
-        const patientId = (req.user as any)._id;
-        const caregivers = await Caregiver.find({ patientId }).populate("caregiverId", "name email phone profilePic");
-
-        res.json({ success: true, data: caregivers });
-    })
-);
+router.get('/', protect, asyncHandler(async (req: AuthRequest, res: Response) => {
+    if (!req.user) throw new Error("User not found");
+    const patientId = (req.user as any)._id;
+    const caregivers = await Caregiver.find({ patientId }).populate("caregiverId", "name email phone profilePic");
+    res.json({ success: true, data: caregivers });
+}));
 
 /**
  * @route   GET /api/caregivers/patients
  * @desc    Get list of patients I care for (for Caregiver)
  * @access  Private
  */
-router.get(
-    "/patients",
-    protect,
-    asyncHandler(async (req: AuthRequest, res: Response) => {
-        const caregiverId = (req.user as any)._id;
-        const patients = await Caregiver.find({
-            caregiverId,
-            status: "active"
-        }).populate("patientId", "name email phone profilePic");
+router.get('/patients', protect, asyncHandler(async (req: AuthRequest, res: Response) => {
+    if (!req.user) throw new Error("User not found");
+    const caregiverId = (req.user as any)._id;
+    const caregiverEmail = req.user.email;
 
-        res.json({ success: true, data: patients });
-    })
-);
+    // Find where I am the caregiver (by ID or Email)
+    const records = await Caregiver.find({
+        $or: [
+            { caregiverId: caregiverId },
+            { caregiverEmail: caregiverEmail }
+        ],
+        status: 'active'
+    }).populate('patientId', 'name email phone profilePic');
+
+    res.json({ success: true, data: records });
+}));
 
 /**
  * @route   POST /api/caregivers/sos
  * @desc    Trigger SOS alert
  * @access  Private
  */
-router.post(
-    "/sos",
-    protect,
-    asyncHandler(async (req: AuthRequest, res: Response) => {
-        const { location } = req.body;
-        const patientId = (req.user as any)._id;
+router.post('/sos', protect, asyncHandler(async (req: AuthRequest, res: Response) => {
+    if (!req.user) throw new Error("User not found");
+    const { location } = req.body;
+    const patientId = (req.user as any)._id;
 
-        // 1. Create Alert
-        const alert = await SOSAlert.create({
-            userId: patientId,
-            location,
-            status: "active",
-        });
+    // 1. Log the alert
+    const alert = await SOSAlert.create({
+        userId: patientId,
+        location,
+        status: 'active',
+        notifiedContacts: []
+    });
 
-        // 2. Notify Caregivers (Logic should use Twilio/Socket here)
-        // For MVP, we just fetch them to show we know who to notify
-        const caregivers = await Caregiver.find({
-            patientId,
-            status: "active",
-            "permissions.canReceiveAlerts": true
-        }).populate("caregiverId", "phone");
+    // 2. Notify Caregivers 
+    const caregivers = await Caregiver.find({
+        patientId,
+        status: 'active',
+        "permissions.canReceiveAlerts": true
+    });
 
-        // Mock Twilio SMS sending
-        caregivers.forEach(c => {
-            console.log(`[MOCK SMS] To ${(c.caregiverId as any).phone}: SOS! Patient needs help at ${location?.latitude}, ${location?.longitude}`);
-        });
+    const contacts = caregivers.map(c => c.caregiverEmail);
 
-        res.status(201).json({
-            success: true,
-            data: alert,
-            message: "SOS Alert broadcasted to all active caregivers",
-        });
-    })
-);
+    // Mock sending SMS/Notifications
+    console.log(`[Twilio MOCK] Sending SOS to: ${contacts.join(', ')}`);
+
+    alert.notifiedContacts = contacts;
+    await alert.save();
+
+    res.status(201).json({
+        success: true,
+        data: alert,
+        message: "SOS Alert broadcasted to all active caregivers"
+    });
+}));
 
 export default router;

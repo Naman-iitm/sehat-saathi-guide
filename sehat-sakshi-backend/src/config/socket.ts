@@ -1,6 +1,7 @@
 import { Server as HttpServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import { setupSignalingHandler } from '../sockets/signalingHandler';
+import { setupCaregiverHandler } from '../sockets/caregiverHandler';
 import logger from './logger';
 import jwt from 'jsonwebtoken';
 import { env } from './env';
@@ -24,6 +25,9 @@ export const initSocket = (server: HttpServer) => {
     // Setup WebRTC signaling handler
     setupSignalingHandler(io);
 
+    // Setup Caregiver real-time handler
+    setupCaregiverHandler(io);
+
     // Setup notification authentication handler
     io.on('connection', (socket: Socket) => {
         // Authenticate socket connection for notifications
@@ -31,13 +35,13 @@ export const initSocket = (server: HttpServer) => {
             try {
                 const decoded = jwt.verify(token, env.JWT_SECRET) as any;
                 const userId = decoded.id || decoded._id;
-                
+
                 if (userId) {
                     // Join user-specific room for notifications
                     socket.join(`user:${userId}`);
                     socket.data.userId = userId;
                     logger.info(`Socket authenticated for notifications - user: ${userId}, socket: ${socket.id}`);
-                    
+
                     socket.emit('authenticated', { success: true });
                 } else {
                     socket.emit('authenticated', { success: false, error: 'Invalid token' });

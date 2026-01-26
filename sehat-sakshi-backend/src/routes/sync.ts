@@ -1,7 +1,10 @@
 import { Router, Response } from 'express';
 import { protect, AuthRequest } from '../middleware/auth';
-import SymptomLog from '../models/SymptomLog';
-import ReminderLog from '../models/ReminderLog';
+import { SymptomLog } from '../models/SymptomLog';
+import { Reminder } from '../models/Reminder';
+import { ReminderLog } from '../models/ReminderLog';
+import { Order } from '../models/Order';
+import { asyncHandler } from '../middleware/errorHandler';
 
 const router = Router();
 
@@ -9,61 +12,78 @@ const router = Router();
  * @route   POST /api/sync/bulk
  * @desc    Receive batched offline data from frontend
  */
-router.post('/bulk', protect, async (req: AuthRequest, res: Response) => {
-    try {
-        const userId = (req.user as any)._id;
-        const { items } = req.body;
-
-        if (!items || !Array.isArray(items)) {
-            return res.status(400).json({ message: 'Invalid sync data' });
-        }
-
-        const syncedIds: number[] = [];
-
-        for (const item of items) {
-            try {
-                if (item.type === 'symptom') {
-                    // Conflict resolution: Check if a similar entry exists (e.g., same timestamp)
-                    // For now, we just create new entries if they don't exist
-                    const newSymptom = new SymptomLog({
-                        userId,
-                        ...item.data,
-                        createdAt: new Date(item.timestamp)
-                    });
-                    await newSymptom.save();
-                    syncedIds.push(item.id);
-                }
-                else if (item.type === 'reminder_log') {
-                    const newLog = new ReminderLog({
-                        userId,
-                        ...item.data,
-                        createdAt: new Date(item.timestamp)
-                    });
-                    await newLog.save();
-                    syncedIds.push(item.id);
-                }
-                else if (item.type === 'order') {
-                    // This assumes we have an Order model
-                    // For now, we'll log it. In a real app, we'd save it to orders collection.
-                    console.log('Syncing order:', item.data);
-                    syncedIds.push(item.id);
-                }
-                // Add more types here as needed (e.g., orders)
-            } catch (err) {
-                console.error(`Failed to sync item ${item.id}:`, err);
-                // Continue with other items
-            }
-        }
-
-        res.json({
-            message: 'Sync completed',
-            syncedCount: syncedIds.length,
-            syncedIds
-        });
-    } catch (error) {
-        console.error('Bulk sync error:', error);
-        res.status(500).json({ message: 'Server error during sync' });
+router.post('/bulk', protect, asyncHandler(async (req: AuthRequest, res: Response) => {
+    if (!req.user) {
+        res.status(401);
+        throw new Error("User not authenticated");
     }
-});
+
+    const userId = (req.user as any)._id;
+    const { items } = req.body;
+
+    if (!items || !Array.isArray(items)) {
+        res.status(400);
+        throw new Error("Invalid sync data format. 'items' array is required.");
+    }
+
+    const results = {
+        success: 0,
+        failed: 0,
+        syncedIds: [] as any[],
+        errors: [] as any[]
+    };
+
+    for (const item of items) {
+        try {
+            const timestamp = item.timestamp || item.data?.createdAt || new Date();
+
+            switch (item.type) {
+                case 'symptom':
+                    await SymptomLog.create({
+                        ...item.data,
+                        userId,
+                        createdAt: new Date(timestamp)
+                    });
+                    break;
+
+                case 'reminder_log':
+                    await ReminderLog.create({
+                        ...item.data,
+                        userId,
+                        takenAt: item.data?.takenAt || new Date(timestamp)
+                    });
+                    break;
+
+                case 'order':
+                    await Order.create({
+                        ...item.data,
+                        userId,
+                        status: 'pending',
+                        paymentStatus: 'pending',
+                        createdAt: item.data?.createdAt || new Date(timestamp)
+                    });
+                    break;
+
+                default:
+                    console.warn(`Unknown sync item type: ${item.type}`);
+                    continue; // Skip tracked IDs for unknown types
+            }
+            results.success++;
+            results.syncedIds.push(item.id);
+        } catch (error: any) {
+            console.error(`Sync failed for item ${item.id}:`, error);
+            results.failed++;
+            results.errors.push({ id: item.id, error: error.message });
+        }
+    }
+
+    res.json({
+        success: true,
+        message: `Synced ${results.success} items. Failed: ${results.failed}`,
+        syncedCount: results.success,
+        syncedIds: results.syncedIds,
+        results
+    });
+}));
 
 export default router;

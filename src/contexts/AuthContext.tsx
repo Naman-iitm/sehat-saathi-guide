@@ -7,17 +7,18 @@ interface User {
   email: string;
   phone: string;
   profilePic?: string;
+  reputationPoints?: number;
 }
 
 interface AuthContextType {
   user: User | null;
+  token: string | null;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<boolean>;
   register: (name: string, email: string, phone: string, password: string) => Promise<boolean>;
   logout: () => void;
   updateProfile: (updatedUser: User) => Promise<void>;
   isLoading: boolean;
-  token: string | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -34,17 +35,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const backendAvailable = await checkBackendHealth();
       setUseBackend(backendAvailable);
 
-      const token = localStorage.getItem('auth_token');
+      const savedToken = localStorage.getItem('auth_token');
       const savedUser = localStorage.getItem('user');
 
-      if (backendAvailable && token) {
+      if (backendAvailable && savedToken) {
         try {
           const data: any = await authAPI.getMe();
           if (data.user) {
             setUser(data.user);
+            setToken(savedToken);
           }
         } catch {
           localStorage.removeItem('auth_token');
+          setToken(null);
           if (savedUser) {
             setUser(JSON.parse(savedUser));
           }
@@ -169,13 +172,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     <AuthContext.Provider
       value={{
         user,
+        token,
         isAuthenticated: !!user,
         login,
         register,
         logout,
         updateProfile,
         isLoading,
-        token,
       }}
     >
       {children}
