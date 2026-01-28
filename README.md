@@ -266,7 +266,36 @@ Contributions are what make the open-source community such an amazing place to l
 
 ---
 
-## 📄 LICENSE
+## � EWOCS 2025 Guidelines
+
+### 📋 For Participants
+
+#### ✅ Do's
+- Read documentation thoroughly before contributing
+- Follow code style and project structure
+- Write descriptive commit messages
+- Test your changes before submitting PR
+- Be respectful and collaborative
+- Ask questions if you're unsure about anything
+
+#### ❌ Don'ts
+- Don't spam with multiple PRs for same issue
+- Don't copy code without understanding
+- Don't make unnecessary changes
+- Don't ignore code review feedback
+- Don't forget to update documentation when needed
+
+### 🎯 Contribution Levels
+
+| Level | Description | Points | Badge |
+|-------|-------------|--------|-------|
+| 🥉 Beginner | Fix typos, update docs, minor bug fixes | 3 |  |
+| 🥈 Intermediate | Add features, improve UI/UX, performance | 7 |  |
+| 🥇 Advanced | Major features, architecture improvements | 10 |  |
+
+---
+
+## �📄 LICENSE
 
 Distributed under the MIT License. See `LICENSE` for more information (coming soon).
 
