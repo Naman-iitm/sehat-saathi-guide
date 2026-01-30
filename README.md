@@ -281,3 +281,6 @@ Distributed under the MIT License. See `LICENSE` for more information (coming so
 ---
 
 <p align="center">Made with ❤️ for a healthier community</p>
+
+
+<!-- Issue #325 addressed -->
