@@ -248,8 +248,8 @@ const Navbar: React.FC = () => {
                     )}
 
                     {navItems.map((item) => {
-                      const Icon = typeof item.icon === 'string' ? Activity : item.icon;
                       const isStrIcon = typeof item.icon === 'string';
+                      const Icon = item.icon as React.ElementType;
 
                       return (
                         <Link key={item.path} to={item.path} onClick={() => setIsOpen(false)}>
@@ -257,11 +257,7 @@ const Navbar: React.FC = () => {
                             variant={isActive(item.path) ? 'secondary' : 'ghost'}
                             className={`w-full justify-start gap-4 h-11 ${isActive(item.path) ? 'font-semibold' : ''}`}
                           >
-                            {isStrIcon ? (
-                              <span className="text-lg">{item.icon as string}</span>
-                            ) : (
-                              <Icon className="w-5 h-5" />
-                            )}
+                            {isStrIcon ? <span className="text-lg">{item.icon as string}</span> : <Icon className="w-5 h-5" />}
                             {item.label}
                           </Button>
                         </Link>
@@ -279,17 +275,19 @@ const Navbar: React.FC = () => {
                       {isDark ? 'Light Mode' : 'Dark Mode'}
                     </Button>
 
-                    {!isAuthenticated ? (
-                      <Link to="/auth" onClick={() => setIsOpen(false)} className="mt-4">
-                        <Button className="w-full">Log In / Sign Up</Button>
-                      </Link>
-                    ) : (
-                      <Button variant="destructive" className="w-full justify-start gap-4 text-destructive hover:text-destructive hover:bg-destructive/10 mt-2" onClick={() => { logout(); setIsOpen(false); }}>
-                        <LogOut className="w-5 h-5" />
-                        {t.logout}
-                      </Button>
-                    )}
+                    {
+                      !isAuthenticated ? (
+                        <Link to="/auth" onClick={() => setIsOpen(false)} className="mt-4">
+                          <Button className="w-full">Log In / Sign Up</Button>
+                        </Link>
+                      ) : (
+                        <Button variant="ghost" className="w-full justify-start gap-4 text-destructive hover:text-destructive hover:bg-destructive/10 mt-2" onClick={() => { logout(); setIsOpen(false); }}>
+                          <LogOut className="w-5 h-5" />
+                          {t.logout}
+                        </Button>
+                      )}
                   </div>
+
                 </SheetContent>
               </Sheet>
             </div>
@@ -303,8 +301,8 @@ const Navbar: React.FC = () => {
           <div className="flex items-center gap-1 h-12 overflow-hidden">
             {navItems.map((item) => {
               const active = isActive(item.path);
-              const Icon = typeof item.icon === 'string' ? Activity : item.icon;
               const isStrIcon = typeof item.icon === 'string';
+              const Icon = item.icon as React.ElementType;
 
               return (
                 <Link

@@ -83,7 +83,7 @@ In many communities, healthcare information and mental wellness resources are of
 - 🏛️ **Sarkari Yojana**: Stay updated on government health schemes, eligibility criteria, and application processes.
 - 🏥 **Nearby Hospitals**: Locate Primary Health Centres (PHC), Community Health Centres (CHC), and District Hospitals using geolocation.
 - 🌍 **Multi-language Support**: Fully localized experience for diverse linguistic needs across India.
-- 📱 **Progressive Design**: Fully responsive, mobile-first design optimized for low-bandwidth environments.
+- 📱 **Progressive Web App (PWA)**: Install on mobile/desktop, works offline, and auto-updates for seamless access even in low-connectivity areas.
 
 ---
 
@@ -107,6 +107,7 @@ Sehat Saathi is built to be inclusive. We currently support the following langua
 - **Rule-Based Triage**: The symptom tracker uses a sophisticated evaluator (`src/lib/triage/evaluator.ts`) that matches user symptoms against predefined medical rules to suggest urgency levels.
 - **Accessible UI**: Built using [Radix UI](https://www.radix-ui.com/) primitives via [shadcn/ui](https://ui.shadcn.com/), ensuring high accessibility (WAI-ARIA) standards.
 - **Type Safety**: 100% TypeScript coverage for robust state management and API interactions.
+- **PWA with Offline Support**: Service worker caching via Workbox enables offline access and faster load times.
 - **Performance**: Optimized asset delivery and fast refresh using Vite and Bun, ensuring the app remains lightweight for mobile users.
 
 ---

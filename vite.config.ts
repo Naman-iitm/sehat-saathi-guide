@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import { fileURLToPath } from "url";
 import { componentTagger } from "lovable-tagger";
 import { VitePWA } from "vite-plugin-pwa";
 
@@ -14,33 +15,10 @@ export default defineConfig(({ mode }) => ({
     react(),
     mode === "development" && componentTagger(),
     VitePWA({
-      registerType: "autoUpdate",
       includeAssets: ["health-care.png", "faviconn.ico"],
-      manifest: {
-        name: "Sehat Saathi",
-        short_name: "Sehat Saathi",
-        description: "Your Multilingual Healthcare Companion - Empowering communities through accessible healthcare information",
-        theme_color: "#16a34a",
-        background_color: "#ffffff",
-        display: "standalone",
-        orientation: "portrait-primary",
-        start_url: "/",
-        icons: [
-          {
-            src: "/health-care.png",
-            sizes: "192x192",
-            type: "image/png",
-            purpose: "any maskable",
-          },
-          {
-            src: "/health-care.png",
-            sizes: "512x512",
-            type: "image/png",
-            purpose: "any maskable",
-          },
-        ],
-      },
+      manifest: false,
       workbox: {
+        maximumFileSizeToCacheInBytes: 3000000,
         globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
         runtimeCaching: [
           {
@@ -91,7 +69,7 @@ export default defineConfig(({ mode }) => ({
   ].filter(Boolean),
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(path.dirname(fileURLToPath(import.meta.url)), "./src"),
     },
   },
 }));

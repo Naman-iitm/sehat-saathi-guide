@@ -2,11 +2,12 @@
     "name": "Sehat Saathi",
     "short_name": "Sehat Saathi",
     "description": "Your Multilingual Healthcare Companion - Empowering communities through accessible healthcare information",
-    "start_url": "/",
-    "display": "standalone",
-    "background_color": "#ffffff",
     "theme_color": "#16a34a",
-    "orientation": "portrait-primary",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "orientation": "portrait",
+    "id": "/",
+    "start_url": "/",
     "icons": [
         {
             "src": "/health-care.png",
@@ -19,6 +20,82 @@
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/screenshots/home.png",
+            "sizes": "1080x1920",
+            "type": "image/png",
+            "form_factor": "narrow"
+        },
+        {
+            "src": "/screenshots/symptoms.png",
+            "sizes": "1080x1920",
+            "type": "image/png",
+            "form_factor": "narrow"
+        },
+        {
+            "src": "/screenshots/store.png",
+            "sizes": "1080x1920",
+            "type": "image/png",
+            "form_factor": "narrow"
+        },
+        {
+            "src": "/screenshots/ai-assistant.png",
+            "sizes": "1080x1920",
+            "type": "image/png",
+            "form_factor": "narrow"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Emergency SOS",
+            "short_name": "SOS",
+            "description": "Find nearby hospitals quickly",
+            "url": "/nearby",
+            "icons": [
+                {
+                    "src": "/health-care.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Log Symptoms",
+            "short_name": "Symptoms",
+            "description": "Track your health symptoms",
+            "url": "/symptoms",
+            "icons": [
+                {
+                    "src": "/health-care.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Health Advice",
+            "short_name": "Advice",
+            "description": "Get AI health tips",
+            "url": "/assistant",
+            "icons": [
+                {
+                    "src": "/health-care.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Buy Medicines",
+            "short_name": "Medicines",
+            "description": "Order medicines online",
+            "url": "/store",
+            "icons": [
+                {
+                    "src": "/health-care.png",
+                    "sizes": "192x192"
+                }
+            ]
         }
     ],
     "categories": [

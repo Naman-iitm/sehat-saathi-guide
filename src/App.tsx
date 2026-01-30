@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import ReloadPrompt from '@/components/ReloadPrompt';
+import InstallPrompt from '@/components/InstallPrompt';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -7,7 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { syncQueue } from "./lib/syncQueue";
-import { CartProvider } from '@/contexts/CartContext';
+import { CartProvider, useCart } from '@/contexts/CartContext';
 import { AuthProvider } from '@/contexts/AuthContext';
 
 import LoadingScreen from '@/components/LoadingScreen';
@@ -48,6 +50,23 @@ import Dashboard from "@/pages/Dashboard";
 import RequireAuth from "@/components/RequireAuth";
 
 const queryClient = new QueryClient();
+
+// Component to handle app badging
+const AppBadging = () => {
+  const { itemCount } = useCart();
+
+  useEffect(() => {
+    // Only access navigator properties if they exist
+    const nav = navigator as any;
+    if (nav.setAppBadge && itemCount > 0) {
+      nav.setAppBadge(itemCount);
+    } else if (nav.clearAppBadge) {
+      nav.clearAppBadge();
+    }
+  }, [itemCount]);
+
+  return null;
+};
 
 // Component to scroll to top on route change
 const ScrollToTopOnRouteChange = () => {
@@ -132,8 +151,11 @@ const App = () => {
                 <Toaster />
                 <Sonner />
                 <BrowserRouter>
+                  <AppBadging />
                   <ScrollToTopOnRouteChange />
                   <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
+                    <ReloadPrompt />
+                    <InstallPrompt />
                     <OfflineIndicator />
                     <Navbar />
                     <Routes>
