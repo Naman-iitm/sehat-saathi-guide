@@ -25,6 +25,7 @@ import {
   FileText,
   Sparkles,
   HelpCircle,
+  ScanEye
 } from 'lucide-react';
 
 import { medicines } from '@/data/medicines';
@@ -139,8 +140,16 @@ const Index: React.FC = () => {
       label: t.aiAssistant,
       labelHi: 'AI सहायक',
       descHi: 'स्वास्थ्य मार्गदर्शन',
-      descEn: 'Health guidance',
-      icon: Bot,
+      descEn: 'Health info',
+      icon: Stethoscope,
+    },
+    {
+      path: '/prescription-ocr',
+      label: 'Prescription OCR',
+      labelHi: 'पर्चा स्कैन',
+      descHi: 'एआई से पर्चा पढ़ें',
+      descEn: 'AI prescription scannner',
+      icon: ScanEye,
     },
     {
       path: '/schemes',
@@ -276,9 +285,9 @@ const Index: React.FC = () => {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
           {features.map((feature) => (
-          <Link key={feature.path} to={feature.path}>
-  <Card
-    className="
+            <Link key={feature.path} to={feature.path}>
+              <Card
+                className="
       relative group h-full
       rounded-2xl
       bg-card
@@ -296,35 +305,35 @@ const Index: React.FC = () => {
       hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.75)]
       hover:border-emerald-400/50
     "
-  >
-    <CardContent className="relative p-0">
+              >
+                <CardContent className="relative p-0">
 
-      
-      <div
-        className="
+
+                  <div
+                    className="
           absolute inset-0
           opacity-0 group-hover:opacity-100
           transition-opacity duration-500
           bg-[radial-gradient(circle_at_50%_0%,rgba(16,185,129,0.25),transparent_65%)]
           pointer-events-none
         "
-      />
+                  />
 
-      
-      <div
-        className="
+
+                  <div
+                    className="
           absolute inset-0
           opacity-0 group-hover:opacity-100
           transition-opacity duration-500
           bg-gradient-to-br from-emerald-400/10 via-transparent to-transparent
           pointer-events-none
         "
-      />
+                  />
 
-      {/* icon section */}
-      <div className="relative bg-primary/10 p-4 sm:p-6 text-center">
-        <div
-          className="
+                  {/* icon section */}
+                  <div className="relative bg-primary/10 p-4 sm:p-6 text-center">
+                    <div
+                      className="
             inline-flex rounded-xl p-3
             transition-all duration-500
             group-hover:scale-110
@@ -332,45 +341,45 @@ const Index: React.FC = () => {
             group-hover:shadow-[0_12px_30px_rgba(16,185,129,0.45)]
             bg-primary/10
           "
-        >
-          <feature.icon className="w-8 sm:w-12 h-8 sm:h-12 text-primary" />
-        </div>
-      </div>
+                    >
+                      <feature.icon className="w-8 sm:w-12 h-8 sm:h-12 text-primary" />
+                    </div>
+                  </div>
 
-      {/* content */}
-      <div className="relative p-3 sm:p-4 text-center space-y-1">
-        <h3
-          className="
+                  {/* content */}
+                  <div className="relative p-3 sm:p-4 text-center space-y-1">
+                    <h3
+                      className="
             font-medium text-xs sm:text-sm line-clamp-2
             transition-colors duration-300
             group-hover:text-primary
           "
-        >
-          {language === 'hi' ? feature.labelHi : feature.label}
-        </h3>
+                    >
+                      {language === 'hi' ? feature.labelHi : feature.label}
+                    </h3>
 
-        <p className="text-xs text-muted-foreground line-clamp-2">
-          {language === 'hi' ? feature.descHi : feature.descEn}
-        </p>
+                    <p className="text-xs text-muted-foreground line-clamp-2">
+                      {language === 'hi' ? feature.descHi : feature.descEn}
+                    </p>
 
-        <div className="mt-3 flex items-center justify-center gap-1 text-primary">
-          <span className="text-xs sm:text-sm">{
-            language === 'hi' ? 'खोलें' : 'Open'
-          }</span>
+                    <div className="mt-3 flex items-center justify-center gap-1 text-primary">
+                      <span className="text-xs sm:text-sm">{
+                        language === 'hi' ? 'खोलें' : 'Open'
+                      }</span>
 
-          <ArrowRight
-            className="
+                      <ArrowRight
+                        className="
               w-4 h-4
               transition-transform duration-300
               group-hover:translate-x-1
             "
-          />
-        </div>
-      </div>
+                      />
+                    </div>
+                  </div>
 
-    </CardContent>
-  </Card>
-</Link>
+                </CardContent>
+              </Card>
+            </Link>
 
           ))}
         </div>
