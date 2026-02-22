@@ -48,6 +48,7 @@ import Dashboard from "@/pages/Dashboard";
 import RequireAuth from "@/components/RequireAuth";
 import CaregiverDashboard from "@/pages/CaregiverDashboard";
 import PrescriptionOCR from "@/pages/PrescriptionOCR";
+import Feedback from "@/pages/Feedback";
 
 const queryClient = new QueryClient();
 
@@ -180,6 +181,7 @@ const App = () => {
                       <Route path="/auth" element={<Auth />} />
                       <Route path="/profile" element={<Profile />} />
                       <Route path="/edit-profile" element={<EditProfile />} />
+                      <Route path="/feedback" element={<Feedback />} />
                       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                       <Route path="/terms-and-conditions" element={<TermsConditions />} />
                       <Route path="/offers" element={<Offers />} />

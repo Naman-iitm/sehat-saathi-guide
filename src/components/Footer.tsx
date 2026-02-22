@@ -358,6 +358,14 @@ const Footer: React.FC = () => {
                                     {t.sarkariYojana}
                                 </Link>
                             </li>
+                            <li>
+                              <Link
+                                to="/feedback"
+                                className="text-muted-foreground hover:text-primary text-sm"
+                              >
+                                Feedback
+                              </Link>
+                            </li>
                         </ul>
                     </div>
 
