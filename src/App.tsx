@@ -44,9 +44,11 @@ import HelpArticle from '@/pages/HelpArticle';
 import VoiceNavigation from "@/components/voice/VoiceNavigation";
 import CaregiverDashboard from "@/pages/CaregiverDashboard";
 import ContactUs from "@/pages/ContactUs";
+import PrescriptionOCR from "@/pages/PrescriptionOCR";
 import Dashboard from "@/pages/Dashboard";
 import RequireAuth from "@/components/RequireAuth";
 import PrescriptionOCR from "@/pages/PrescriptionOCR";
+import Feedback from "@/pages/Feedback";
 
 const queryClient = new QueryClient();
 
@@ -179,6 +181,7 @@ const App = () => {
                       <Route path="/auth" element={<Auth />} />
                       <Route path="/profile" element={<Profile />} />
                       <Route path="/edit-profile" element={<EditProfile />} />
+                      <Route path="/feedback" element={<Feedback />} />
                       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                       <Route path="/terms-and-conditions" element={<TermsConditions />} />
                       <Route path="/offers" element={<Offers />} />
@@ -196,6 +199,22 @@ const App = () => {
                       <Route path="/contact" element={<ContactUs />} />
                       <Route path="/help" element={<HelpCenter />} />
                       <Route path="/help/article/:id" element={<HelpArticle />} />
+                      <Route
+                        path="/caregivers"
+                        element={
+                          <RequireAuth>
+                            <CaregiverDashboard />
+                          </RequireAuth>
+                        }
+                      />
+                      <Route
+                        path="/prescription-ocr"
+                        element={
+                          <RequireAuth>
+                            <PrescriptionOCR />
+                          </RequireAuth>
+                        }
+                      />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                     <Footer />
