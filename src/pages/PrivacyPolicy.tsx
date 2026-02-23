@@ -4,117 +4,174 @@ export default function PrivacyPolicy() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-100 px-6 py-20">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white/70 backdrop-blur-xl border border-green-100 rounded-2xl p-10 shadow-2xl">
-          <h1 className="text-4xl font-bold text-green-800 mb-2">
-            Privacy Policy
-          </h1>
-          <p className="text-sm text-gray-500 mb-10">
-            Last updated: January 2026
+        <div className="bg-white shadow-xl rounded-2xl border border-green-100 p-8 md:p-12">
+
+          {/* Header */}
+          <div className="mb-12">
+            <h1 className="text-4xl font-bold text-green-800 mb-3">
+              Privacy Policy
+            </h1>
+            <p className="text-sm text-gray-500">
+              Last updated: January 2026
+            </p>
+          </div>
+
+          {/* Introduction */}
+          <p className="text-gray-700 leading-relaxed mb-10">
+            Sehat Saathi Guide respects your privacy and is committed to
+            protecting your personal information. This Privacy Policy explains
+            how we collect, use, store, process, and safeguard your data when
+            you use our website and services.
           </p>
 
-          <div className="space-y-8 text-gray-700 leading-relaxed">
-            <p>
-              Sehat Saathi Guide respects your privacy and is committed to
-              protecting your personal information. This Privacy Policy
-              explains how we collect, use, store, and protect information
-              when you use our website and services.
-            </p>
+          <div className="space-y-10 text-gray-700 leading-relaxed">
 
-            <section>
-              <h2 className="text-xl font-semibold text-green-700 mb-2">
+            {/* 1 */}
+            <section className="border-t pt-6">
+              <h2 className="text-xl font-semibold text-green-700 mb-3">
                 1. Information We Collect
               </h2>
               <p>
                 We may collect limited personal and non-personal information
-                when you interact with our platform. This includes:
+                when you interact with our platform. This may include:
               </p>
-              <ul className="list-disc ml-6 mt-2">
-                <li>Basic contact information (if you choose to provide it)</li>
-                <li>Health-related queries entered into the website</li>
-                <li>Device, browser, and usage data</li>
+              <ul className="list-disc ml-6 mt-3 space-y-2">
+                <li>Basic contact information (if voluntarily provided)</li>
+                <li>Health-related queries entered into the system</li>
+                <li>Device, browser, and usage analytics data</li>
+                <li>Technical logs for system improvement</li>
               </ul>
-              <p className="mt-2">
-                We do not require users to create accounts or provide sensitive
-                personal details to use Sehat Saathi Guide.
+              <p className="mt-3">
+                We do not require mandatory account creation to access core
+                features of the platform.
               </p>
             </section>
 
-            <section>
-              <h2 className="text-xl font-semibold text-green-700 mb-2">
-                2. How Your Data Is Used
+            {/* 2 */}
+            <section className="border-t pt-6">
+              <h2 className="text-xl font-semibold text-green-700 mb-3">
+                2. How Your Information Is Used
               </h2>
-              <p>
-                Collected information is used solely to:
-              </p>
-              <ul className="list-disc ml-6 mt-2">
-                <li>Provide health guidance and responses</li>
-                <li>Improve system accuracy and performance</li>
-                <li>Maintain security and prevent misuse</li>
+              <p>Your information may be used to:</p>
+              <ul className="list-disc ml-6 mt-3 space-y-2">
+                <li>Provide relevant health guidance</li>
+                <li>Improve AI accuracy and user experience</li>
+                <li>Enhance platform security</li>
+                <li>Prevent abuse or misuse of services</li>
               </ul>
-              <p className="mt-2">
-                We do not sell, rent, or trade your personal data to any third
-                party.
+              <p className="mt-3">
+                We do not sell, rent, or trade your personal information to
+                third parties.
               </p>
             </section>
 
-            <section>
-              <h2 className="text-xl font-semibold text-green-700 mb-2">
-                3. Data Security
+            {/* 3 */}
+            <section className="border-t pt-6">
+              <h2 className="text-xl font-semibold text-green-700 mb-3">
+                3. Data Retention
               </h2>
               <p>
-                We use standard security practices to protect your information.
-                However, no digital platform can guarantee absolute security,
-                and you use the website at your own risk.
+                We retain data only for as long as necessary to provide our
+                services and improve system performance. Non-essential data
+                may be periodically deleted or anonymized.
               </p>
             </section>
 
-            <section>
-              <h2 className="text-xl font-semibold text-green-700 mb-2">
-                4. Third-Party Services
+            {/* 4 */}
+            <section className="border-t pt-6">
+              <h2 className="text-xl font-semibold text-green-700 mb-3">
+                4. Cookies and Tracking Technologies
               </h2>
               <p>
-                Our website may use third-party APIs and hosting services to
-                function properly. These services may process limited technical
-                data as required to provide their functionality.
+                Our platform may use cookies and similar technologies to
+                enhance user experience, remember preferences, and analyze
+                traffic patterns. You can manage cookie settings through your
+                browser.
               </p>
             </section>
 
-            <section>
-              <h2 className="text-xl font-semibold text-green-700 mb-2">
-                5. Your Rights
+            {/* 5 */}
+            <section className="border-t pt-6">
+              <h2 className="text-xl font-semibold text-green-700 mb-3">
+                5. Data Security
               </h2>
               <p>
-                You have the right to request access, correction, or deletion of
-                any personal data you have provided. You may stop using the
-                website at any time.
+                We implement standard technical and organizational measures
+                to protect your information. However, no online system can
+                guarantee absolute security, and use of the platform is at
+                your own discretion.
               </p>
             </section>
 
-            <section>
-              <h2 className="text-xl font-semibold text-green-700 mb-2">
-                6. Policy Updates
+            {/* 6 */}
+            <section className="border-t pt-6">
+              <h2 className="text-xl font-semibold text-green-700 mb-3">
+                6. Third-Party Services
               </h2>
               <p>
-                This policy may be updated to reflect improvements or legal
-                requirements. Continued use of the website indicates acceptance
-                of the updated policy.
+                We may use third-party APIs, hosting providers, and analytics
+                tools to operate the platform. These services may process
+                limited technical data required to function.
               </p>
             </section>
 
-            <p className="text-sm text-gray-500 mt-10">
-              If you have any privacy concerns, please contact the Sehat Saathi
-              Guide development team.
+            {/* 7 */}
+            <section className="border-t pt-6">
+              <h2 className="text-xl font-semibold text-green-700 mb-3">
+                7. Children's Privacy
+              </h2>
+              <p>
+                Our platform is not specifically designed for children under
+                the age of 13. We do not knowingly collect personal information
+                from minors.
+              </p>
+            </section>
+
+            {/* 8 */}
+            <section className="border-t pt-6">
+              <h2 className="text-xl font-semibold text-green-700 mb-3">
+                8. Your Rights
+              </h2>
+              <p>
+                You may request access, correction, or deletion of personal
+                information you have voluntarily provided. You may also stop
+                using the website at any time.
+              </p>
+            </section>
+
+            {/* 9 */}
+            <section className="border-t pt-6">
+              <h2 className="text-xl font-semibold text-green-700 mb-3">
+                9. Policy Updates
+              </h2>
+              <p>
+                This Privacy Policy may be updated periodically to reflect
+                improvements, operational changes, or legal requirements.
+                Continued use of the platform indicates acceptance of the
+                updated policy.
+              </p>
+            </section>
+
+          </div>
+
+          {/* Contact Section */}
+          <div className="mt-12 border-t pt-6">
+            <h3 className="text-lg font-semibold text-green-700 mb-3">
+              Contact Us
+            </h3>
+            <p className="text-gray-600 mb-6">
+              If you have questions or concerns about this Privacy Policy,
+              please contact the Sehat Saathi Guide development team.
             </p>
 
-            <div className="pt-6">
-              <Link
-                to="/"
-                className="text-green-700 hover:underline font-medium"
-              >
-                ← Back to Home
-              </Link>
-            </div>
+            <Link
+              to="/"
+              className="text-green-700 hover:text-green-900 hover:underline font-medium transition"
+            >
+              ← Back to Home
+            </Link>
           </div>
+
         </div>
       </div>
     </div>
