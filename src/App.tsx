@@ -47,7 +47,6 @@ import ContactUs from "@/pages/ContactUs";
 import PrescriptionOCR from "@/pages/PrescriptionOCR";
 import Dashboard from "@/pages/Dashboard";
 import RequireAuth from "@/components/RequireAuth";
-import CaregiverDashboard from "@/pages/CaregiverDashboard";
 import PrescriptionOCR from "@/pages/PrescriptionOCR";
 import Feedback from "@/pages/Feedback";
 
