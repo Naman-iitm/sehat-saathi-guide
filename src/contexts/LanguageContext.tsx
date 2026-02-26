@@ -609,10 +609,10 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>(() => {
-    const saved = localStorage.getItem('language');
-    return (saved as Language) || 'hi';
-  });
+ const [language, setLanguage] = useState<Language>(() => {
+  const saved = localStorage.getItem('language');
+  return (saved as Language) || 'en';
+});
 
   const handleSetLanguage = (lang: Language) => {
     setLanguage(lang);
