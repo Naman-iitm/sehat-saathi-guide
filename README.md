@@ -43,7 +43,7 @@ Inspired by the **SAATHI initiative at IIT Madras**, Sehat Saathi bridges the cr
 
 The platform is architected for speed, modularity, and offline-first reliability.
 
-```text
+```bash
 Sehat Saathi (Health Core)
 ┃
 ┣━━ 🧩 UI/UX Layer (React + Tailwind)
@@ -62,9 +62,10 @@ Sehat Saathi (Health Core)
 ┃
 ┗━━ 📊 Analytics & Impact
     ┗━━ 📝 Feedback Loop .......... [User Growth Tracking]
+```    
 ---
 
- 🌟 WHY SEHAT SAATHI?
+🌟 WHY SEHAT SAATHI?
 
 In many communities, healthcare information and mental wellness resources are often difficult to access or shrouded in stigma. **Sehat Saathi** (meaning "Health Companion") aims to:
 - **Democratize Wellness**: Make health resources accessible to everyone, regardless of their technical background.
@@ -102,7 +103,7 @@ Sehat Saathi is built to be inclusive. We currently support the following langua
 
 ---
 
- ⚙️ TECHNICAL HIGHLIGHTS
+⚙️ TECHNICAL HIGHLIGHTS
 
 - **Rule-Based Triage**: The symptom tracker uses a sophisticated evaluator (`src/lib/triage/evaluator.ts`) that matches user symptoms against predefined medical rules to suggest urgency levels.
 - **Accessible UI**: Built using [Radix UI](https://www.radix-ui.com/) primitives via [shadcn/ui](https://ui.shadcn.com/), ensuring high accessibility (WAI-ARIA) standards.
@@ -111,7 +112,7 @@ Sehat Saathi is built to be inclusive. We currently support the following langua
 
 ---
 
- 🛠️ TECH STACK
+🛠️ TECH STACK
 
 | Technology | Usage | Badge |
 |------------|-------|-------|
@@ -189,14 +190,18 @@ graph TD
 2. **Install Dependencies**
    ```bash
    bun install
+   ```
    # or
+   ```bash
    npm install
    ```
 
 3. **Start Development Server**
    ```bash
    bun run dev
+   ```
    # or
+   ```bash
    npm run dev
    ```
 
@@ -218,23 +223,26 @@ The app will be live at `http://localhost:5173/`.
 
 ```
 sehat-saathi-guide/
-├── public/                 # Static assets
-├── screenshots/            # UI screenshots for documentation
-├── src/                    # Source code
-│   ├── components/         # React components (AIAssistant, Cart, etc.)
-│   │   └── ui/            # shadcn/ui base components
-│   ├── contexts/           # Auth, Language, and Cart contexts
-│   ├── data/               # Static data for tips, medicines, and schemes
-│   ├── hooks/              # Custom React hooks
-│   ├── lib/                # Utility functions and triage logic
-│   ├── pages/              # Main page views (Index, NotFound)
-│   ├── types/              # TypeScript interfaces
-│   ├── App.tsx             # Main application component & routing
-│   └── index.css           # Global styles & Tailwind imports
-├── components.json         # shadcn/ui configuration
-├── package.json            # Project dependencies and scripts
-├── tailwind.config.ts      # Tailwind CSS configuration
-└── vite.config.ts          # Vite configuration
+├── 🌐 public/                     # Static assets
+├── 📸 screenshots/                # UI screenshots for documentation
+├── 💻 src/                        # Source code
+│   ├── 🧩 components/             # React components (AIAssistant, Cart, etc.)
+│   │   └── 🎨 ui/                 # shadcn/ui base components
+│   │
+│   ├── 🔐 contexts/               # Auth, Language, and Cart contexts
+│   ├── 📊 data/                   # Static data for tips, medicines, and schemes
+│   ├── 🪝 hooks/                  # Custom React hooks
+│   ├── 🧠 lib/                    # Utility functions and triage logic
+│   ├── 📄 pages/                  # Main page views (Index, NotFound)
+│   ├── 🏷️ types/                  # TypeScript interfaces
+│   │
+│   ├── 🚀 App.tsx                 # Main application component & routing
+│   └── 🎨 index.css               # Global styles & Tailwind imports
+│
+├── ⚙️ components.json             # shadcn/ui configuration
+├── 📦 package.json                # Project dependencies and scripts
+├── 🎨 tailwind.config.ts          # Tailwind CSS configuration
+└── ⚡ vite.config.ts              # Vite configuration
 ```
 
 ## 🤝 CONTRIBUTING
@@ -262,6 +270,7 @@ Contributions are what make the open-source community such an amazing place to l
    git push origin feature/AmazingFeature
    ```
 6. **Open a Pull Request**: Go to the original repository and click 'New Pull Request'.
+Refer to the [Contributing](CONTRIBUTING.md) file.
 
 
 ---
@@ -297,7 +306,7 @@ Contributions are what make the open-source community such an amazing place to l
 
 ## �📄 LICENSE
 
-Distributed under the MIT License. See `LICENSE` for more information (coming soon).
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information (coming soon).
 
 ---
 
