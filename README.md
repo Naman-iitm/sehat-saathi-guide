@@ -223,23 +223,26 @@ The app will be live at `http://localhost:5173/`.
 
 ```
 sehat-saathi-guide/
-├── public/                 # Static assets
-├── screenshots/            # UI screenshots for documentation
-├── src/                    # Source code
-│   ├── components/         # React components (AIAssistant, Cart, etc.)
-│   │   └── ui/            # shadcn/ui base components
-│   ├── contexts/           # Auth, Language, and Cart contexts
-│   ├── data/               # Static data for tips, medicines, and schemes
-│   ├── hooks/              # Custom React hooks
-│   ├── lib/                # Utility functions and triage logic
-│   ├── pages/              # Main page views (Index, NotFound)
-│   ├── types/              # TypeScript interfaces
-│   ├── App.tsx             # Main application component & routing
-│   └── index.css           # Global styles & Tailwind imports
-├── components.json         # shadcn/ui configuration
-├── package.json            # Project dependencies and scripts
-├── tailwind.config.ts      # Tailwind CSS configuration
-└── vite.config.ts          # Vite configuration
+├── 🌐 public/                     # Static assets
+├── 📸 screenshots/                # UI screenshots for documentation
+├── 💻 src/                        # Source code
+│   ├── 🧩 components/             # React components (AIAssistant, Cart, etc.)
+│   │   └── 🎨 ui/                 # shadcn/ui base components
+│   │
+│   ├── 🔐 contexts/               # Auth, Language, and Cart contexts
+│   ├── 📊 data/                   # Static data for tips, medicines, and schemes
+│   ├── 🪝 hooks/                  # Custom React hooks
+│   ├── 🧠 lib/                    # Utility functions and triage logic
+│   ├── 📄 pages/                  # Main page views (Index, NotFound)
+│   ├── 🏷️ types/                  # TypeScript interfaces
+│   │
+│   ├── 🚀 App.tsx                 # Main application component & routing
+│   └── 🎨 index.css               # Global styles & Tailwind imports
+│
+├── ⚙️ components.json             # shadcn/ui configuration
+├── 📦 package.json                # Project dependencies and scripts
+├── 🎨 tailwind.config.ts          # Tailwind CSS configuration
+└── ⚡ vite.config.ts              # Vite configuration
 ```
 
 ## 🤝 CONTRIBUTING
