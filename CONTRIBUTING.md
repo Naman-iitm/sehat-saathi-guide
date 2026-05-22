@@ -204,7 +204,7 @@ Clearly explain:
 
 ## 📜 Code of Conduct
 
-All contributors are expected to follow the Code of Conduct.
+All contributors are expected to follow the [Code_of_Conduct](CODE-OF-CONDUCT.md)
 
 In short:
 
@@ -212,8 +212,6 @@ In short:
 + Be inclusive
 + No harassment or discrimination
 + Build a safe space for learning and collaboration
-
-(See CODE_OF_CONDUCT.md for details.)
 
 ## 🌟 New Contributors
 
