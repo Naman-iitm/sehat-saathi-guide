@@ -38,7 +38,7 @@
     "twilio": "^5.11.2",
     "uuid": "^9.0.1",
     "winston": "^3.19.0",
-    "winston-daily-rotate-file": "^4.7.1"
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
