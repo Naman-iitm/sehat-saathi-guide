@@ -1,0 +1,25 @@
+# Citation File Format
+
+cff-version: 1.2.0
+message: "If you use Sehat Saathi in your research, project, educational work, or publication, please cite this repository."
+title: "Sehat Saathi"
+abstract: "Sehat Saathi is a multilingual healthcare technology platform designed to improve access to healthcare information, wellness resources, healthcare facilities, and government health schemes."
+type: software
+authors:
+
+* family-names: "Jha"
+  given-names: "Naman"
+  repository-code: "https://github.com/Naman-iitm/sehat-saathi-guide"
+  url: "https://sehat-saathi-guide.netlify.app/"
+  license: "MIT"
+  keywords:
+* healthcare
+* digital-health
+* health-information
+* multilingual
+* India
+* React
+* TypeScript
+* PWA
+* accessibility
+* offline-first
