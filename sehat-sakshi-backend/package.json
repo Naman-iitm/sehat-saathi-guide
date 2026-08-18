@@ -21,7 +21,7 @@
     "@google/generative-ai": "^0.24.1",
     "@types/multer": "^2.0.0",
     "@types/nodemailer": "^7.0.5",
-    "@types/socket.io": "^3.0.1",
+    "@types/socket.io": "^3.0.2",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
