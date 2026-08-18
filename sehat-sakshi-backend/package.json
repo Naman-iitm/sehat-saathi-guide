@@ -32,7 +32,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.21.0",
     "multer": "^2.0.2",
-    "node-cron": "^3.0.3",
+    "node-cron": "^4.6.0",
     "simple-statistics": "^7.8.8",
     "socket.io": "^4.8.3",
     "twilio": "^5.11.2",
